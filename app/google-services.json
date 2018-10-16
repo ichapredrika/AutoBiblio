@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "558292126258",
+    "firebase_url": "https://autobiblio-c72c0.firebaseio.com",
+    "project_id": "autobiblio-c72c0",
+    "storage_bucket": "autobiblio-c72c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558292126258:android:c67136a8772a418f",
+        "android_client_info": {
+          "package_name": "com.predrika.icha.autobiblio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558292126258-qf76v7bqkhvplgmv7dhbqjohrt8j7f6m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.predrika.icha.autobiblio",
+            "certificate_hash": "5009fb3806d8d72a8fd853c17e6c5ba0e01a4bcb"
+          }
+        },
+        {
+          "client_id": "558292126258-vj127jg801ccofrdbhfl2u8c83hi72dc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJhNCS7sX14SeXbKlpithdqEjpjWrr24Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558292126258-vj127jg801ccofrdbhfl2u8c83hi72dc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
