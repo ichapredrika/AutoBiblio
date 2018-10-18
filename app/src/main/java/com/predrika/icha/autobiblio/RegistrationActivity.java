@@ -25,7 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private String name;
     private String email;
     private String password;
-
+    private String idCard;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,10 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void registrationClick(View view) {
+
+        EditText idCardEditText =findViewById(R.id.idCardReg);
+        idCard=idCardEditText.getText().toString();
+
 
         EditText nameEditText= findViewById(R.id.nameReg);
         name= nameEditText.getText().toString();
@@ -59,8 +63,19 @@ public class RegistrationActivity extends AppCompatActivity {
                                 EditText editName=findViewById(R.id.nameReg);
                                 name= editName.getText().toString();
 
-                                usersRef.child("name").setValue(name);
-                                //usersRef.child("totalBooked").setValue(0);
+                                usersRef.child("fullName").setValue(name);
+                                usersRef.child("emailAddress").setValue(email);
+                                usersRef.child("idCard").setValue(idCard);
+                                usersRef.child("pob").setValue("-");
+                                usersRef.child("dob").setValue("-");
+                                usersRef.child("address").setValue("-");
+                                usersRef.child("phone").setValue("-");
+                                usersRef.child("memberType").setValue("-");
+
+      //*                          usersRef.child("valid_start").setValue();
+      //*                          usersRef.child("valid_end").setValue();
+
+
 
                                 Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent( RegistrationActivity.this, LoginActivity.class);
