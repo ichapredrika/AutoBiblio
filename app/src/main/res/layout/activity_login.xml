@@ -74,12 +74,12 @@
         android:background="#63B3BA"
         android:onClick="loginClick"
         android:text="Login"
+        android:textAllCaps="false"
         android:textColor="#ffffff"
         app:layout_constraintBottom_toTopOf="@+id/registerButton4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
 
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <Button
@@ -93,7 +93,8 @@
         android:layout_marginBottom="20dp"
         android:background="@color/common_google_signin_btn_text_dark_pressed"
         android:onClick="registerClick"
-        android:text="REGISTER"
+        android:text="Register"
+        android:textAllCaps="false"
         android:textColor="@color/common_google_signin_btn_text_dark_focused"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

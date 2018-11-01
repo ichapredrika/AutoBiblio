@@ -99,4 +99,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void scanClick (View view){
+        Intent intent = new Intent( MainActivity.this, Scanner.class);
+        startActivity(intent);
+    }
 }
