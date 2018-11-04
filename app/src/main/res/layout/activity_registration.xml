@@ -118,7 +118,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="152dp"
-        android:background="#63B3BA"
+        android:background="@drawable/mybutton"
         android:onClick="registrationClick"
         android:text="Register"
         android:textAllCaps="false"

@@ -103,4 +103,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent( MainActivity.this, Scanner.class);
         startActivity(intent);
     }
+
+    public void generateClick (View view){
+        Intent intent = new Intent( MainActivity.this, GeneratorActivity.class);
+        startActivity(intent);
+    }
 }

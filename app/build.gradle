@@ -30,6 +30,8 @@ dependencies {
 
     //zxing
     implementation 'me.dm7.barcodescanner:zxing:1.9'
+    implementation 'com.google.zxing:core:3.2.1'
+    implementation 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
 
     //firebase
     implementation 'com.google.firebase:firebase-database:16.0.3'
