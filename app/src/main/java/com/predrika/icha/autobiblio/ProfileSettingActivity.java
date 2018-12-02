@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,8 +46,8 @@ public class ProfileSettingActivity extends AppCompatActivity {
                 TextView fullNameTV=findViewById(R.id.fullNameEditText);
                 fullNameTV.setText(currentUser.getFullName());
 
-                TextView idCardTV=findViewById(R.id.idCardEditText);
-                idCardTV.setText(currentUser.getIdCard());
+                TextView univIdTV=findViewById(R.id.univIdEditText);
+                univIdTV.setText(currentUser.getunivId());
 
                 TextView pobTV=findViewById(R.id.pobEditText);
                 pobTV.setText(currentUser.getPob());
@@ -72,7 +73,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
     public void submitClick(View view) {
         TextView fullNameTV=findViewById(R.id.fullNameEditText);
-        TextView idCardTV=findViewById(R.id.idCardEditText);
+        TextView univIdTV=findViewById(R.id.univIdEditText);
         TextView pobTV=findViewById(R.id.pobEditText);
         TextView dobTV=findViewById(R.id.dobEditText);
         TextView addressTV=findViewById(R.id.addressEditText);
@@ -81,12 +82,13 @@ public class ProfileSettingActivity extends AppCompatActivity {
         DatabaseReference mRef= FirebaseDatabase.getInstance().getReference();
         DatabaseReference usersRef = mRef.child("Users/" + mAuth.getCurrentUser().getUid());
         usersRef.child("fullName").setValue(fullNameTV.getText().toString());
-        usersRef.child("idCard").setValue(idCardTV.getText().toString());
+        usersRef.child("univId").setValue(univIdTV.getText().toString());
         usersRef.child("pob").setValue(pobTV.getText().toString());
         usersRef.child("dob").setValue(dobTV.getText().toString());
         usersRef.child("address").setValue(addressTV.getText().toString());
         usersRef.child("phone").setValue(phoneTV.getText().toString());
 
+        Intent intent = new Intent( ProfileSettingActivity.this, ProfileActivity.class);
+        startActivity(intent);
     }
 }
-

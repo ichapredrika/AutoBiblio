@@ -23,13 +23,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegistrationActivity" />
-        <activity
-            android:name=".DrawerActivity"
-            android:label="@string/title_activity_drawer"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ProfileSettingActivity" />
         <activity android:name=".Scanner" />
-        <activity android:name=".GeneratorActivity"></activity>
+        <activity android:name=".GeneratorActivity" />
+        <activity android:name=".ReminderActivity" />
+
+        <receiver android:name=".AlarmReceiver" />
+
+        <activity android:name=".ProfileActivity"/>
     </application>
 
 </manifest>

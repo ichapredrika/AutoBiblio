@@ -25,7 +25,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private String name;
     private String email;
     private String password;
-    private String idCard;
+    private String univId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +36,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registrationClick(View view) {
 
-        EditText idCardEditText =findViewById(R.id.idCardReg);
-        idCard=idCardEditText.getText().toString();
+        EditText idCardEditText =findViewById(R.id.univIdReg);
+        univId=idCardEditText.getText().toString();
 
 
         EditText nameEditText= findViewById(R.id.nameReg);
@@ -65,17 +65,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
                                 usersRef.child("fullName").setValue(name);
                                 usersRef.child("emailAddress").setValue(email);
-                                usersRef.child("idCard").setValue(idCard);
+                                usersRef.child("univId").setValue(univId);
                                 usersRef.child("pob").setValue("-");
                                 usersRef.child("dob").setValue("-");
                                 usersRef.child("address").setValue("-");
                                 usersRef.child("phone").setValue("-");
-                                usersRef.child("memberType").setValue("-");
-
-      //*                          usersRef.child("valid_start").setValue();
-      //*                          usersRef.child("valid_end").setValue();
-
-
+                                usersRef.child("memberType").setValue("Student");
 
                                 Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent( RegistrationActivity.this, LoginActivity.class);
@@ -95,12 +90,10 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             //write your code here to execute after dialog closed
-
                         }
                     });
             //showing alert message
             alertDialog.show();
         }
-
     }
 }

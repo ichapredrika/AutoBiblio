@@ -5,7 +5,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.predrika.icha.autobiblio"
-        minSdkVersion 15
+        minSdkVersion 19 //min for notification 19
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"

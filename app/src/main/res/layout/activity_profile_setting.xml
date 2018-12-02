@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="24dp"
@@ -92,36 +92,36 @@
 
     <EditText
         android:id="@+id/fullNameEditText"
-        android:layout_width="321dp"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:ems="10"
         android:gravity="left"
         android:inputType="textPersonName"
         android:textColorLink="#63B3BA"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <EditText
-        android:id="@+id/idCardEditText"
-        android:layout_width="322dp"
+        android:id="@+id/univIdEditText"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:gravity="left"
         android:inputType="number"
         android:textColorLink="#63B3BA"
         app:layout_constraintEnd_toEndOf="@+id/fullNameEditText"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/fullNameEditText"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <EditText
         android:id="@+id/dobEditText"
-        android:layout_width="322dp"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="left"
@@ -134,20 +134,20 @@
 
     <EditText
         android:id="@+id/pobEditText"
-        android:layout_width="322dp"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="left"
         android:inputType="text"
         android:textColorLink="#63B3BA"
-        app:layout_constraintEnd_toEndOf="@+id/idCardEditText"
+        app:layout_constraintEnd_toEndOf="@+id/univIdEditText"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/idCardEditText"
+        app:layout_constraintStart_toStartOf="@+id/univIdEditText"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
         android:id="@+id/addressEditText"
-        android:layout_width="321dp"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="left"
@@ -160,7 +160,7 @@
 
     <EditText
         android:id="@+id/phoneEditText"
-        android:layout_width="321dp"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="left"

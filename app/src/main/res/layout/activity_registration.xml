@@ -38,13 +38,13 @@
         android:inputType="textPersonName"
         android:textColorLink="#63B3BA"
         app:layout_constraintBottom_toBottomOf="@+id/textviewname"
-        app:layout_constraintEnd_toEndOf="@+id/idCardReg"
-        app:layout_constraintStart_toStartOf="@+id/idCardReg"
+        app:layout_constraintEnd_toEndOf="@+id/univIdReg"
+        app:layout_constraintStart_toStartOf="@+id/univIdReg"
         app:layout_constraintTop_toTopOf="@+id/textviewname"
         app:layout_constraintVertical_bias="0.481" />
 
     <EditText
-        android:id="@+id/idCardReg"
+        android:id="@+id/univIdReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
