@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,205 +7,211 @@
     tools:context=".ProfileActivity">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/fullnamet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
         android:text="Full Name"
         android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="PresUniv ID"
-        android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Place of Birth"
-        android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Date of Birth"
-        android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Address"
-        android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Phone"
-        android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Member Type"
-        android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Balance Amount"
-        android:textColor="#63B3BA"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/fullNameTxt"
-        android:layout_width="325dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:gravity="start"
         android:text="-"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:layout_below="@+id/fullnamet"
+        />
+
+    <TextView
+        android:id="@+id/univIdt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fullNameTxt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="PresUniv ID"
+        android:textColor="#63B3BA"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/univIdTxt"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/fullNameTxt"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/fullNameTxt"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        android:layout_below="@+id/univIdt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/pobt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/univIdTxt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Place of Birth"
+        android:textColor="#63B3BA"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/pobTxt"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/univIdTxt"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/univIdTxt"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        android:layout_below="@+id/pobt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/dobt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pobTxt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Date of Birth"
+        android:textColor="#63B3BA"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/dobTxt"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/pobTxt"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/pobTxt"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        android:layout_below="@+id/dobt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/addresst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dobTxt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Address"
+        android:textColor="#63B3BA"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/addressTxt"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/dobTxt"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/dobTxt"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        android:layout_below="@+id/addresst"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/phonet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addressTxt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Phone"
+        android:textColor="#63B3BA"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/phoneTxt"
-        android:layout_width="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
         android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/addressTxt"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/addressTxt"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        android:layout_below="@+id/phonet"/>
+
+    <TextView
+        android:id="@+id/memberTypet"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Member Type"
+        android:textColor="#63B3BA"
+        android:textStyle="bold"
+        android:layout_below="@+id/phoneTxt"/>
 
     <TextView
         android:id="@+id/memberTypeTxt"
-        android:layout_width="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
         android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/phoneTxt"
-        app:layout_constraintStart_toStartOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        android:layout_below="@+id/memberTypet"/>
+
+    <TextView
+        android:id="@+id/balanceAmountt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Balance Amount"
+        android:textColor="#63B3BA"
+        android:textStyle="bold"
+        android:layout_below="@+id/memberTypeTxt" />
+
 
     <TextView
         android:id="@+id/balanceAmountTxt"
-        android:layout_width="0dp"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
         android:text="-"
-        app:layout_constraintEnd_toEndOf="@+id/memberTypeTxt"
-        app:layout_constraintStart_toStartOf="@+id/memberTypeTxt"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        android:layout_below="@+id/balanceAmountt" />
 
     <Button
         android:id="@+id/settingProfileButton"
         android:layout_width="80dp"
         android:layout_height="40dp"
+        android:layout_below="@+id/balanceAmountTxt"
+        android:layout_marginStart="-64dp"
+        android:layout_marginTop="79dp"
+        android:layout_toEndOf="@+id/memberTypet"
         android:background="@drawable/mybutton"
         android:onClick="profileSettingClick"
         android:text="Setting"
         android:textAllCaps="false"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColor="#ffffff" />
 
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="80dp"
         android:layout_height="40dp"
+        android:layout_alignStart="@+id/settingProfileButton"
+        android:layout_alignTop="@+id/settingProfileButton"
+        android:layout_marginStart="266dp"
+        android:layout_marginTop="1dp"
         android:background="@drawable/mybutton"
         android:onClick="logoutClick"
         android:text="Logout"
         android:textAllCaps="false"
-        android:textColor="#ffffff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/reminderButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/settingProfileButton"
+        android:layout_alignTop="@+id/settingProfileButton"
+        android:layout_marginStart="131dp"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/mybutton"
+        android:onClick="reminderClick"
+        android:text="Reminder"
+        android:textAllCaps="false"
+        android:textColor="#ffffff" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorPrimary"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        app:itemTextColor="@drawable/nav_item_color_state"
+        app:menu="@menu/bottom_navigation_main"/>
+</RelativeLayout>

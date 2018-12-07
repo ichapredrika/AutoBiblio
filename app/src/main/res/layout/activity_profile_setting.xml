@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/fullnamet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -36,59 +36,59 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/univIdt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="PresUniv ID"
         android:textColor="#63B3BA"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="@+id/fullnamet"
+        app:layout_constraintTop_toBottomOf="@+id/fullnamet" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/pobt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Place of Birth"
         android:textColor="#63B3BA"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/univIdt"
+        app:layout_constraintTop_toBottomOf="@+id/univIdt" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/dobt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Date of Birth"
         android:textColor="#63B3BA"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintStart_toStartOf="@+id/pobt"
+        app:layout_constraintTop_toBottomOf="@+id/pobt" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/addresst"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Address"
         android:textColor="#63B3BA"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintStart_toStartOf="@+id/dobt"
+        app:layout_constraintTop_toBottomOf="@+id/dobt" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/phonet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="Phone"
         android:textColor="#63B3BA"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintStart_toStartOf="@+id/addresst"
+        app:layout_constraintTop_toBottomOf="@+id/addresst" />
 
     <EditText
         android:id="@+id/fullNameEditText"
@@ -102,8 +102,8 @@
         android:textColorLink="#63B3BA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintStart_toStartOf="@+id/fullnamet"
+        app:layout_constraintTop_toBottomOf="@+id/fullnamet" />
 
     <EditText
         android:id="@+id/univIdEditText"
@@ -117,7 +117,7 @@
         app:layout_constraintEnd_toEndOf="@+id/fullNameEditText"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/fullNameEditText"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/univIdt" />
 
     <EditText
         android:id="@+id/dobEditText"
@@ -130,7 +130,7 @@
         app:layout_constraintEnd_toEndOf="@+id/addressEditText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/addressEditText"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/addresst" />
 
     <EditText
         android:id="@+id/pobEditText"
@@ -143,7 +143,7 @@
         app:layout_constraintEnd_toEndOf="@+id/univIdEditText"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/univIdEditText"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/pobt" />
 
     <EditText
         android:id="@+id/addressEditText"
@@ -156,7 +156,7 @@
         app:layout_constraintEnd_toEndOf="@+id/pobEditText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/pobEditText"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+        app:layout_constraintTop_toBottomOf="@+id/dobt" />
 
     <EditText
         android:id="@+id/phoneEditText"
@@ -169,6 +169,6 @@
         app:layout_constraintEnd_toEndOf="@+id/dobEditText"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/dobEditText"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/phonet" />
 
 </android.support.constraint.ConstraintLayout>
