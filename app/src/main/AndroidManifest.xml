@@ -33,7 +33,8 @@
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CollectionActivity" />
         <activity android:name=".HistoryActivity" />
-        <activity android:name=".ScannerActivity"></activity>
+        <activity android:name=".ScannerActivity" />
+        <activity android:name=".CollectionViewActivity"></activity>
     </application>
 
 </manifest>
