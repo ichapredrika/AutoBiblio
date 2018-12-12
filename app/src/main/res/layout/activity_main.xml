@@ -23,9 +23,6 @@
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="50dp" />
 
             <TextView
                 android:id="@+id/welcomeText"
