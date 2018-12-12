@@ -23,6 +23,10 @@
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="50dp" />
+
             <TextView
                 android:id="@+id/welcomeText"
                 android:layout_width="wrap_content"
@@ -40,9 +44,13 @@
 
             <ImageView
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:src="@drawable/book" />
+                android:layout_height="150dp"
+                android:src="@mipmap/ic_launcher"
+                />
 
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="20dp" />
 
             <TextView
                 android:layout_width="fill_parent"
