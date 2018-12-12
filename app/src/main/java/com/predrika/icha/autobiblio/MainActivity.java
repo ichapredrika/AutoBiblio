@@ -35,24 +35,19 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.action_home:
-                        Intent intent = new Intent( MainActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent( MainActivity.this, MainActivity.class));
                         break;
                     case R.id.action_collection:
-                        Intent intent2 = new Intent( MainActivity.this, CollectionActivity.class);
-                        startActivity(intent2);
+                        startActivity(new Intent( MainActivity.this, CollectionActivity.class));
                         break;
                     case R.id.action_scan:
-                        Intent intent3 = new Intent( MainActivity.this, ScannerActivity.class);
-                        startActivity(intent3);
+                        startActivity( new Intent( MainActivity.this, ScannerActivity.class));
                         break;
                     case R.id.action_history:
-                        Intent intent4 = new Intent( MainActivity.this, HistoryActivity.class);
-                        startActivity(intent4);
+                        startActivity(new Intent( MainActivity.this, HistoryActivity.class));
                         break;
                     case R.id.action_profile:
-                        Intent intent5 = new Intent( MainActivity.this, ProfileActivity.class);
-                        startActivity(intent5);
+                        startActivity(new Intent( MainActivity.this, ProfileActivity.class));
                         break;
                 }
                 return false;

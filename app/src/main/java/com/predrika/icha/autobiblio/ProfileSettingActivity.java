@@ -18,13 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ProfileSettingActivity extends AppCompatActivity {
 
-    private String fullName;
-    private String idCard;
-    private String pob;
-    private String dob;
-    private String address;
-    private String phone;
-
     private FirebaseAuth mAuth;
 
     @Override
