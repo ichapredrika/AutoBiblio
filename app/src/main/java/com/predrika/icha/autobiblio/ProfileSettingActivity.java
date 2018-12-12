@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,6 +31,19 @@ public class ProfileSettingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_setting);
+
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setTitle("Profile Setting");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // back button pressed
+                startActivity(new Intent( ProfileSettingActivity.this, ProfileActivity.class));
+            }
+        });
+
+        getSupportActionBar().hide();
 
         mAuth= FirebaseAuth.getInstance();
         FirebaseUser Users= FirebaseAuth.getInstance().getCurrentUser();
