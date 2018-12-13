@@ -11,13 +11,13 @@
 
     <RelativeLayout
         android:layout_width="380dp"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorAccent">
 
         <TextView
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:id="@+id/post_title"
+            android:id="@+id/post_titleComplete"
             android:text="TITLE"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
@@ -29,14 +29,14 @@
             android:textColor="#000000"/>
 
         <TextView
-            android:id="@+id/issuedDatessued"
+            android:id="@+id/issuedDateComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/post_title"
-            android:layout_alignStart="@+id/post_title"
-            android:layout_below="@+id/post_title"
+            android:layout_alignLeft="@+id/post_titleComplete"
+            android:layout_alignStart="@+id/post_titleComplete"
+            android:layout_below="@+id/post_titleComplete"
             android:paddingEnd="5dp"
-            android:layout_toStartOf="@+id/post_issuedDate"
+            android:layout_toStartOf="@+id/post_issuedDateComplete"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingStart="5dp"
@@ -47,9 +47,9 @@
             android:id="@+id/returnedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/issuedDatessued"
-            android:layout_alignStart="@+id/issuedDatessued"
-            android:layout_below="@+id/issuedDatessued"
+            android:layout_alignLeft="@+id/issuedDateComplete"
+            android:layout_alignStart="@+id/issuedDateComplete"
+            android:layout_below="@+id/issuedDateComplete"
             android:paddingEnd="5dp"
             android:layout_toStartOf="@+id/post_returnedDate"
             android:paddingLeft="5dp"
@@ -59,12 +59,12 @@
             android:textColor="#000000" />
 
         <TextView
-            android:id="@+id/post_issuedDate"
+            android:id="@+id/post_issuedDateComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/post_title"
+            android:layout_below="@+id/post_titleComplete"
             android:paddingEnd="5dp"
             android:layout_marginRight="20dp"
             android:paddingLeft="5dp"
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/post_issuedDate"
+            android:layout_below="@+id/post_issuedDateComplete"
             android:paddingEnd="5dp"
             android:layout_marginRight="20dp"
             android:paddingLeft="5dp"
@@ -130,6 +130,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingStart="5dp"
+            android:paddingBottom="5dp"
             android:text="PaidOffYN"
             android:textColor="#000000" />
 

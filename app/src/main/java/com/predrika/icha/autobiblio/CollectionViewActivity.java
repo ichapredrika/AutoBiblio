@@ -1,6 +1,5 @@
 package com.predrika.icha.autobiblio;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

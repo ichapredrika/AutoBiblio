@@ -2,24 +2,25 @@ package com.predrika.icha.autobiblio;
 
 public class Fines {
     private String loanId;
-    private String title;
-    private Double damageCost;
-    private Double overdueCost;
-    private Double total;
-    private Double paidAmount;
-    private Boolean paidOffYN;
+    private String titleFines;
+    private int damageCost;
+    private int overdueCost;
+    private int totalCost;
+    private int paidAmount;
+    private String paidOff;
 
     public Fines(){
 
     }
-    public Fines(String loanId, String title, Double damageCost, Double overdueCost, Double total, Double paidAmount, Boolean paidOffYN) {
+
+    public Fines(String loanId, String titleFines, int damageCost, int overdueCost, int totalCost, int paidAmount, String paidOff) {
         this.loanId = loanId;
-        this.title = title;
+        this.titleFines = titleFines;
         this.damageCost = damageCost;
         this.overdueCost = overdueCost;
-        this.total = total;
+        this.totalCost = totalCost;
         this.paidAmount = paidAmount;
-        this.paidOffYN = paidOffYN;
+        this.paidOff = paidOff;
     }
 
     public String getLoanId() {
@@ -30,51 +31,51 @@ public class Fines {
         this.loanId = loanId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getTitleFines() {
+        return titleFines;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitleFines(String titleFines) {
+        this.titleFines = titleFines;
     }
 
-    public Double getDamageCost() {
+    public int getDamageCost() {
         return damageCost;
     }
 
-    public void setDamageCost(Double damageCost) {
+    public void setDamageCost(int damageCost) {
         this.damageCost = damageCost;
     }
 
-    public Double getOverdueCost() {
+    public int getOverdueCost() {
         return overdueCost;
     }
 
-    public void setOverdueCost(Double overdueCost) {
+    public void setOverdueCost(int overdueCost) {
         this.overdueCost = overdueCost;
     }
 
-    public Double getTotal() {
-        return total;
+    public int getTotalCost() {
+        return totalCost;
     }
 
-    public void setTotal(Double total) {
-        this.total = total;
+    public void setTotalCost(int totalCost) {
+        this.totalCost = totalCost;
     }
 
-    public Double getPaidAmount() {
+    public int getPaidAmount() {
         return paidAmount;
     }
 
-    public void setPaidAmount(Double paidAmount) {
+    public void setPaidAmount(int paidAmount) {
         this.paidAmount = paidAmount;
     }
 
-    public Boolean getPaidOffYN() {
-        return paidOffYN;
+    public String getPaidOff() {
+        return paidOff;
     }
 
-    public void setPaidOffYN(Boolean paidOffYN) {
-        this.paidOffYN = paidOffYN;
+    public void setPaidOff(String paidOff) {
+        this.paidOff = paidOff;
     }
 }
