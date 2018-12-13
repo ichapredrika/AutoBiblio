@@ -4,11 +4,11 @@ public class BooksSpecification {
     private String isbn;
     private String bookId;
     private String genre;
-    private String bookType;
+    private String collectionType;
     private String author;
     private String publisher;
     private String bookPrice;
-    private String shelf;
+    private String location;
     private String title;
     private String image;
 
@@ -40,12 +40,12 @@ public class BooksSpecification {
         this.genre = genre;
     }
 
-    public String getBookType() {
-        return bookType;
+    public String getCollectionType() {
+        return collectionType;
     }
 
-    public void setBookType(String bookType) {
-        this.bookType = bookType;
+    public void setCollectionType(String collectionType) {
+        this.collectionType = collectionType;
     }
 
     public String getAuthor() {
@@ -72,12 +72,12 @@ public class BooksSpecification {
         this.bookPrice = bookPrice;
     }
 
-    public String getShelf() {
-        return shelf;
+    public String getLocation() {
+        return location;
     }
 
-    public void setShelf(String shelf) {
-        this.shelf = shelf;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getTitle() {
@@ -96,15 +96,15 @@ public class BooksSpecification {
         this.image = image;
     }
 
-    public BooksSpecification(String isbn, String bookId, String genre, String bookType, String author, String publisher, String bookPrice, String shelf, String title, String image) {
+    public BooksSpecification(String isbn, String bookId, String genre, String collectionType, String author, String publisher, String bookPrice, String location, String title, String image) {
         this.isbn = isbn;
         this.bookId = bookId;
         this.genre = genre;
-        this.bookType = bookType;
+        this.collectionType = collectionType;
         this.author = author;
         this.publisher = publisher;
         this.bookPrice = bookPrice;
-        this.shelf = shelf;
+        this.location = location;
         this.title = title;
         this.image = image;
     }
