@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class CollectionViewActivity extends AppCompatActivity {
 
@@ -18,16 +19,22 @@ public class CollectionViewActivity extends AppCompatActivity {
 
         Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle("Collection Detail");
+        getSupportActionBar().hide();
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // back button pressed
                 startActivity(new Intent( CollectionViewActivity.this, CollectionActivity.class));
+
             }
         });
 
-        getSupportActionBar().hide();
+        Intent intent = getIntent();
+        String title = intent.getExtras().getString("title");
+
+        TextView titleTV= findViewById(R.id.titleBanner);
+        titleTV.setText(title);
     }
 
 }
