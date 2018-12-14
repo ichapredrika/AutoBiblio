@@ -1,19 +1,24 @@
 package com.predrika.icha.autobiblio;
 
+import android.icu.util.Currency;
+
+import java.math.BigDecimal;
+
 public class Fines {
     private String loanId;
     private String titleFines;
-    private int damageCost;
-    private int overdueCost;
-    private int totalCost;
-    private int paidAmount;
+    private double damageCost;
+    private double overdueCost;
+    private double totalCost;
+    private double paidAmount;
     private String paidOff;
+    private String uid;
 
     public Fines(){
 
     }
 
-    public Fines(String loanId, String titleFines, int damageCost, int overdueCost, int totalCost, int paidAmount, String paidOff) {
+    public Fines(String loanId, String titleFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid) {
         this.loanId = loanId;
         this.titleFines = titleFines;
         this.damageCost = damageCost;
@@ -21,6 +26,7 @@ public class Fines {
         this.totalCost = totalCost;
         this.paidAmount = paidAmount;
         this.paidOff = paidOff;
+        this.uid = uid;
     }
 
     public String getLoanId() {
@@ -39,35 +45,35 @@ public class Fines {
         this.titleFines = titleFines;
     }
 
-    public int getDamageCost() {
+    public double getDamageCost() {
         return damageCost;
     }
 
-    public void setDamageCost(int damageCost) {
+    public void setDamageCost(double damageCost) {
         this.damageCost = damageCost;
     }
 
-    public int getOverdueCost() {
+    public double getOverdueCost() {
         return overdueCost;
     }
 
-    public void setOverdueCost(int overdueCost) {
+    public void setOverdueCost(double overdueCost) {
         this.overdueCost = overdueCost;
     }
 
-    public int getTotalCost() {
+    public double getTotalCost() {
         return totalCost;
     }
 
-    public void setTotalCost(int totalCost) {
+    public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
     }
 
-    public int getPaidAmount() {
+    public double getPaidAmount() {
         return paidAmount;
     }
 
-    public void setPaidAmount(int paidAmount) {
+    public void setPaidAmount(double paidAmount) {
         this.paidAmount = paidAmount;
     }
 
@@ -77,5 +83,13 @@ public class Fines {
 
     public void setPaidOff(String paidOff) {
         this.paidOff = paidOff;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

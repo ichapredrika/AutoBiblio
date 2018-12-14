@@ -1,23 +1,24 @@
 package com.predrika.icha.autobiblio;
 
-public class BooksOutOnLoan {
-    //userid
+public class OnGoing {
     private String loanId;
     private String title;
     private String bookId;
     private String issuedDate;
     private String maxReturnDate;
+    private String uid;
 
-    public BooksOutOnLoan() {
+    public OnGoing(){
 
     }
 
-    public BooksOutOnLoan(String loanId, String title, String bookId, String issuedDate, String maxReturnDate) {
+    public OnGoing(String loanId, String title, String bookId, String issuedDate, String maxReturnDate, String uid) {
         this.loanId = loanId;
         this.title = title;
         this.bookId = bookId;
         this.issuedDate = issuedDate;
         this.maxReturnDate = maxReturnDate;
+        this.uid = uid;
     }
 
     public String getLoanId() {
@@ -58,5 +59,13 @@ public class BooksOutOnLoan {
 
     public void setMaxReturnDate(String maxReturnDate) {
         this.maxReturnDate = maxReturnDate;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

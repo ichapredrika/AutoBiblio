@@ -73,7 +73,7 @@ public class CollectionViewActivity extends AppCompatActivity {
         Picasso.get().load(image).into(imageV);
 
         //"Collection" here will reflect what you have called in your database in Firebase.
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Books");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Books/"+isbn);
         mDatabase.keepSynced(true);
 
         mAvailRV = findViewById(R.id.availRecycleView);
