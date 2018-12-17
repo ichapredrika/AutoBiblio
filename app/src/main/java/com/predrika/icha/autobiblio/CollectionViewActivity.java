@@ -40,7 +40,7 @@ public class CollectionViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // back button pressed
-                startActivity(new Intent( CollectionViewActivity.this, CollectionActivity.class));
+                finish();
 
             }
         });

@@ -32,7 +32,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // back button pressed
-                startActivity(new Intent( ProfileSettingActivity.this, ProfileActivity.class));
+                finish();
             }
         });
 

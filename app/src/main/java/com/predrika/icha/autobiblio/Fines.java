@@ -1,7 +1,5 @@
 package com.predrika.icha.autobiblio;
 
-import android.icu.util.Currency;
-
 import java.math.BigDecimal;
 
 public class Fines {
