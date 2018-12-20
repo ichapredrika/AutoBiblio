@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -140,26 +141,6 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         Log.d("QRCodeScanner", result.getText());
         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-        // Get a reference to our posts
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Books/");
-        mDatabase.keepSynced(true);
-
-        // Attach a listener to read the data at our posts reference
-        mDatabase.orderByKey().addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Books book = dataSnapshot.getValue(Books.class);
-                Toast toast = Toast.makeText(getApplicationContext(), book.getBookId(), Toast.LENGTH_SHORT); toast.show();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-
-        //if(myResult!=""){
-
-        //}else{
             if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE){
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Proceed to borrowing process?");
@@ -218,10 +199,6 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                 AlertDialog alert1 = builder.create();
                 alert1.show();
             }
-        //}
-        //check whether the book is exist or not
-        //check avail or not
-
 
     }
 }
