@@ -35,7 +35,9 @@
         <activity android:name=".HistoryActivity" />
         <activity android:name=".ScannerActivity" />
         <activity android:name=".CollectionViewActivity" />
-        <activity android:name=".CollectionSearchActivity"></activity>
+        <activity android:name=".CollectionSearchActivity" />
+        <activity android:name=".BookQRGeneratorActivity" />
+        <activity android:name=".BorrowActivity"></activity>
     </application>
 
 </manifest>

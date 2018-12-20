@@ -69,6 +69,9 @@ public class CollectionViewActivity extends AppCompatActivity {
         TextView locationTV= findViewById(R.id.post_location);
         locationTV.setText(location);
 
+        TextView isbnTV= findViewById(R.id.post_isbn);
+        isbnTV.setText(isbn);
+
         ImageView imageV= findViewById(R.id.post_image);
         Picasso.get().load(image).into(imageV);
 

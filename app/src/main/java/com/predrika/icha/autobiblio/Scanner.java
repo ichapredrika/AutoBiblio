@@ -2,6 +2,7 @@ package com.predrika.icha.autobiblio;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -12,8 +13,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -21,10 +29,13 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import static android.Manifest.permission.CAMERA;
 
 public class Scanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
-
+    //Zxing
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView;
     private static int camId = Camera.CameraInfo.CAMERA_FACING_BACK;
+
+    //Firebase
+    private DatabaseReference mDatabase;
 
     //check permission
     @Override
@@ -129,23 +140,88 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         Log.d("QRCodeScanner", result.getText());
         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Scan Result");
-        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+        // Get a reference to our posts
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Books/");
+        mDatabase.keepSynced(true);
+
+        // Attach a listener to read the data at our posts reference
+        mDatabase.orderByKey().addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                scannerView.resumeCameraPreview(Scanner.this);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Books book = dataSnapshot.getValue(Books.class);
+                Toast toast = Toast.makeText(getApplicationContext(), book.getBookId(), Toast.LENGTH_SHORT); toast.show();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
             }
         });
-        builder.setNeutralButton("Borrow", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(myResult));
-                startActivity(browserIntent);
+
+        //if(myResult!=""){
+
+        //}else{
+            if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE){
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Proceed to borrowing process?");
+                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        scannerView.resumeCameraPreview(Scanner.this);
+                    }
+                });
+                builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //split the result
+                        String strReplace = myResult.replaceAll("\n","");
+                        String[] arrSplit = strReplace.split(",");
+                        String id= arrSplit[arrSplit.length-1];
+                        String[] arrId = id.split(" ");
+                        String bookId=arrId[arrId.length-1];
+                        //check whether the book exist or not
+                        //check ongoing fines
+                        //check ongoing borrowing
+
+                        //go to borrowing process
+                        Intent intent = new Intent(getApplicationContext(), BorrowActivity.class);
+                        intent.putExtra("bookId", bookId);
+                        startActivity(intent);
+                    }
+                });
+                builder.setMessage(result.getText());
+                AlertDialog alert1 = builder.create();
+                alert1.show();
+            }else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Proceed to borrowing process?");
+                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        scannerView.resumeCameraPreview(Scanner.this);
+                    }
+                });
+                builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String bookId =myResult;
+                        //check whether the book is exist or not
+                        // check ongoing fines
+                        //check ongoing borrowing
+
+                        //go to borrowing process
+                        Intent intent = new Intent(getApplicationContext(), BorrowActivity.class);
+                        intent.putExtra("bookId", bookId);
+                        startActivity(intent);
+                    }
+                });
+                builder.setMessage(result.getText());
+                AlertDialog alert1 = builder.create();
+                alert1.show();
             }
-        });
-        builder.setMessage(result.getText());
-        AlertDialog alert1 = builder.create();
-        alert1.show();
+        //}
+        //check whether the book is exist or not
+        //check avail or not
+
+
     }
 }

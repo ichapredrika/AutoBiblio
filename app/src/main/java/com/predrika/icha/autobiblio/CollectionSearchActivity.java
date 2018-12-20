@@ -51,6 +51,7 @@ public class CollectionSearchActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String searchTxt = intent.getExtras().getString("searchTxt");
         String searchTerm = intent.getExtras().getString("searchTerm");
+        String a=searchTerm;
         TextView bannerTV=findViewById(R.id.searchBannerTxt);
         bannerTV.setText(searchTxt);
 
@@ -62,13 +63,12 @@ public class CollectionSearchActivity extends AppCompatActivity {
         mCollectionSearchRV = findViewById(R.id.titleRecycleView);
 
         DatabaseReference collectionSearchRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
-        Query collectionSearchQuery = collectionSearchRef.orderByChild(searchTerm).startAt(searchTxt).endAt(searchTxt+"\uf8ff");
+        Query collectionSearchQuery = collectionSearchRef.orderByChild(searchTerm).startAt("%${"+searchTxt+"}%").endAt(searchTxt+"\uf8ff");
 
         mCollectionSearchRV.hasFixedSize();
         mCollectionSearchRV.setLayoutManager(new LinearLayoutManager(this));
 
         FirebaseRecyclerOptions collectionSearchOptions = new FirebaseRecyclerOptions.Builder<BooksSpecification>().setQuery(collectionSearchQuery, BooksSpecification.class).build();
-
         //Adapter>> connect database into view
         mCollectionSearchRVAdapter = new FirebaseRecyclerAdapter<BooksSpecification, CollectionSearchActivity.CollectionSearchViewHolder>(collectionSearchOptions) {
             @Override
