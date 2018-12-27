@@ -3,7 +3,7 @@ package com.predrika.icha.autobiblio;
 public class OnGoing {
     private String loanId;
     private String title;
-    private String bookId;
+    private String bookIdOnGoing;
     private String issuedDate;
     private String maxReturnDate;
     private String uid;
@@ -12,10 +12,10 @@ public class OnGoing {
 
     }
 
-    public OnGoing(String loanId, String title, String bookId, String issuedDate, String maxReturnDate, String uid) {
+    public OnGoing(String loanId, String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid) {
         this.loanId = loanId;
         this.title = title;
-        this.bookId = bookId;
+        this.bookIdOnGoing = bookIdOnGoing;
         this.issuedDate = issuedDate;
         this.maxReturnDate = maxReturnDate;
         this.uid = uid;
@@ -37,12 +37,12 @@ public class OnGoing {
         this.title = title;
     }
 
-    public String getBookId() {
-        return bookId;
+    public String getBookIdOnGoing() {
+        return bookIdOnGoing;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setBookIdOnGoing(String bookIdOnGoing) {
+        this.bookIdOnGoing = bookIdOnGoing;
     }
 
     public String getIssuedDate() {

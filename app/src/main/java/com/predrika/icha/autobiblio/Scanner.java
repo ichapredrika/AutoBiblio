@@ -36,8 +36,11 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     private static int camId = Camera.CameraInfo.CAMERA_FACING_BACK;
 
     //Firebase
-    private DatabaseReference mDatabase;
-
+    private DatabaseReference m1Database;
+    private String isbn;
+    private String bookId;
+    //private int availability=0; //0>> not exist, 1>> avail, 2>> borrowed
+    private int codeFormat; //1>> barcode, 2>>  QR code
     //check permission
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +54,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         {
             if(checkPermission())
             {
-                Toast.makeText(getApplicationContext(), "Permission already granted!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Permission already granted!", Toast.LENGTH_SHORT).show();
             }
             else
             {
@@ -73,7 +76,6 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     @Override
     public void onResume() {
         super.onResume();
-
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
             if (checkPermission()) {
@@ -141,64 +143,109 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         Log.d("QRCodeScanner", result.getText());
         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-            if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE){
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Proceed to borrowing process?");
-                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        scannerView.resumeCameraPreview(Scanner.this);
-                    }
-                });
-                builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //split the result
-                        String strReplace = myResult.replaceAll("\n","");
-                        String[] arrSplit = strReplace.split(",");
-                        String id= arrSplit[arrSplit.length-1];
-                        String[] arrId = id.split(" ");
-                        String bookId=arrId[arrId.length-1];
-                        //check whether the book exist or not
-                        //check ongoing fines
-                        //check ongoing borrowing
+        if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE){
+            codeFormat = 2;
+            //split the result
+            String strReplace = myResult.replaceAll("\n","");
+            String[] arrSplit = strReplace.split(",");
+            String id= arrSplit[arrSplit.length-1];
+            String[] arrId = id.split(" ");
+            bookId=arrId[arrId.length-1];
+        }else {
+            codeFormat=1;
+            bookId =myResult;
+        }
+        //check the existence of the book
+        m1Database = FirebaseDatabase.getInstance().getReference().child("Books");
+        m1Database.orderByChild("bookId").equalTo(bookId).addListenerForSingleValueEvent(new ValueEventListener() {
 
-                        //go to borrowing process
-                        Intent intent = new Intent(getApplicationContext(), BorrowActivity.class);
-                        intent.putExtra("bookId", bookId);
-                        startActivity(intent);
-                    }
-                });
-                builder.setMessage(result.getText());
-                AlertDialog alert1 = builder.create();
-                alert1.show();
-            }else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Proceed to borrowing process?");
-                builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        scannerView.resumeCameraPreview(Scanner.this);
-                    }
-                });
-                builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String bookId =myResult;
-                        //check whether the book is exist or not
-                        // check ongoing fines
-                        //check ongoing borrowing
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //check exist
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot data: dataSnapshot.getChildren()){
+                        isbn= data.child("isbn").getValue().toString();
+                        String avail=data.child("availability").getValue().toString();
+                        //if book is available
+                        if(avail.equals("Available")){
 
-                        //go to borrowing process
-                        Intent intent = new Intent(getApplicationContext(), BorrowActivity.class);
-                        intent.putExtra("bookId", bookId);
-                        startActivity(intent);
+                            int availability=1;
+                            bookId=data.child("bookId").getValue().toString();
+                            showAvail(availability, bookId, myResult,isbn);
+                        }
+                        //book is borrowed
+                        else {
+                            int availability=2;
+                            bookId=data.child("bookId").getValue().toString();
+                            showAvail(availability, bookId, myResult, isbn);
+                        }
+
                     }
-                });
-                builder.setMessage(result.getText());
-                AlertDialog alert1 = builder.create();
-                alert1.show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_LONG);
+                    toast.show();
+                    //not exist
+                } else {
+                    int availability=0;
+                    showAvail(availability, bookId, myResult, isbn);
+                    Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError)  {
+                Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
+            }
+
+        });
+    }
+    private void showAvail(int availability, final String bookId, String myResult, final String isbn){
+        if (availability==1){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Proceed to borrowing process?");
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    scannerView.resumeCameraPreview(Scanner.this);
+                }
+            });
+            builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    //go to borrowing process
+                    Intent intent = new Intent(getApplicationContext(), BorrowActivity.class);
+                    intent.putExtra("bookId", bookId);
+                    intent.putExtra("isbn", isbn);
+                    startActivity(intent);
+                }
+            });
+            builder.setMessage("The book with following detail is available\n\n"+ myResult);
+            AlertDialog alert1 = builder.create();
+            alert1.show();
+        }else if(availability==2){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("The book is not available");
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    scannerView.resumeCameraPreview(Scanner.this);
+                }
+            });
+            builder.setMessage("The book with following detail is not available\n\n"+ myResult);
+            AlertDialog alert1 = builder.create();
+            alert1.show();
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("The book is not exist in the library");
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    scannerView.resumeCameraPreview(Scanner.this);
+                }
+            });
+            builder.setMessage("The book with following detail is not exist in the library\n\n"+ myResult);
+            AlertDialog alert1 = builder.create();
+            alert1.show();
+        }
     }
 }

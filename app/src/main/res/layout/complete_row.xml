@@ -15,26 +15,43 @@
         android:background="@color/colorAccent">
 
         <TextView
-            android:layout_width="360dp"
-            android:layout_height="wrap_content"
             android:id="@+id/post_titleComplete"
-            android:text="TITLE"
-            android:layout_marginTop="10dp"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:paddingStart="5dp"
             android:paddingLeft="5dp"
             android:paddingEnd="5dp"
             android:paddingRight="5dp"
-            android:textSize="20sp"
-            android:textColor="#000000"/>
+            android:text="TITLE"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/post_bookIdComplete"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post_titleComplete"
+            android:layout_alignStart="@+id/post_titleComplete"
+            android:layout_alignLeft="@+id/post_titleComplete"
+            android:paddingStart="5dp"
+            android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
+            android:text="Book ID"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/issuedDateComplete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/post_titleComplete"
-            android:layout_alignStart="@+id/post_titleComplete"
-            android:layout_below="@+id/post_titleComplete"
+            android:layout_alignLeft="@+id/post_bookIdComplete"
+            android:layout_alignStart="@+id/post_bookIdComplete"
+            android:layout_below="@+id/post_bookIdComplete"
             android:paddingEnd="5dp"
             android:layout_toStartOf="@+id/post_issuedDateComplete"
             android:paddingLeft="5dp"
@@ -63,8 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/post_titleComplete"
+            android:layout_below="@+id/post_bookIdComplete"
             android:paddingEnd="5dp"
             android:layout_marginRight="20dp"
             android:paddingLeft="5dp"
@@ -132,7 +148,7 @@
             android:paddingStart="5dp"
             android:paddingBottom="5dp"
             android:text="PaidOffYN"
-            android:textSize="20dp"
+            android:textStyle="bold"
             android:textColor="#000000" />
 
     </RelativeLayout>

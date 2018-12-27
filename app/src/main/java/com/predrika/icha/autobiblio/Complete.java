@@ -2,7 +2,7 @@ package com.predrika.icha.autobiblio;
 
 public class Complete {
     private String loanId;
-    private String bookId;
+    private String bookIdComplete;
     private String titleComplete;
     private String issuedDateComplete;
     private String returnedDate;
@@ -15,9 +15,9 @@ public class Complete {
 
     }
 
-    public Complete(String loanId, String bookId, String titleComplete, String issuedDateComplete, String returnedDate, String damagedYN, String overdueYN, String paidOffYN, String uid) {
+    public Complete(String loanId, String bookIdComplete, String titleComplete, String issuedDateComplete, String returnedDate, String damagedYN, String overdueYN, String paidOffYN, String uid) {
         this.loanId = loanId;
-        this.bookId = bookId;
+        this.bookIdComplete = bookIdComplete;
         this.titleComplete = titleComplete;
         this.issuedDateComplete = issuedDateComplete;
         this.returnedDate = returnedDate;
@@ -35,12 +35,12 @@ public class Complete {
         this.loanId = loanId;
     }
 
-    public String getBookId() {
-        return bookId;
+    public String getBookIdComplete() {
+        return bookIdComplete;
     }
 
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
+    public void setBookIdComplete(String bookIdComplete) {
+        this.bookIdComplete = bookIdComplete;
     }
 
     public String getTitleComplete() {

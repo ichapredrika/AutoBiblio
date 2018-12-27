@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 public class Fines {
     private String loanId;
     private String titleFines;
+    private String bookIdFines;
     private double damageCost;
     private double overdueCost;
     private double totalCost;
@@ -16,9 +17,10 @@ public class Fines {
 
     }
 
-    public Fines(String loanId, String titleFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid) {
+    public Fines(String loanId, String titleFines, String bookIdFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid) {
         this.loanId = loanId;
         this.titleFines = titleFines;
+        this.bookIdFines = bookIdFines;
         this.damageCost = damageCost;
         this.overdueCost = overdueCost;
         this.totalCost = totalCost;
@@ -41,6 +43,14 @@ public class Fines {
 
     public void setTitleFines(String titleFines) {
         this.titleFines = titleFines;
+    }
+
+    public String getBookIdFines() {
+        return bookIdFines;
+    }
+
+    public void setBookIdFines(String bookIdFines) {
+        this.bookIdFines = bookIdFines;
     }
 
     public double getDamageCost() {

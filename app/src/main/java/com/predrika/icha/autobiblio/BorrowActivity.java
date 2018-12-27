@@ -29,10 +29,11 @@ import java.util.Iterator;
 
 public class BorrowActivity extends AppCompatActivity {
 
-    private RecyclerView mAvailRV;
+    private RecyclerView mBookDetailRV;
     private DatabaseReference mDatabase;
     private DatabaseReference m1Database;
-    private FirebaseRecyclerAdapter<Books, BorrowActivity.AvailViewHolder> mAvailRVAdapter;
+    private FirebaseRecyclerAdapter<BooksSpecification, BorrowActivity.BookDetailViewHolder> mBookDetailRVAdapter;
+    private String isbn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,37 +50,55 @@ public class BorrowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // back button pressed
                 finish();
-
             }
         });
 
         Intent intent = getIntent();
         final String bookId = intent.getExtras().getString("bookId");
-        final String isbn="9780552779739";
+        //final String isbn="9780552779739";
 
-        TextView bookIdTV = findViewById(R.id.tv1);
-        bookIdTV.setText(bookId);
-
+        //check the existence of the book
         m1Database = FirebaseDatabase.getInstance().getReference().child("Books");
-
         m1Database.orderByChild("bookId").equalTo(bookId).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot data: dataSnapshot.getChildren()){
-                    String keys=data.child("bookId").getValue().toString();
-                    TextView bookIdTV2 = findViewById(R.id.tv2);
-                    bookIdTV2.setText(keys);
-                    String isbn= data.child("bookId").getValue().toString();
-                }
+                //check exist
                 if(dataSnapshot.exists()){
+                    for(DataSnapshot data: dataSnapshot.getChildren()){
+                        String avail=data.child("availability").getValue().toString();
+                        //if book is available
+                        if(avail.equals("Available")){
+                            TextView availTV = findViewById(R.id.availability);
+                            availTV.setText("The book is available");
+
+                            String keys=data.child("bookId").getValue().toString();
+                            TextView bookIdTV = findViewById(R.id.post_bookId);
+                            bookIdTV.setText(keys);
+                        }
+                        //book is borrowed
+                        else {
+                            TextView availTV = findViewById(R.id.availability);
+                            availTV.setText("The book is temporarily unavailable");
+
+                            String keys=data.child("bookId").getValue().toString();
+                            TextView bookIdTV = findViewById(R.id.post_bookId);
+                            bookIdTV.setText(keys);
+                        }
+
+                        isbn= data.child("isbn").getValue().toString();
+                        TextView isbnTV = findViewById(R.id.post_isbn);
+                        isbnTV.setText(isbn);
+                    }
+
                     Toast toast = Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_LONG);
                     toast.show();
-
+                //not exist
                 } else {
+                    TextView availTV = findViewById(R.id.availability);
+                    availTV.setText("The book is not exist in the library");
                     Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
                     toast.show();
-
                 }
             }
 
@@ -89,63 +108,63 @@ public class BorrowActivity extends AppCompatActivity {
             }
         });
 
-
-        //check whether the book is exist or not
         // check ongoing fines
-        //check ongoing borrowing;
 
-        //"Collection" here will reflect what you have called in your database in Firebase.
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Books/"+isbn);
+        //get database
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("BooksSpecification/"+isbn);
         mDatabase.keepSynced(true);
 
-        mAvailRV = findViewById(R.id.collectionRecycleView);
+        mBookDetailRV = findViewById(R.id.bookDetailRecycleView);
 
-        DatabaseReference availRef = FirebaseDatabase.getInstance().getReference().child("Books/"+isbn);
-        Query availQuery = availRef.orderByKey();
+        DatabaseReference BookDetailRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification/"+isbn);
+        Query BookDetailQuery = BookDetailRef.orderByKey();
 
 
-        mAvailRV.hasFixedSize();
-        mAvailRV.setLayoutManager(new LinearLayoutManager(this));
+        mBookDetailRV.hasFixedSize();
+        mBookDetailRV.setLayoutManager(new LinearLayoutManager(this));
 
-        FirebaseRecyclerOptions availOptions = new FirebaseRecyclerOptions.Builder<Books>().setQuery(availQuery, Books.class).build();
+        FirebaseRecyclerOptions BookDetailOptions = new FirebaseRecyclerOptions.Builder<BooksSpecification>().setQuery(BookDetailQuery, BooksSpecification.class).build();
 
         //Adapter>> connect database into view
-        mAvailRVAdapter = new FirebaseRecyclerAdapter<Books, BorrowActivity.AvailViewHolder>(availOptions) {
+        mBookDetailRVAdapter = new FirebaseRecyclerAdapter<BooksSpecification, BorrowActivity.BookDetailViewHolder>(BookDetailOptions) {
             @Override
-            protected void onBindViewHolder(BorrowActivity.AvailViewHolder holder, final int position, final Books model) {
+            protected void onBindViewHolder(BorrowActivity.BookDetailViewHolder holder, final int position, final BooksSpecification model) {
                 holder.setBookId(model.getBookId());
-                holder.setAvailability(model.getAvailability());
+                holder.setAuthor(model.getAuthor());
+                holder.setPublisher(model.getPublisher());
+                holder.setCollectionType(model.getCollectionType());
+                holder.setLocation(model.getLocation());
             }
 
             //viewholder>> listview
             @Override
-            public BorrowActivity.AvailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public BorrowActivity.BookDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.availability_row, parent, false);
+                        .inflate(R.layout.borrow_book_detail_row, parent, false);
 
-                return new BorrowActivity.AvailViewHolder(view);
+                return new BorrowActivity.BookDetailViewHolder(view);
             }
         };
 
-        mAvailRV.setAdapter(mAvailRVAdapter);
+        mBookDetailRV.setAdapter(mBookDetailRVAdapter);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAvailRVAdapter.startListening();
+        mBookDetailRVAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mAvailRVAdapter.stopListening();
+        mBookDetailRVAdapter.stopListening();
     }
 
-    public static class AvailViewHolder extends RecyclerView.ViewHolder{
+    public static class BookDetailViewHolder extends RecyclerView.ViewHolder{
         View mView;
-        public AvailViewHolder(View itemView){
+        public BookDetailViewHolder(View itemView){
             super(itemView);
             mView = itemView;
         }
@@ -153,9 +172,21 @@ public class BorrowActivity extends AppCompatActivity {
             TextView post_bookId = mView.findViewById(R.id.post_bookId);
             post_bookId.setText(bookId);
         }
-        public void setAvailability(String availability){
-            TextView post_availability = mView.findViewById(R.id.post_availability);
-            post_availability.setText(availability);
+        public void setAuthor(String author){
+            TextView post_author = mView.findViewById(R.id.post_author);
+            post_author.setText(author);
+        }
+        public void setPublisher(String publisher){
+            TextView post_publisher = mView.findViewById(R.id.post_publisher);
+            post_publisher.setText(publisher);
+        }
+        public void setCollectionType(String collectionType){
+            TextView post_collectionType = mView.findViewById(R.id.post_collectionType);
+            post_collectionType.setText(collectionType);
+        }
+        public void setLocation(String location){
+            TextView post_location = mView.findViewById(R.id.post_location);
+            post_location.setText(location);
         }
     }
 }
