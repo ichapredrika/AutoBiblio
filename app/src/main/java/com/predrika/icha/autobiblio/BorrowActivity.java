@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +26,11 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+
+import java.util.Date;
+
 
 public class BorrowActivity extends AppCompatActivity {
 
@@ -33,7 +38,7 @@ public class BorrowActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private DatabaseReference m1Database;
     private FirebaseRecyclerAdapter<BooksSpecification, BorrowActivity.BookDetailViewHolder> mBookDetailRVAdapter;
-    private String isbn;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,51 +59,69 @@ public class BorrowActivity extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        final String bookId = intent.getExtras().getString("bookId");
-        //final String isbn="9780552779739";
+        String bookId = intent.getExtras().getString("bookId");
+        String isbn = intent.getExtras().getString("isbn");
 
-        //check the existence of the book
-        m1Database = FirebaseDatabase.getInstance().getReference().child("Books");
-        m1Database.orderByChild("bookId").equalTo(bookId).addListenerForSingleValueEvent(new ValueEventListener() {
+        TextView bookIdpTV = findViewById(R.id.bookId);
+        bookIdpTV.setText(bookId);
+
+        TextView bookIdTV = findViewById(R.id.post_bookIdOnGoing);
+        bookIdTV.setText(bookId);
+
+        TextView isbnTV = findViewById(R.id.isbn);
+        isbnTV.setText(isbn);
+
+        TextView availTV = findViewById(R.id.availability);
+        availTV.setText("The book is available");
+
+        Button borrowBtn = findViewById(R.id.borrowBtn);
+        borrowBtn.setVisibility(View.GONE);
+
+        // check ongoing fines
+        mAuth= FirebaseAuth.getInstance();
+        String uid = mAuth.getCurrentUser().getUid();
+
+        //refresh
+        m1Database = FirebaseDatabase.getInstance().getReference().child("Fines/"+uid);
+        m1Database.keepSynced(true);
+
+        m1Database = FirebaseDatabase.getInstance().getReference().child("Fines/"+uid);
+        m1Database.orderByChild("paidOff").equalTo("Not Fully Paid").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //check exist
+                //check unpaid fines
+
                 if(dataSnapshot.exists()){
-                    for(DataSnapshot data: dataSnapshot.getChildren()){
-                        String avail=data.child("availability").getValue().toString();
-                        //if book is available
-                        if(avail.equals("Available")){
-                            TextView availTV = findViewById(R.id.availability);
-                            availTV.setText("The book is available");
+                    for(DataSnapshot data1: dataSnapshot.getChildren()){
+                        for(DataSnapshot data: dataSnapshot.getChildren()) {
+                            Fines fines = data.getValue(Fines.class);
+                            double totalCost = fines.getTotalCost();
+                            double paidAmount = fines.getPaidAmount();
+                            double totalFines = totalCost - paidAmount;
 
-                            String keys=data.child("bookId").getValue().toString();
-                            TextView bookIdTV = findViewById(R.id.post_bookId);
-                            bookIdTV.setText(keys);
+                            TextView onGoingFinesTV = findViewById(R.id.onGoingFines);
+                            onGoingFinesTV.setText("You have an outstanding fines");
+                            TextView finesTV = findViewById(R.id.post_onGoingFines);
+                            finesTV.setText(Double.toString(totalFines));
+
+
+                            TextView eligibilityTV = findViewById(R.id.eligibility);
+                            eligibilityTV.setText("You are not eligible to make this transaction");
                         }
-                        //book is borrowed
-                        else {
-                            TextView availTV = findViewById(R.id.availability);
-                            availTV.setText("The book is temporarily unavailable");
-
-                            String keys=data.child("bookId").getValue().toString();
-                            TextView bookIdTV = findViewById(R.id.post_bookId);
-                            bookIdTV.setText(keys);
-                        }
-
-                        isbn= data.child("isbn").getValue().toString();
-                        TextView isbnTV = findViewById(R.id.post_isbn);
-                        isbnTV.setText(isbn);
                     }
 
-                    Toast toast = Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_LONG);
-                    toast.show();
-                //not exist
                 } else {
-                    TextView availTV = findViewById(R.id.availability);
-                    availTV.setText("The book is not exist in the library");
-                    Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
-                    toast.show();
+                    TextView onGoingFinesTV = findViewById(R.id.onGoingFines);
+                    onGoingFinesTV.setText("You don't have outstanding fines");
+                    TextView finesTV = findViewById(R.id.post_onGoingFines);
+                    finesTV.setText("-");
+
+                    TextView eligibilityTV = findViewById(R.id.eligibility);
+                    eligibilityTV.setText("You are eligible to make this transaction");
+
+                    Button borrowBtn = findViewById(R.id.borrowBtn);
+                    borrowBtn.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -106,19 +129,16 @@ public class BorrowActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError)  {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
             }
+
         });
-
-        // check ongoing fines
-
         //get database
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("BooksSpecification/"+isbn);
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
         mDatabase.keepSynced(true);
 
         mBookDetailRV = findViewById(R.id.bookDetailRecycleView);
 
-        DatabaseReference BookDetailRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification/"+isbn);
-        Query BookDetailQuery = BookDetailRef.orderByKey();
-
+        DatabaseReference BookDetailRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
+        Query BookDetailQuery = BookDetailRef.orderByChild("isbn").equalTo(isbn);
 
         mBookDetailRV.hasFixedSize();
         mBookDetailRV.setLayoutManager(new LinearLayoutManager(this));
@@ -129,13 +149,17 @@ public class BorrowActivity extends AppCompatActivity {
         mBookDetailRVAdapter = new FirebaseRecyclerAdapter<BooksSpecification, BorrowActivity.BookDetailViewHolder>(BookDetailOptions) {
             @Override
             protected void onBindViewHolder(BorrowActivity.BookDetailViewHolder holder, final int position, final BooksSpecification model) {
-                holder.setBookId(model.getBookId());
+                holder.setTitle(model.getTitle());
                 holder.setAuthor(model.getAuthor());
                 holder.setPublisher(model.getPublisher());
                 holder.setCollectionType(model.getCollectionType());
                 holder.setLocation(model.getLocation());
-            }
+                holder.setImage(model.getImage());
 
+                TextView titleTV = findViewById(R.id.post_title);
+                titleTV.setText(model.getTitle());
+
+            }
             //viewholder>> listview
             @Override
             public BorrowActivity.BookDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -146,8 +170,17 @@ public class BorrowActivity extends AppCompatActivity {
                 return new BorrowActivity.BookDetailViewHolder(view);
             }
         };
-
         mBookDetailRV.setAdapter(mBookDetailRVAdapter);
+
+        // setup objects' time
+        LocalDate issuedDate = new LocalDate();
+        LocalDate maxReturnDate = issuedDate.plusDays(7);
+
+        TextView issuedDateTV = findViewById(R.id.post_issuedDate);
+        issuedDateTV.setText(issuedDate.toString());//
+        TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
+        maxReturnDateTV.setText(maxReturnDate.toString());//
+
     }
 
     @Override
@@ -168,9 +201,9 @@ public class BorrowActivity extends AppCompatActivity {
             super(itemView);
             mView = itemView;
         }
-        public void setBookId(String bookId){
-            TextView post_bookId = mView.findViewById(R.id.post_bookId);
-            post_bookId.setText(bookId);
+        public void setTitle(String title){
+            TextView post_title = mView.findViewById(R.id.post_title);
+            post_title.setText(title);
         }
         public void setAuthor(String author){
             TextView post_author = mView.findViewById(R.id.post_author);
@@ -188,5 +221,15 @@ public class BorrowActivity extends AppCompatActivity {
             TextView post_location = mView.findViewById(R.id.post_location);
             post_location.setText(location);
         }
+        public void setImage( String image){
+            ImageView post_image = mView.findViewById(R.id.post_image);
+            Picasso.get().load(image).into(post_image);
+        }
+    }
+
+    public void borrowClick(View view){
+
     }
 }
+
+

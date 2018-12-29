@@ -105,6 +105,21 @@
             android:textColor="#000000" />
 
         <TextView
+            android:id="@+id/remainingCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/paidAmount"
+            android:layout_alignStart="@+id/paidAmount"
+            android:layout_below="@+id/paidAmount"
+            android:paddingEnd="5dp"
+            android:layout_toStartOf="@+id/post_remainingCost"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:text="Remaining Cost"
+            android:textColor="#000000" />
+
+        <TextView
             android:id="@+id/post_damageCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -165,12 +180,27 @@
             android:textColor="#000000" />
 
         <TextView
-            android:id="@+id/post_paidOff"
+            android:id="@+id/post_remainingCost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/post_paidAmount"
+            android:paddingEnd="5dp"
+            android:layout_marginRight="20dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingStart="5dp"
+            android:text="Remaining Cost"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/post_paidOff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/post_remainingCost"
             android:paddingEnd="5dp"
             android:layout_marginRight="20dp"
             android:paddingLeft="5dp"
