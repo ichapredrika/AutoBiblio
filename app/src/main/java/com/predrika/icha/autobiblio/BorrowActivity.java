@@ -1,11 +1,17 @@
 package com.predrika.icha.autobiblio;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +23,9 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -230,32 +239,72 @@ public class BorrowActivity extends AppCompatActivity {
     }
 
     public void borrowClick(View view){
-        mAuth= FirebaseAuth.getInstance();
-        String uid = mAuth.getCurrentUser().getUid();
-        DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference();
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(BorrowActivity.this);
+        alertDialog.setTitle("Verify your password");
+        alertDialog.setMessage("Enter Password");
 
-        TextView post_title =findViewById(R.id.post_title);
-        TextView bookIdpTV = findViewById(R.id.bookId);
-        String bookId = bookIdpTV.getText().toString();
-        TextView issuedDateTV = findViewById(R.id.post_issuedDate);
-        TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
+        final EditText input = new EditText(BorrowActivity.this);
+        input.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+        alertDialog.setPositiveButton("Verify",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String email = mAuth.getCurrentUser().getEmail();
+                        String password = input.getText().toString();
 
-        //onGoing
-        OnGoing onGoing= new OnGoing();
-        onGoing.setUid(onGoingRef.child("OnGoing/"+uid).push().getKey());
-        onGoing.setBookIdOnGoing(bookIdpTV.getText().toString());
-        onGoing.setTitle(post_title.getText().toString());
-        onGoing.setIssuedDate(issuedDateTV.getText().toString());
-        onGoing.setMaxReturnDate(maxReturnDateTV.getText().toString());
-        onGoingRef.child("OnGoing/"+uid).child(onGoing.getUid()).setValue(onGoing);
-        finish();
 
-        //Books
-        DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
-        booksRef.child("availability").setValue("Borrowed");
-        finish();
-        Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-        startActivity(intent);
+                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(BorrowActivity.this,
+                                new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(!task.isSuccessful()){
+                                            Toast.makeText(BorrowActivity.this, "Verification error", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toast.makeText(BorrowActivity.this, "Book is successfully borrowed!", Toast.LENGTH_SHORT).show();
+                                            TextView post_title =findViewById(R.id.post_title);
+                                            TextView bookIdpTV = findViewById(R.id.bookId);
+                                            String bookId = bookIdpTV.getText().toString();
+                                            TextView issuedDateTV = findViewById(R.id.post_issuedDate);
+                                            TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
+
+                                            //onGoing
+                                            String uid = mAuth.getCurrentUser().getUid();
+                                            DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference();
+                                            OnGoing onGoing= new OnGoing();
+                                            onGoing.setUid(onGoingRef.child("OnGoing/"+uid).push().getKey());
+                                            onGoing.setBookIdOnGoing(bookIdpTV.getText().toString());
+                                            onGoing.setTitle(post_title.getText().toString());
+                                            onGoing.setIssuedDate(issuedDateTV.getText().toString());
+                                            onGoing.setMaxReturnDate(maxReturnDateTV.getText().toString());
+                                            onGoingRef.child("OnGoing/"+uid).child(onGoing.getUid()).setValue(onGoing);
+                                            finish();
+
+                                            //Books
+                                            DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
+                                            booksRef.child("availability").setValue("Borrowed");
+                                            finish();
+                                            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                });
+                    }
+                });
+
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        alertDialog.show();
+
     }
 }
 
