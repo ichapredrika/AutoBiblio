@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -21,6 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,15 @@ public class ProfileActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setLogo(R.mipmap.ic_autobiblio);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(ProfileActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Loading data from database");
+
+        // Showing progress dialog.
+        progressDialog.show();
 
         mAuth=FirebaseAuth.getInstance();
         FirebaseUser Users= FirebaseAuth.getInstance().getCurrentUser();
@@ -41,34 +54,44 @@ public class ProfileActivity extends AppCompatActivity {
         usersRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Users currentUser = dataSnapshot.getValue(Users.class);
-                TextView fullNameTV=findViewById(R.id.fullNameTxt);
-                fullNameTV.setText(currentUser.getFullName());
+                if(dataSnapshot.exists()) {
+                    Users currentUser = dataSnapshot.getValue(Users.class);
+                    TextView fullNameTV=findViewById(R.id.fullNameTxt);
+                    fullNameTV.setText(currentUser.getFullName());
 
-                TextView univIdTV=findViewById(R.id.univIdTxt);
-                univIdTV.setText(currentUser.getunivId());
+                    TextView univIdTV=findViewById(R.id.univIdTxt);
+                    univIdTV.setText(currentUser.getunivId());
 
-                TextView pobTV=findViewById(R.id.pobTxt);
-                pobTV.setText(currentUser.getPob());
+                    TextView pobTV=findViewById(R.id.pobTxt);
+                    pobTV.setText(currentUser.getPob());
 
-                TextView dobTV=findViewById(R.id.dobTxt);
-                dobTV.setText(currentUser.getDob());
+                    TextView dobTV=findViewById(R.id.dobTxt);
+                    dobTV.setText(currentUser.getDob());
 
-                TextView addressTV=findViewById(R.id.addressTxt);
-                addressTV.setText(currentUser.getAddress());
+                    TextView addressTV=findViewById(R.id.addressTxt);
+                    addressTV.setText(currentUser.getAddress());
 
-                TextView phoneTV=findViewById(R.id.phoneTxt);
-                phoneTV.setText(currentUser.getPhone());
+                    TextView phoneTV=findViewById(R.id.phoneTxt);
+                    phoneTV.setText(currentUser.getPhone());
 
-                TextView memberTypeTV=findViewById(R.id.memberTypeTxt);
-                memberTypeTV.setText(currentUser.getMemberType());
+                    TextView memberTypeTV=findViewById(R.id.memberTypeTxt);
+                    memberTypeTV.setText(currentUser.getMemberType());
 
-                TextView balanceAmountTV=findViewById(R.id.balanceAmountTxt);
-                balanceAmountTV.setText(Double.toString(currentUser.getBalanceAmount()));
+                    TextView balanceAmountTV=findViewById(R.id.balanceAmountTxt);
+                    balanceAmountTV.setText(Double.toString(currentUser.getBalanceAmount()));
+
+                    // Hiding the progress dialog.
+                    progressDialog.dismiss();
+                } else  {
+                    // Hiding the progress dialog.
+                    progressDialog.dismiss();
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
             }
         });
 

@@ -1,6 +1,7 @@
 package com.predrika.icha.autobiblio;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -17,6 +18,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.joda.time.LocalDate;
+
 public class LoginActivity extends AppCompatActivity {
     //Declare an instance of FirebaseAuth
     private FirebaseAuth mAuth;
@@ -24,6 +27,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private String email;
     private String password;
+
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
 
     @Override
     protected void onStart() {
@@ -64,6 +70,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginClick(View view){
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(LoginActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Logging in user");
+
+        // Showing progress dialog.
+        progressDialog.show();
+
         EditText emailEditText=findViewById(R.id.emailLogin);
         email = emailEditText.getText().toString();
 
@@ -82,9 +97,14 @@ public class LoginActivity extends AppCompatActivity {
                             }else{
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             }
+                            // Hiding the progress dialog.
+                            progressDialog.dismiss();
                         }
                     });
         }else{
+            // Hiding the progress dialog.
+            progressDialog.dismiss();
+
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             //setting Dialog Title
             alertDialog.setTitle("Warning");

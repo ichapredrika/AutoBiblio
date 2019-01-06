@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -18,9 +19,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class CollectionSearchActivity extends AppCompatActivity {
@@ -29,6 +33,9 @@ public class CollectionSearchActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
     private FirebaseRecyclerAdapter<BooksSpecification, CollectionSearchActivity.CollectionSearchViewHolder> mCollectionSearchRVAdapter;
+
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,14 @@ public class CollectionSearchActivity extends AppCompatActivity {
         TextView bannerTV=findViewById(R.id.searchBannerTxt);
         bannerTV.setText(searchTxt);
 
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(CollectionSearchActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Loading books from database");
+
+        // Showing progress dialog.
+        progressDialog.show();
 
         //retrieve database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
@@ -112,6 +127,22 @@ public class CollectionSearchActivity extends AppCompatActivity {
         };
 
         mCollectionSearchRV.setAdapter(mCollectionSearchRVAdapter);
+
+        //add the listener for the single value event that will function
+//like a completion listener for initial data load of the FirebaseRecyclerAdapter
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
+            }
+        });
     }
 
     @Override

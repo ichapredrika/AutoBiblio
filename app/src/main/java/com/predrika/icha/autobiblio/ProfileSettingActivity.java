@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,9 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileSettingActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,15 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
 
     public void submitClick(View view) {
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(ProfileSettingActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Submitting data into database");
+
+        // Showing progress dialog.
+        progressDialog.show();
+
         TextView fullNameTV=findViewById(R.id.fullNameEditText);
         TextView univIdTV=findViewById(R.id.univIdEditText);
         TextView pobTV=findViewById(R.id.pobEditText);
@@ -97,5 +110,8 @@ public class ProfileSettingActivity extends AppCompatActivity {
 
         Intent intent = new Intent( ProfileSettingActivity.this, ProfileActivity.class);
         startActivity(intent);
+
+        // Hiding the progress dialog.
+        progressDialog.dismiss();
     }
 }

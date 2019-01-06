@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,8 +40,11 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     private DatabaseReference m1Database;
     private String isbn;
     private String bookId;
-    //private int availability=0; //0>> not exist, 1>> avail, 2>> borrowed
     private int codeFormat; //1>> barcode, 2>>  QR code
+
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
+
     //check permission
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,10 +143,20 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
     @Override
     public void handleResult(Result result) {
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(Scanner.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Loading data from database");
+
+        // Showing progress dialog.
+        progressDialog.show();
+
         final String myResult = result.getText();
         Log.d("QRCodeScanner", result.getText());
         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
+        //1>> barcode, 2>>  QR code
         if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE){
             codeFormat = 2;
             //split the result
@@ -190,16 +204,21 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                     Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
                     toast.show();
                 }
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError)  {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
             }
 
         });
     }
     private void showAvail(int availability, final String bookId, String myResult, final String isbn){
+        //0>> not exist, 1>> avail, 2>> borrowed
         if (availability==1){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Proceed to borrowing process?");

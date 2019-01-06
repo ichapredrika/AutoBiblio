@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,9 +16,12 @@ import android.widget.ImageView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class CollectionViewActivity extends AppCompatActivity {
@@ -25,6 +29,9 @@ public class CollectionViewActivity extends AppCompatActivity {
     private RecyclerView mAvailRV;
     private DatabaseReference mDatabase;
     private FirebaseRecyclerAdapter<Books, CollectionViewActivity.CollectionViewViewHolder> mAvailRVAdapter;
+
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,15 @@ public class CollectionViewActivity extends AppCompatActivity {
 
             }
         });
+
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(CollectionViewActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Loading book from database");
+
+        // Showing progress dialog.
+        progressDialog.show();
 
         Intent intent = getIntent();
         String title = intent.getExtras().getString("title");
@@ -110,6 +126,22 @@ public class CollectionViewActivity extends AppCompatActivity {
         };
 
         mAvailRV.setAdapter(mAvailRVAdapter);
+
+        //add the listener for the single value event that will function
+//like a completion listener for initial data load of the FirebaseRecyclerAdapter
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
+            }
+        });
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.predrika.icha.autobiblio;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -26,6 +27,10 @@ public class RegistrationActivity extends AppCompatActivity {
     private String email;
     private String password;
     private String univId;
+
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +40,14 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void registrationClick(View view) {
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(RegistrationActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Registering user into database");
+
+        // Showing progress dialog.
+        progressDialog.show();
 
         EditText idCardEditText =findViewById(R.id.univIdReg);
         univId=idCardEditText.getText().toString();
@@ -49,21 +62,20 @@ public class RegistrationActivity extends AppCompatActivity {
         EditText passwordEditText =findViewById(R.id.passwordRegistration);
         password=passwordEditText.getText().toString();
 
-        if(!nameEditText.getText().toString().isEmpty() || !emailEditText.getText().toString().isEmpty() || !passwordEditText.getText().toString().isEmpty()){
+        if(!univId.isEmpty() && !name.isEmpty() && !email.isEmpty() && !password.isEmpty()){
             mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegistrationActivity.this,
                     new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
                                 Toast.makeText(RegistrationActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
+                                // Hiding the progress dialog.
+                                progressDialog.dismiss();
                             }else{
                                 DatabaseReference mRef= FirebaseDatabase.getInstance().getReference();
                                 DatabaseReference usersRef=mRef.child("Users/" +mAuth.getCurrentUser().getUid());
 
-                                EditText editName=findViewById(R.id.nameReg);
-                                name= editName.getText().toString();
-
-                                usersRef.child("fullName").setValue(name);
+                                usersRef.child("fullName").setValue(name.toUpperCase());
                                 usersRef.child("emailAddress").setValue(email);
                                 usersRef.child("univId").setValue(univId);
                                 usersRef.child("pob").setValue("-");
@@ -75,15 +87,19 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent( RegistrationActivity.this, LoginActivity.class);
                                 startActivity(intent);
+                                // Hiding the progress dialog.
+                                progressDialog.dismiss();
                             }
                         }
                     });
         }else{
+            // Hiding the progress dialog.
+            progressDialog.dismiss();
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             //setting Dialog Title
             alertDialog.setTitle("Warning");
             //setting Dialog Message
-            alertDialog.setMessage("Name, email, or password can not be empty!");
+            alertDialog.setMessage("Name, email, university ID, or password can not be empty!");
             //setting ok button
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",
                     new DialogInterface.OnClickListener() {

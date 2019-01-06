@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,23 +17,26 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class GeneratorActivity extends AppCompatActivity {
 
-    //EditText text;
-    //Button gen_btn;
-    //ImageView image;
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator);
 
-        //text=(EditText) findViewById(R.id.text);
-        //gen_btn = (Button) findViewById(R.id.generateButton);
-        //image = (ImageView) findViewById(R.id.image);
-
-
     }
 
     public void generateClick(View view) {
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(GeneratorActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Generating QR code");
+
+        // Showing progress dialog.
+        progressDialog.show();
+
         TextView amountTV=findViewById(R.id.amount);
         String amount= amountTV.getText().toString();
         ImageView image = findViewById(R.id.image);
@@ -43,9 +47,16 @@ public class GeneratorActivity extends AppCompatActivity {
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             image.setImageBitmap(bitmap);
+
+            // Hiding the progress dialog.
+            progressDialog.dismiss();
+
         }
         catch (WriterException e){
             e.printStackTrace();
+
+            // Hiding the progress dialog.
+            progressDialog.dismiss();
         }
     }
 }

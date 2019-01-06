@@ -1,5 +1,6 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -51,6 +52,9 @@ public class BorrowActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<BooksSpecification, BorrowActivity.BookDetailViewHolder> mBookDetailRVAdapter;
     private FirebaseAuth mAuth;
 
+    // Creating Progress dialog
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +91,15 @@ public class BorrowActivity extends AppCompatActivity {
 
         Button borrowBtn = findViewById(R.id.borrowBtn);
         borrowBtn.setVisibility(View.GONE);
+
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(BorrowActivity.this);
+
+        // Setting up message in Progress dialog.
+        progressDialog.setMessage("Loading data from database");
+
+        // Showing progress dialog.
+        progressDialog.show();
 
         // check ongoing fines
         mAuth= FirebaseAuth.getInstance();
@@ -134,11 +147,16 @@ public class BorrowActivity extends AppCompatActivity {
                     Button borrowBtn = findViewById(R.id.borrowBtn);
                     borrowBtn.setVisibility(View.VISIBLE);
                 }
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError)  {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
+
+                // Hiding the progress dialog.
+                progressDialog.dismiss();
             }
 
         });
@@ -256,14 +274,22 @@ public class BorrowActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String email = mAuth.getCurrentUser().getEmail();
                         String password = input.getText().toString();
+                        // Assign activity this to progress dialog.
+                        progressDialog = new ProgressDialog(BorrowActivity.this);
 
+                        // Setting up message in Progress dialog.
+                        progressDialog.setMessage("Verifying user's password");
 
+                        // Showing progress dialog.
+                        progressDialog.show();
                         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(BorrowActivity.this,
                                 new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if(!task.isSuccessful()){
-                                            Toast.makeText(BorrowActivity.this, "Verification error", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(BorrowActivity.this, "Password is wrong!", Toast.LENGTH_SHORT).show();
+                                            // Hiding the progress dialog.
+                                            progressDialog.dismiss();
                                         }else{
                                             Toast.makeText(BorrowActivity.this, "Book is successfully borrowed!", Toast.LENGTH_SHORT).show();
                                             TextView post_title =findViewById(R.id.post_title);
@@ -290,6 +316,8 @@ public class BorrowActivity extends AppCompatActivity {
                                             finish();
                                             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
                                             startActivity(intent);
+                                            // Hiding the progress dialog.
+                                            progressDialog.dismiss();
                                         }
                                     }
                                 });
