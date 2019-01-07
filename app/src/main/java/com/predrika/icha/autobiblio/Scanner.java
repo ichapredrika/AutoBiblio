@@ -147,7 +147,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
         progressDialog = new ProgressDialog(Scanner.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Loading data from database");
+        progressDialog.setMessage("Please wait...");
 
         // Showing progress dialog.
         progressDialog.show();

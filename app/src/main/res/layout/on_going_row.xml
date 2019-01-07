@@ -107,7 +107,7 @@
             android:textColor="#000000" />
 
         <ImageView
-            android:id="@+id/post_image"
+            android:id="@+id/borrowQR"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@+id/post_maxReturnDate"

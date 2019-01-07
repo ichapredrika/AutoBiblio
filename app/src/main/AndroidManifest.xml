@@ -14,6 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".NotificationView"
+            android:label="Details of notification"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -37,7 +46,8 @@
         <activity android:name=".CollectionViewActivity" />
         <activity android:name=".CollectionSearchActivity" />
         <activity android:name=".BookQRGeneratorActivity" />
-        <activity android:name=".BorrowActivity"></activity>
+        <activity android:name=".BorrowActivity" />
+        <activity android:name=".NotifActivity"></activity>
     </application>
 
 </manifest>

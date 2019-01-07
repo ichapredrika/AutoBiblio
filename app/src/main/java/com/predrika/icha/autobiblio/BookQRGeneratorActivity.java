@@ -31,7 +31,7 @@ public class BookQRGeneratorActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(BookQRGeneratorActivity.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Generating QR code");
+        progressDialog.setMessage("Generating QR code...");
 
         // Showing progress dialog.
         progressDialog.show();

@@ -44,6 +44,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'com.firebaseui:firebase-ui-database:3.2.1'
     implementation 'com.google.firebase:firebase-storage:16.0.1'
+    implementation 'com.google.firebase:firebase-messaging:10.2.1'
 
     //date
     implementation 'joda-time:joda-time:2.10'

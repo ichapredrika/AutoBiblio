@@ -3,6 +3,8 @@ package com.predrika.icha.autobiblio;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +26,10 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,23 +39,31 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.squareup.picasso.Picasso;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import java.io.ByteArrayOutputStream;
+import java.sql.Timestamp;
 
 public class BorrowActivity extends AppCompatActivity {
 
     private RecyclerView mBookDetailRV;
     private DatabaseReference mDatabase;
     private DatabaseReference m1Database;
+    private DatabaseReference mImageDatabase;
     private FirebaseRecyclerAdapter<BooksSpecification, BorrowActivity.BookDetailViewHolder> mBookDetailRVAdapter;
     private FirebaseAuth mAuth;
+    private StorageReference mStorageRef;
 
     // Creating Progress dialog
     ProgressDialog progressDialog;
@@ -96,7 +109,7 @@ public class BorrowActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(BorrowActivity.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Loading data from database");
+        progressDialog.setMessage("Please wait...");
 
         // Showing progress dialog.
         progressDialog.show();
@@ -278,7 +291,7 @@ public class BorrowActivity extends AppCompatActivity {
                         progressDialog = new ProgressDialog(BorrowActivity.this);
 
                         // Setting up message in Progress dialog.
-                        progressDialog.setMessage("Verifying user's password");
+                        progressDialog.setMessage("Processing borrowing request... ");
 
                         // Showing progress dialog.
                         progressDialog.show();
@@ -287,37 +300,97 @@ public class BorrowActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if(!task.isSuccessful()){
+                                            // Hiding the progress dialog.
+                                            progressDialog.dismiss();
                                             Toast.makeText(BorrowActivity.this, "Password is wrong!", Toast.LENGTH_SHORT).show();
-                                            // Hiding the progress dialog.
-                                            progressDialog.dismiss();
                                         }else{
-                                            Toast.makeText(BorrowActivity.this, "Book is successfully borrowed!", Toast.LENGTH_SHORT).show();
+
+                                            mStorageRef = FirebaseStorage.getInstance().getReference();
+
+                                            //generate QR code
+                                            final String uid= mAuth.getCurrentUser().getUid();
                                             TextView post_title =findViewById(R.id.post_title);
-                                            TextView bookIdpTV = findViewById(R.id.bookId);
-                                            String bookId = bookIdpTV.getText().toString();
+                                            final String title= post_title.getText().toString();
+                                            TextView bookIdTV = findViewById(R.id.bookId);
+                                            final String bookId = bookIdTV.getText().toString();
                                             TextView issuedDateTV = findViewById(R.id.post_issuedDate);
+                                            final String issuedDate= issuedDateTV.getText().toString();
                                             TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
+                                            final String maxReturnDate= maxReturnDateTV.getText().toString();
 
-                                            //onGoing
-                                            String uid = mAuth.getCurrentUser().getUid();
-                                            DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference();
-                                            OnGoing onGoing= new OnGoing();
-                                            onGoing.setUid(onGoingRef.child("OnGoing/"+uid).push().getKey());
-                                            onGoing.setBookIdOnGoing(bookIdpTV.getText().toString());
-                                            onGoing.setTitle(post_title.getText().toString());
-                                            onGoing.setIssuedDate(issuedDateTV.getText().toString());
-                                            onGoing.setMaxReturnDate(maxReturnDateTV.getText().toString());
-                                            onGoingRef.child("OnGoing/"+uid).child(onGoing.getUid()).setValue(onGoing);
-                                            finish();
+                                            DateTime dateTime = new DateTime();
+                                            Timestamp timeStamp = new Timestamp(dateTime.getMillis());
+                                            String storageName= uid +"-"+timeStamp.getTime();
 
-                                            //Books
-                                            DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
-                                            booksRef.child("availability").setValue("Borrowed");
-                                            finish();
-                                            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-                                            startActivity(intent);
-                                            // Hiding the progress dialog.
-                                            progressDialog.dismiss();
+                                            final String borrowDetail= uid +";"+ bookId +";"+ title +";"+ issuedDate+";"+ maxReturnDate ;
+                                            MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                                            try{
+                                                BitMatrix bitMatrix = multiFormatWriter.encode(borrowDetail, BarcodeFormat.QR_CODE,200,200);
+                                                BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                                                Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                                                //upload to firebase storage
+                                                // Create a storage reference from our app
+                                                FirebaseStorage storage = FirebaseStorage.getInstance();
+                                                StorageReference storageRef = storage.getReferenceFromUrl("gs://autobiblio-c72c0.appspot.com");
+                                                final StorageReference borrowRef = storageRef.child("borrowqr/"+storageName+".jpg");
+
+                                                // While the file names are the same, the references point to different files
+                                                borrowRef.getName().equals(borrowRef.getName());    // true
+                                                borrowRef.getPath().equals(borrowRef.getPath());    // false
+
+                                                // Get the data from an ImageView as bytes
+                                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                                byte[] data = baos.toByteArray();
+
+                                                UploadTask uploadTask = borrowRef.putBytes(data);
+                                                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                                                    @Override
+                                                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                                                        if (!task.isSuccessful()) {
+                                                            throw task.getException();
+                                                        }
+                                                        return borrowRef.getDownloadUrl();
+                                                    }
+                                                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Uri> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Uri downloadUri = task.getResult();
+                                                            //insert into onGoing
+                                                            DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference();
+                                                            OnGoing onGoing= new OnGoing();
+                                                            onGoing.setUid(onGoingRef.child("OnGoing/"+uid).push().getKey());
+                                                            onGoing.setBookIdOnGoing(bookId);
+                                                            onGoing.setTitle(title);
+                                                            onGoing.setIssuedDate(issuedDate);
+                                                            onGoing.setMaxReturnDate(maxReturnDate);
+                                                            onGoing.setBorrowQR(downloadUri.toString());
+                                                            onGoingRef.child("OnGoing/"+uid).child(onGoing.getUid()).setValue(onGoing);
+                                                            finish();
+
+                                                            //Books
+                                                            DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
+                                                            booksRef.child("availability").setValue("Borrowed");
+                                                            finish();
+                                                            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
+                                                            startActivity(intent);
+                                                            // Hiding the progress dialog.
+                                                            progressDialog.dismiss();
+
+                                                            Toast.makeText(BorrowActivity.this, "Book is successfully borrowed!", Toast.LENGTH_SHORT).show();
+                                                        } else {
+                                                            // Handle failures
+                                                            // ...
+                                                        }
+                                                    }
+                                                });
+                                            }
+                                            catch (WriterException e){
+                                                e.printStackTrace();
+                                            }
+
+                                           //
                                         }
                                     }
                                 });

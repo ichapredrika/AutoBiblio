@@ -74,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(LoginActivity.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Logging in user");
+        progressDialog.setMessage("Please wait...");
 
         // Showing progress dialog.
         progressDialog.show();

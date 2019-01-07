@@ -87,7 +87,7 @@ public class ProfileSettingActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(ProfileSettingActivity.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Submitting data into database");
+        progressDialog.setMessage("Submitting data into database...");
 
         // Showing progress dialog.
         progressDialog.show();

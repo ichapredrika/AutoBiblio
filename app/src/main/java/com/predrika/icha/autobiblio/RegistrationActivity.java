@@ -44,7 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(RegistrationActivity.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Registering user into database");
+        progressDialog.setMessage("Registering user...");
 
         // Showing progress dialog.
         progressDialog.show();

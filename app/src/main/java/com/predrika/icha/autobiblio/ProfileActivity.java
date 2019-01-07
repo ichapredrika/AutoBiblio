@@ -39,7 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(ProfileActivity.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Loading data from database");
+        progressDialog.setMessage("Please wait...");
 
         // Showing progress dialog.
         progressDialog.show();

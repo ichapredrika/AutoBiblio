@@ -7,21 +7,24 @@ public class OnGoing {
     private String issuedDate;
     private String maxReturnDate;
     private String uid;
+    private String borrowQR;
 
     public OnGoing(){
 
     }
 
-    public OnGoing(String loanId, String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid) {
+    public OnGoing(String loanId, String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid, String borrowQR) {
         this.loanId = loanId;
         this.title = title;
         this.bookIdOnGoing = bookIdOnGoing;
         this.issuedDate = issuedDate;
         this.maxReturnDate = maxReturnDate;
         this.uid = uid;
+        this.borrowQR = borrowQR;
     }
 
     public String getLoanId() {
+
         return loanId;
     }
 
@@ -67,5 +70,13 @@ public class OnGoing {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getBorrowQR() {
+        return borrowQR;
+    }
+
+    public void setBorrowQR(String borrowQR) {
+        this.borrowQR = borrowQR;
     }
 }

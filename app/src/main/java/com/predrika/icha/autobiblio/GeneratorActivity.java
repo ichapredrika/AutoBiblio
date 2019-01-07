@@ -32,7 +32,7 @@ public class GeneratorActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(GeneratorActivity.this);
 
         // Setting up message in Progress dialog.
-        progressDialog.setMessage("Generating QR code");
+        progressDialog.setMessage("Generating QR code...");
 
         // Showing progress dialog.
         progressDialog.show();
