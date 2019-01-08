@@ -58,7 +58,8 @@
                 android:gravity="center"
                 android:text="General Rules"
                 android:textColor="#626262"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -68,7 +69,8 @@
                 android:text="1. Respect to other users are highly appreciated."
                 android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
 
             <TextView
@@ -79,7 +81,8 @@
                 android:text="2. Keeping the library and the collection clean and in good condition."
                 android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -89,7 +92,8 @@
                 android:text="3. Keeping the library in a good order."
                 android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -99,7 +103,8 @@
                 android:text="4. Not leaving belongings overnight in the library."
                 android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -109,7 +114,8 @@
                 android:text="5. Report to the library immediately if you find other's belonging or if you lose your belongings."
                 android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -119,7 +125,8 @@
                 android:text="6. The library staff has the privilege to ask students to leave the library if they are behaving inappropriately."
                 android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -129,72 +136,132 @@
                 android:text="7. The library has the privilege to give any kind of disciplineacts to any user who disregards the library and regulations."
                 android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="20dp"
-                android:text="Title 2"
+                android:layout_marginTop="40dp"
                 android:gravity="center"
+                android:text="Borrowing Book Procedures"
                 android:textColor="#626262"
-                android:textSize="25sp" />
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:text=""
+                android:textAlignment="viewStart"
+                android:textColor="#626262"
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:text="1. A user must be a registered student or active faculty and administrative staff in the current term to be able to use the library services."
+                android:textAlignment="viewStart"
+                android:textColor="#626262"
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:text="2. All borrowed materials must be returned on or before the due date."
+                android:textAlignment="viewStart"
+                android:textColor="#626262"
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:text="3. Student or staff are not allowed to borrow library materials on behalf of others or transfer borrowed materials to others."
+                android:textAlignment="viewStart"
+                android:textColor="#626262"
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="0dp"
+                android:text="4. Student with overdue materials and overdue fines will not be allowed to borrow books."
+                android:textAlignment="viewStart"
+                android:textColor="#626262"
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:gravity="center"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                android:text="Damage or Loss Library Materials"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="Title 3"
+                android:layout_marginTop="0dp"
+                android:text=""
+                android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="25sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                android:layout_marginTop="0dp"
+                android:text="1. All users will be held responsible for any damage or loss of library materials they are borrowing. Marking of library materials will be regarded as damaged. User will be required to repair or replace the loss/badly damaged library material with the mosr current edition of the same title."
+                android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="Title 4"
+                android:layout_marginTop="0dp"
+                android:text="2. Any damage or loss of library materials must be reported to the librarian immediately."
+                android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="25sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry&apos;s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+                android:layout_marginTop="0dp"
+                android:text="3. User must ensure that the books they borrow are in good condition to avoid being held responsible for any damages noted while returning the books."
+                android:textAlignment="viewStart"
                 android:textColor="#626262"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:paddingBottom="5dp"/>
 
             <View
                 android:layout_width="fill_parent"

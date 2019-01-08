@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -107,12 +108,9 @@ public class BorrowActivity extends AppCompatActivity {
 
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(BorrowActivity.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Please wait...");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         // check ongoing fines
         mAuth= FirebaseAuth.getInstance();
@@ -200,7 +198,6 @@ public class BorrowActivity extends AppCompatActivity {
 
                 TextView titleTV = findViewById(R.id.post_title);
                 titleTV.setText(model.getTitle());
-
             }
             //viewholder>> listview
             @Override
@@ -289,12 +286,10 @@ public class BorrowActivity extends AppCompatActivity {
                         String password = input.getText().toString();
                         // Assign activity this to progress dialog.
                         progressDialog = new ProgressDialog(BorrowActivity.this);
-
-                        // Setting up message in Progress dialog.
                         progressDialog.setMessage("Processing borrowing request... ");
-
-                        // Showing progress dialog.
                         progressDialog.show();
+                        progressDialog.setCancelable(false);
+
                         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(BorrowActivity.this,
                                 new OnCompleteListener<AuthResult>() {
                                     @Override
@@ -302,7 +297,6 @@ public class BorrowActivity extends AppCompatActivity {
                                         if(!task.isSuccessful()){
                                             // Hiding the progress dialog.
                                             progressDialog.dismiss();
-                                            Toast.makeText(BorrowActivity.this, "Password is wrong!", Toast.LENGTH_SHORT).show();
                                         }else{
 
                                             mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -377,11 +371,9 @@ public class BorrowActivity extends AppCompatActivity {
                                                             startActivity(intent);
                                                             // Hiding the progress dialog.
                                                             progressDialog.dismiss();
-
-                                                            Toast.makeText(BorrowActivity.this, "Book is successfully borrowed!", Toast.LENGTH_SHORT).show();
                                                         } else {
-                                                            // Handle failures
-                                                            // ...
+                                                            // Hiding the progress dialog.
+                                                            progressDialog.dismiss();
                                                         }
                                                     }
                                                 });

@@ -37,12 +37,9 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(ProfileActivity.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Please wait...");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         mAuth=FirebaseAuth.getInstance();
         FirebaseUser Users= FirebaseAuth.getInstance().getCurrentUser();

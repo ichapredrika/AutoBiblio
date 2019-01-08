@@ -72,12 +72,9 @@ public class LoginActivity extends AppCompatActivity {
     public void loginClick(View view){
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(LoginActivity.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Please wait...");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         EditText emailEditText=findViewById(R.id.emailLogin);
         email = emailEditText.getText().toString();

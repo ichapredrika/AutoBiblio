@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -145,12 +146,9 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     public void handleResult(Result result) {
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(Scanner.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Please wait...");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         final String myResult = result.getText();
         Log.d("QRCodeScanner", result.getText());

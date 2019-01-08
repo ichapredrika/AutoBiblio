@@ -85,12 +85,9 @@ public class ProfileSettingActivity extends AppCompatActivity {
     public void submitClick(View view) {
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(ProfileSettingActivity.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Submitting data into database...");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         TextView fullNameTV=findViewById(R.id.fullNameEditText);
         TextView univIdTV=findViewById(R.id.univIdEditText);

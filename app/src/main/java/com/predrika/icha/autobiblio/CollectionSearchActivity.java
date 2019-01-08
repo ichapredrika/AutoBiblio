@@ -64,12 +64,9 @@ public class CollectionSearchActivity extends AppCompatActivity {
 
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(CollectionSearchActivity.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Loading books from database");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         //retrieve database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");

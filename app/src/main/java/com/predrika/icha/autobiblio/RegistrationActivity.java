@@ -42,12 +42,9 @@ public class RegistrationActivity extends AppCompatActivity {
     public void registrationClick(View view) {
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(RegistrationActivity.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Registering user...");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         EditText idCardEditText =findViewById(R.id.univIdReg);
         univId=idCardEditText.getText().toString();

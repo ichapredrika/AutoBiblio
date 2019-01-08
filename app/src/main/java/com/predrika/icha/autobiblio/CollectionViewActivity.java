@@ -54,12 +54,9 @@ public class CollectionViewActivity extends AppCompatActivity {
 
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(CollectionViewActivity.this);
-
-        // Setting up message in Progress dialog.
         progressDialog.setMessage("Loading book from database");
-
-        // Showing progress dialog.
         progressDialog.show();
+        progressDialog.setCancelable(false);
 
         Intent intent = getIntent();
         String title = intent.getExtras().getString("title");
