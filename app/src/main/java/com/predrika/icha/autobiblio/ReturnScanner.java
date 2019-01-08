@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -18,30 +19,34 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+
+import org.joda.time.LocalDate;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 import static android.Manifest.permission.CAMERA;
 
-public class Scanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
+public class ReturnScanner extends AppCompatActivity implements ZXingScannerView.ResultHandler {
     //Zxing
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView;
     private static int camId = Camera.CameraInfo.CAMERA_FACING_BACK;
 
     //Firebase
-    private DatabaseReference m1Database;
-    private String isbn;
-    private String bookId;
-    private int codeFormat; //1>> barcode, 2>>  QR code
+    private DatabaseReference mDatabase;
+    private StorageReference mStorageRef;
 
     // Creating Progress dialog
     ProgressDialog progressDialog;
@@ -134,7 +139,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new android.support.v7.app.AlertDialog.Builder(Scanner.this)
+        new android.support.v7.app.AlertDialog.Builder(ReturnScanner.this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
@@ -145,123 +150,119 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     @Override
     public void handleResult(Result result) {
         // Assign activity this to progress dialog.
-        progressDialog = new ProgressDialog(Scanner.this);
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-        progressDialog.setCancelable(false);
 
         final String myResult = result.getText();
         Log.d("QRCodeScanner", result.getText());
         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
-        //1>> barcode, 2>>  QR code
-        if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE){
-            codeFormat = 2;
-            //split the result
-            String strReplace = myResult.replaceAll("\n","");
-            String[] arrSplit = strReplace.split(",");
-            String id= arrSplit[arrSplit.length-1];
-            String[] arrId = id.split(" ");
-            bookId=arrId[arrId.length-1];
-        }else {
-            codeFormat=1;
-            bookId =myResult;
+        //split the result
+        String[] arrSplit =myResult.split(";");
+        for (int i=0; i < arrSplit.length; i++)
+        {
+            System.out.println(arrSplit[i]);
         }
-        //check the existence of the book
-        m1Database = FirebaseDatabase.getInstance().getReference().child("Books");
-        m1Database.orderByChild("bookId").equalTo(bookId).addListenerForSingleValueEvent(new ValueEventListener() {
+        final String uid=arrSplit[0];
+        final String title=arrSplit[1];
+        final String bookId=arrSplit[2];
+        final String issuedDate=arrSplit[3];
+        final String maxReturnDate=arrSplit[4];
+        final String storageName=arrSplit[5];
+
+        //check exist or not!!
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("OnGoing/"+uid);
+        mDatabase.orderByChild(storageName).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //check exist
                 if(dataSnapshot.exists()){
-                    for(DataSnapshot data: dataSnapshot.getChildren()){
-                        isbn= data.child("isbn").getValue().toString();
-                        String avail=data.child("availability").getValue().toString();
-                        //if book is available
-                        if(avail.equals("Available")){
 
-                            int availability=1;
-                            bookId=data.child("bookId").getValue().toString();
-                            showAvail(availability, bookId, myResult,isbn);
-                        }
-                        //book is borrowed
-                        else {
-                            int availability=2;
-                            bookId=data.child("bookId").getValue().toString();
-                            showAvail(availability, bookId, myResult, isbn);
-                        }
-                    }
                     Toast toast = Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_LONG);
                     toast.show();
+                    calculateFine(uid, title, bookId, issuedDate, maxReturnDate, storageName);
                     //not exist
                 } else {
-                    int availability=0;
-                    showAvail(availability, bookId, myResult, isbn);
                     Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
                     toast.show();
                 }
-                // Hiding the progress dialog.
-                progressDialog.dismiss();
+                Intent intent = new Intent( ReturnScanner.this,ScannerActivity.class);
+                startActivity(intent);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError)  {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
-                // Hiding the progress dialog.
-                progressDialog.dismiss();
             }
-
         });
+        //calculate fine
+
     }
-    private void showAvail(int availability, final String bookId, String myResult, final String isbn){
-        //0>> not exist, 1>> avail, 2>> borrowed
-        if (availability==1){
+    private void calculateFine(final String uid, String  title, final String  bookId, String  issuedDate, String  maxReturnDate, final String  storageName){
+        LocalDate todayDate = new LocalDate();
+        LocalDate issuedDateD = new LocalDate(issuedDate);
+        int totalDay = todayDate.getDayOfMonth() - issuedDateD.getDayOfMonth();
+        //10000 for first day, 3000 for next days
+        double overdueCost;
+        if (totalDay<=7){
+            overdueCost=0.0;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Proceed to borrowing process?");
+            builder.setTitle("Return Book?");
             builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    scannerView.resumeCameraPreview(Scanner.this);
+                    dialog.cancel();
+                    scannerView.resumeCameraPreview(ReturnScanner.this);
                 }
             });
             builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //go to borrowing process
-                    Intent intent = new Intent(getApplicationContext(), BorrowActivity.class);
-                    intent.putExtra("bookId", bookId);
-                    intent.putExtra("isbn", isbn);
-                    startActivity(intent);
+                    //delete OnGoing
+                    progressDialog = new ProgressDialog(ReturnScanner.this);
+                    progressDialog.setMessage("Please wait...");
+                    progressDialog.show();
+                    progressDialog.setCancelable(false);
+
+                    //Book's availability
+                    DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
+                    booksRef.child("availability").setValue("Available");
+                    finish();
+
+                    mDatabase = FirebaseDatabase.getInstance().getReference();
+                    mDatabase.child("OnGoing").child(uid).child(storageName).removeValue();
+
+                    // Create a storage reference from our app
+                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                    StorageReference storageRef = storage.getReferenceFromUrl("gs://autobiblio-c72c0.appspot.com");
+                    final StorageReference borrowRef = storageRef.child("borrowqr/"+storageName+".jpg");
+                    // Delete the file
+                    borrowRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // File deleted successfully
+                            progressDialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception exception) {
+                            // Uh-oh, an error occurred!
+                            progressDialog.dismiss();
+                        }
+                    });
+
+                    //create History
                 }
             });
-            builder.setMessage("The book with following detail is available\n\n"+ myResult);
-            AlertDialog alert1 = builder.create();
-            alert1.show();
-        }else if(availability==2){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("The book is not available");
-            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    scannerView.resumeCameraPreview(Scanner.this);
-                }
-            });
-            builder.setMessage("The book with following detail is not available\n\n"+ myResult);
+            builder.setMessage("The borrowing process detailed below has no fine \n\n"+ totalDay+"\n"+uid +"\n"+ title +"\n"+bookId + "\n"+issuedDate +"\n"+ maxReturnDate);
             AlertDialog alert1 = builder.create();
             alert1.show();
         }else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("The book is not exist in the library");
-            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    scannerView.resumeCameraPreview(Scanner.this);
-                }
-            });
-            builder.setMessage("The book with following detail is not exist in the library\n\n"+ myResult);
-            AlertDialog alert1 = builder.create();
-            alert1.show();
+            if(totalDay==1){
+                overdueCost=10000.0;
+            }else{
+                overdueCost=(totalDay-1)*3000.0+10000.0;
+            }
         }
     }
 }

@@ -295,12 +295,10 @@ public class BorrowActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if(!task.isSuccessful()){
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Password is wrong! " , Toast.LENGTH_SHORT); toast.show();
                                             // Hiding the progress dialog.
                                             progressDialog.dismiss();
                                         }else{
-
-                                            mStorageRef = FirebaseStorage.getInstance().getReference();
-
                                             //generate QR code
                                             final String uid= mAuth.getCurrentUser().getUid();
                                             TextView post_title =findViewById(R.id.post_title);
@@ -314,9 +312,9 @@ public class BorrowActivity extends AppCompatActivity {
 
                                             DateTime dateTime = new DateTime();
                                             Timestamp timeStamp = new Timestamp(dateTime.getMillis());
-                                            String storageName= uid +"-"+timeStamp.getTime();
+                                            final String storageName= uid +"-"+timeStamp.getTime();
 
-                                            final String borrowDetail= uid +";"+ bookId +";"+ title +";"+ issuedDate+";"+ maxReturnDate ;
+                                            final String borrowDetail= uid +";"+ bookId +";"+ title +";"+ issuedDate+";"+ maxReturnDate +";" +storageName ;
                                             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
                                             try{
                                                 BitMatrix bitMatrix = multiFormatWriter.encode(borrowDetail, BarcodeFormat.QR_CODE,200,200);
@@ -354,13 +352,12 @@ public class BorrowActivity extends AppCompatActivity {
                                                             //insert into onGoing
                                                             DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference();
                                                             OnGoing onGoing= new OnGoing();
-                                                            onGoing.setUid(onGoingRef.child("OnGoing/"+uid).push().getKey());
                                                             onGoing.setBookIdOnGoing(bookId);
                                                             onGoing.setTitle(title);
                                                             onGoing.setIssuedDate(issuedDate);
                                                             onGoing.setMaxReturnDate(maxReturnDate);
                                                             onGoing.setBorrowQR(downloadUri.toString());
-                                                            onGoingRef.child("OnGoing/"+uid).child(onGoing.getUid()).setValue(onGoing);
+                                                            onGoingRef.child("OnGoing/"+uid).child(storageName).setValue(onGoing);
                                                             finish();
 
                                                             //Books
