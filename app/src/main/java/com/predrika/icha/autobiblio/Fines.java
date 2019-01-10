@@ -3,7 +3,6 @@ package com.predrika.icha.autobiblio;
 import java.math.BigDecimal;
 
 public class Fines {
-    private String loanId;
     private String titleFines;
     private String bookIdFines;
     private double damageCost;
@@ -17,8 +16,7 @@ public class Fines {
 
     }
 
-    public Fines(String loanId, String titleFines, String bookIdFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid) {
-        this.loanId = loanId;
+    public Fines(String titleFines, String bookIdFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid) {
         this.titleFines = titleFines;
         this.bookIdFines = bookIdFines;
         this.damageCost = damageCost;
@@ -27,14 +25,6 @@ public class Fines {
         this.paidAmount = paidAmount;
         this.paidOff = paidOff;
         this.uid = uid;
-    }
-
-    public String getLoanId() {
-        return loanId;
-    }
-
-    public void setLoanId(String loanId) {
-        this.loanId = loanId;
     }
 
     public String getTitleFines() {

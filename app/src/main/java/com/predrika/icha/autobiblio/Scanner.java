@@ -41,7 +41,6 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
     private DatabaseReference m1Database;
     private String isbn;
     private String bookId;
-    private int codeFormat; //1>> barcode, 2>>  QR code
 
     // Creating Progress dialog
     ProgressDialog progressDialog;
@@ -156,7 +155,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
         //1>> barcode, 2>>  QR code
         if (result.getBarcodeFormat() == BarcodeFormat.QR_CODE){
-            codeFormat = 2;
+            Log.d("BarcodeFormat", result.getBarcodeFormat().toString());
             //split the result
             String strReplace = myResult.replaceAll("\n","");
             String[] arrSplit = strReplace.split(",");
@@ -164,7 +163,6 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             String[] arrId = id.split(" ");
             bookId=arrId[arrId.length-1];
         }else {
-            codeFormat=1;
             bookId =myResult;
         }
         //check the existence of the book
@@ -175,11 +173,12 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //check exist
                 if(dataSnapshot.exists()){
+                    Log.d("dataSnapshot.exists()", dataSnapshot.toString()) ;
                     for(DataSnapshot data: dataSnapshot.getChildren()){
                         isbn= data.child("isbn").getValue().toString();
                         String avail=data.child("availability").getValue().toString();
                         //if book is available
-                        if(avail.equals("Available")){
+                        if(avail.equals("AVAILABLE")){
 
                             int availability=1;
                             bookId=data.child("bookId").getValue().toString();
@@ -196,6 +195,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                     toast.show();
                     //not exist
                 } else {
+                    Log.d("dataSnapshot.exists()", dataSnapshot.toString()) ;
                     int availability=0;
                     showAvail(availability, bookId, myResult, isbn);
                     Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);

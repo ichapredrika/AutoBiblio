@@ -5,23 +5,35 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,10 +41,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.Result;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+
+import java.io.ByteArrayOutputStream;
+import java.sql.Timestamp;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -47,9 +68,20 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
     //Firebase
     private DatabaseReference mDatabase;
     private StorageReference mStorageRef;
+    private FirebaseAuth mAuth;
 
     // Creating Progress dialog
     ProgressDialog progressDialog;
+    //null for firebase key error handler
+    private String uid;
+    private String title;
+    private String bookId;
+    private String issuedDate;
+    private String maxReturnDate;
+    private String storageName;
+    private double overdueCost;
+    private double damageCost;
+    private LocalDate todayDate;
 
     //check permission
     @Override
@@ -148,62 +180,98 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
     }
 
     @Override
-    public void handleResult(Result result) {
+    public void handleResult(final Result result) {
         // Assign activity this to progress dialog.
-
+        progressDialog = new ProgressDialog(ReturnScanner.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
         final String myResult = result.getText();
         Log.d("QRCodeScanner", result.getText());
         Log.d("QRCodeScanner", result.getBarcodeFormat().toString());
 
         //split the result
         String[] arrSplit =myResult.split(";");
-        for (int i=0; i < arrSplit.length; i++)
-        {
-            System.out.println(arrSplit[i]);
-        }
-        final String uid=arrSplit[0];
-        final String title=arrSplit[1];
-        final String bookId=arrSplit[2];
-        final String issuedDate=arrSplit[3];
-        final String maxReturnDate=arrSplit[4];
-        final String storageName=arrSplit[5];
+        if (arrSplit.length==6){
+            uid=arrSplit[0];
+            bookId=arrSplit[1];
+            title=arrSplit[2];
+            issuedDate=arrSplit[3];
+            maxReturnDate=arrSplit[4];
+            storageName=arrSplit[5];
+            //check on the database
+            mDatabase = FirebaseDatabase.getInstance().getReference().child("OnGoing/"+uid);
+            mDatabase.orderByChild("bookIdOnGoing").equalTo(bookId).addListenerForSingleValueEvent(new ValueEventListener() {
 
-        //check exist or not!!
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("OnGoing/"+uid);
-        mDatabase.orderByChild(storageName).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //check exist
+                    if(dataSnapshot.exists()){
+                        Log.d("dataSnapshot- exist", dataSnapshot.toString()) ;
+                        Toast toast = Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_LONG);
+                        toast.show();
+                        calculateFine();
+                        progressDialog.dismiss();
+                        //not exist
+                    } else {
+                        Log.d("dataSnapshot- not exist", dataSnapshot.toString()) ;
+                        Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
+                        toast.show();
+                        progressDialog.dismiss();
+                        showNotExist(result.toString(), 1);
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //check exist
-                if(dataSnapshot.exists()){
-
-                    Toast toast = Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_LONG);
-                    toast.show();
-                    calculateFine(uid, title, bookId, issuedDate, maxReturnDate, storageName);
-                    //not exist
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
-                    toast.show();
+                    }
+/*                Intent intent = new Intent( ReturnScanner.this,ScannerActivity.class);
+                startActivity(intent);*/
                 }
-                Intent intent = new Intent( ReturnScanner.this,ScannerActivity.class);
-                startActivity(intent);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError)  {
-                Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
-            }
-        });
-        //calculate fine
-
+                @Override
+                public void onCancelled(DatabaseError databaseError)  {
+                    Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
+                }
+            });
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
+            toast.show();
+            progressDialog.dismiss();
+            showNotExist(result.toString(),2);
+        }
     }
-    private void calculateFine(final String uid, String  title, final String  bookId, String  issuedDate, String  maxReturnDate, final String  storageName){
-        LocalDate todayDate = new LocalDate();
+    private void showNotExist(String result, int exist){
+        if (exist==1){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("No Longer Exist");
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    scannerView.resumeCameraPreview(ReturnScanner.this);
+                }
+            });
+            builder.setMessage("The Following transaction is no longer exist! \n\n"+"\n"+result );
+            AlertDialog alert1 = builder.create();
+            alert1.show();
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Not Exist");
+            builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    scannerView.resumeCameraPreview(ReturnScanner.this);
+                }
+            });
+            builder.setMessage("The Following transaction is not exist! \n\n"+"\n"+result );
+            AlertDialog alert1 = builder.create();
+            alert1.show();
+        }
+    }
+
+    private void calculateFine(){
+        todayDate = new LocalDate();
         LocalDate issuedDateD = new LocalDate(issuedDate);
         int totalDay = todayDate.getDayOfMonth() - issuedDateD.getDayOfMonth();
         //10000 for first day, 3000 for next days
-        double overdueCost;
         if (totalDay<=7){
             overdueCost=0.0;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -213,45 +281,14 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
                     scannerView.resumeCameraPreview(ReturnScanner.this);
+
                 }
             });
             builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //delete OnGoing
-                    progressDialog = new ProgressDialog(ReturnScanner.this);
-                    progressDialog.setMessage("Please wait...");
-                    progressDialog.show();
-                    progressDialog.setCancelable(false);
-
-                    //Book's availability
-                    DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
-                    booksRef.child("availability").setValue("Available");
-                    finish();
-
-                    mDatabase = FirebaseDatabase.getInstance().getReference();
-                    mDatabase.child("OnGoing").child(uid).child(storageName).removeValue();
-
-                    // Create a storage reference from our app
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                    StorageReference storageRef = storage.getReferenceFromUrl("gs://autobiblio-c72c0.appspot.com");
-                    final StorageReference borrowRef = storageRef.child("borrowqr/"+storageName+".jpg");
-                    // Delete the file
-                    borrowRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            // File deleted successfully
-                            progressDialog.dismiss();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Uh-oh, an error occurred!
-                            progressDialog.dismiss();
-                        }
-                    });
-
-                    //create History
+                    checkDamage();
                 }
             });
             builder.setMessage("The borrowing process detailed below has no fine \n\n"+ totalDay+"\n"+uid +"\n"+ title +"\n"+bookId + "\n"+issuedDate +"\n"+ maxReturnDate);
@@ -263,6 +300,186 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
             }else{
                 overdueCost=(totalDay-1)*3000.0+10000.0;
             }
+            checkDamage();
         }
+    }
+
+    private void checkDamage(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Damage or Lost Check");
+        builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                verifyUser(damageCost);
+            }
+        });
+        builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
+                //get value from database
+                mRef.orderByChild("title").equalTo(title).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()) {
+                            BooksSpecification booksSpecification = dataSnapshot.getValue(BooksSpecification.class);
+                            damageCost = booksSpecification.getBookPrice();
+                            verifyUser(damageCost);
+                        } else  {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //
+                        Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                    }
+                });
+            }
+        });
+        builder.setMessage("Is the book damaged or lost?\n");
+        AlertDialog alert1 = builder.create();
+        alert1.show();
+    }
+
+    private void verifyUser(final double damageCost){
+        mAuth= FirebaseAuth.getInstance();
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(ReturnScanner.this);
+        alertDialog.setTitle("Password Verification");
+        alertDialog.setMessage("Enter your password");
+        final EditText input = new EditText(ReturnScanner.this);
+        input.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        input.setLayoutParams(lp);
+        alertDialog.setView(input);
+        alertDialog.setPositiveButton("Verify",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String email = mAuth.getCurrentUser().getEmail();
+                        String password = input.getText().toString();
+                        // Assign activity this to progress dialog.
+                        progressDialog = new ProgressDialog(ReturnScanner.this);
+                        progressDialog.setMessage("Verifying user's password... ");
+                        progressDialog.show();
+                        progressDialog.setCancelable(false);
+
+                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(ReturnScanner.this,
+                                new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if(!task.isSuccessful()){
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Password is wrong! " , Toast.LENGTH_SHORT); toast.show();
+                                            // Hiding the progress dialog.
+                                            progressDialog.dismiss();
+                                            verifyUser(damageCost);
+                                        }else{
+                                            deleteOnGoing();
+                                            //createHistory
+                                            if(overdueCost>0 || damageCost>0){
+                                                //create fines
+                                                DatabaseReference finesRef = FirebaseDatabase.getInstance().getReference();
+                                                Fines fines= new Fines();
+                                                fines.setTitleFines(title);
+                                                fines.setBookIdFines(bookId);
+                                                fines.setDamageCost(damageCost);
+                                                fines.setOverdueCost(overdueCost);
+                                                fines.setTotalCost(damageCost+overdueCost);
+                                                fines.setPaidAmount(0.0);
+                                                fines.setPaidOff("NOT PAID");
+                                                fines.setUid(uid);
+                                                finesRef.child("Fines/"+uid).child(storageName).setValue(fines);
+                                                finish();
+
+                                                DatabaseReference completeRef = FirebaseDatabase.getInstance().getReference();
+                                                Complete complete= new Complete();
+                                                complete.setTitleComplete(title);
+                                                complete.setBookIdComplete(bookId);
+                                                if (damageCost>0){
+                                                    complete.setDamagedYN("DAMAGED");
+                                                }else{
+                                                    complete.setDamagedYN("NOT DAMAGED");
+                                                }
+                                                if(overdueCost>0){
+                                                    complete.setOverdueYN("OVERDUE");
+                                                }else{
+                                                    complete.setOverdueYN("NOT OVERDUE");
+                                                }
+                                                complete.setIssuedDateComplete(issuedDate);
+                                                complete.setReturnedDate(todayDate.toString());
+                                                complete.setPaidOffYN("NOT PAID");
+                                                complete.setUid(uid);
+                                                completeRef.child("Complete/"+uid).child(storageName).setValue(complete);
+
+                                            }else{
+                                                DatabaseReference completeRef = FirebaseDatabase.getInstance().getReference();
+                                                Complete complete= new Complete();
+                                                complete.setTitleComplete(title);
+                                                complete.setBookIdComplete(bookId);
+                                                complete.setDamagedYN("NOT DAMAGED");
+                                                complete.setOverdueYN("NOT OVERDUE");
+                                                complete.setIssuedDateComplete(issuedDate);
+                                                complete.setReturnedDate(todayDate.toString());
+                                                complete.setPaidOffYN("NO FINE");
+                                                complete.setUid(uid);
+                                                completeRef.child("Complete/"+uid).child(storageName).setValue(complete);
+                                            }
+                                        }
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), "The book is successfully returned", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                    }
+                });
+
+        alertDialog.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        scannerView.resumeCameraPreview(ReturnScanner.this);
+                    }
+                });
+
+        alertDialog.show();
+    }
+
+    private void deleteOnGoing(){
+        progressDialog = new ProgressDialog(ReturnScanner.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        //Book's availability
+        DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
+        booksRef.child("availability").setValue("AVAILABLE");
+        finish();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("OnGoing").child(uid).child(storageName).removeValue();
+
+        // Create a storage reference from our app
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://autobiblio-c72c0.appspot.com");
+        final StorageReference borrowRef = storageRef.child("borrowqr/"+storageName+".jpg");
+        // Delete the file
+        borrowRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                progressDialog.dismiss();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                progressDialog.dismiss();
+            }
+        });
+
+        //create History
     }
 }

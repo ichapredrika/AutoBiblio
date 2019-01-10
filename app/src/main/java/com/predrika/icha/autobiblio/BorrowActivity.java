@@ -362,7 +362,7 @@ public class BorrowActivity extends AppCompatActivity {
 
                                                             //Books
                                                             DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
-                                                            booksRef.child("availability").setValue("Borrowed");
+                                                            booksRef.child("availability").setValue("BORROWED");
                                                             finish();
                                                             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
                                                             startActivity(intent);
