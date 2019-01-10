@@ -7,7 +7,7 @@ public class BooksSpecification {
     private String collectionType;
     private String author;
     private String publisher;
-    private double bookPrice;
+    private double price;
     private String location;
     private String title;
     private String image;
@@ -16,14 +16,14 @@ public class BooksSpecification {
 
     }
 
-    public BooksSpecification(String isbn, String bookId, String genre, String collectionType, String author, String publisher, double bookPrice, String location, String title, String image) {
+    public BooksSpecification(String isbn, String bookId, String genre, String collectionType, String author, String publisher, double price, String location, String title, String image) {
         this.isbn = isbn;
         this.bookId = bookId;
         this.genre = genre;
         this.collectionType = collectionType;
         this.author = author;
         this.publisher = publisher;
-        this.bookPrice = bookPrice;
+        this.price = price;
         this.location = location;
         this.title = title;
         this.image = image;
@@ -77,12 +77,12 @@ public class BooksSpecification {
         this.publisher = publisher;
     }
 
-    public double getBookPrice() {
-        return bookPrice;
+    public double getPrice() {
+        return price;
     }
 
-    public void setBookPrice(double bookPrice) {
-        this.bookPrice = bookPrice;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getLocation() {

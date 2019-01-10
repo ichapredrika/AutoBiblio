@@ -268,8 +268,8 @@ public class BorrowActivity extends AppCompatActivity {
 
     public void borrowClick(View view){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(BorrowActivity.this);
-        alertDialog.setTitle("Verify your password");
-        alertDialog.setMessage("Enter Password");
+        alertDialog.setTitle("Password Verification");
+        alertDialog.setMessage("Enter your password");
 
         final EditText input = new EditText(BorrowActivity.this);
         input.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);

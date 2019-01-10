@@ -19,7 +19,9 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -302,6 +304,8 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
             }
             checkDamage();
         }
+        Log.d("OverdueCost-out ovd", Double.toString(overdueCost)) ;
+        Log.d("DamageCost-out ovd", Double.toString(damageCost)) ;
     }
 
     private void checkDamage(){
@@ -316,25 +320,45 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
         builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+// Assign activity this to progress dialog.
+                progressDialog = new ProgressDialog(ReturnScanner.this);
+                progressDialog.setMessage("Verifying user's password... ");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
                 DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
                 //get value from database
                 mRef.orderByChild("title").equalTo(title).addValueEventListener(new ValueEventListener() {
+
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()) {
-                            BooksSpecification booksSpecification = dataSnapshot.getValue(BooksSpecification.class);
-                            damageCost = booksSpecification.getBookPrice();
-                            verifyUser(damageCost);
-                        } else  {
-                            Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                        //check unpaid fines
+
+                        if(dataSnapshot.exists()){
+                            for(DataSnapshot data1: dataSnapshot.getChildren()){
+                                for(DataSnapshot data: dataSnapshot.getChildren()) {
+                                    Log.d("book existence", data.toString());
+                                    BooksSpecification booksSpecification = data.getValue(BooksSpecification.class);
+                                    damageCost = booksSpecification.getPrice();
+                                    Log.d("getPrice()", Double.toString(booksSpecification.getPrice()));
+                                    Log.d("OverdueCos-on async dmg", Double.toString(overdueCost)) ;
+                                    Log.d("DamageCost-on async dmg", Double.toString(damageCost)) ;
+                                    progressDialog.dismiss();
+                                    verifyUser(damageCost);
+                                }
+                            }
+
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "The book data is not exist " , Toast.LENGTH_SHORT); toast.show();
                         }
+                        Log.d("OverdueCost-out dmg", Double.toString(overdueCost)) ;
+                        Log.d("DamageCost-out dmg", Double.toString(damageCost)) ;
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        //
+                    public void onCancelled(DatabaseError databaseError)  {
                         Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
                     }
+
                 });
             }
         });
@@ -378,7 +402,9 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                                             progressDialog.dismiss();
                                             verifyUser(damageCost);
                                         }else{
-                                            deleteOnGoing();
+
+                                            Log.d("OverdueCost >0", Double.toString(overdueCost)) ;
+                                            Log.d("DamageCost >0", Double.toString(damageCost)) ;
                                             //createHistory
                                             if(overdueCost>0 || damageCost>0){
                                                 //create fines
@@ -415,7 +441,12 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete/"+uid).child(storageName).setValue(complete);
 
+                                                deleteOnGoing();
+                                                progressDialog.dismiss();
                                             }else{
+                                                Log.d("OverdueCost =0", Double.toString(overdueCost)) ;
+                                                Log.d("DamageCost =0", Double.toString(damageCost)) ;
+
                                                 DatabaseReference completeRef = FirebaseDatabase.getInstance().getReference();
                                                 Complete complete= new Complete();
                                                 complete.setTitleComplete(title);
@@ -427,6 +458,9 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                                                 complete.setPaidOffYN("NO FINE");
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete/"+uid).child(storageName).setValue(complete);
+
+                                                deleteOnGoing();
+                                                progressDialog.dismiss();
                                             }
                                         }
                                         progressDialog.dismiss();
