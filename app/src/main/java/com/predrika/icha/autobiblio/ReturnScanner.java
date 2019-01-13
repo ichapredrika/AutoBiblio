@@ -309,6 +309,11 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
     }
 
     private void checkDamage(){
+        // Assign activity this to progress dialog.
+        progressDialog = new ProgressDialog(ReturnScanner.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Damage or Lost Check");
         builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
@@ -321,10 +326,6 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
             @Override
             public void onClick(DialogInterface dialog, int which) {
 // Assign activity this to progress dialog.
-                progressDialog = new ProgressDialog(ReturnScanner.this);
-                progressDialog.setMessage("Verifying user's password... ");
-                progressDialog.show();
-                progressDialog.setCancelable(false);
                 DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
                 //get value from database
                 mRef.orderByChild("title").equalTo(title).addValueEventListener(new ValueEventListener() {
@@ -346,9 +347,10 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                                     verifyUser(damageCost);
                                 }
                             }
-
+                            progressDialog.dismiss();
                         } else {
                             Toast toast = Toast.makeText(getApplicationContext(), "The book data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                            progressDialog.dismiss();
                         }
                         Log.d("OverdueCost-out dmg", Double.toString(overdueCost)) ;
                         Log.d("DamageCost-out dmg", Double.toString(damageCost)) ;
@@ -369,7 +371,6 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
 
     private void verifyUser(final double damageCost){
         mAuth= FirebaseAuth.getInstance();
-
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ReturnScanner.this);
         alertDialog.setTitle("Password Verification");
         alertDialog.setMessage("Enter your password");

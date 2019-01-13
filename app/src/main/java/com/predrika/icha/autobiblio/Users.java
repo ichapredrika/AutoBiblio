@@ -10,45 +10,102 @@ public class Users {
     private String emailAddress;
     private String memberType;
     private double balanceAmount;
+    private int onGoing;
 
-    public double getBalanceAmount() {
-        return balanceAmount;
+    public Users(){
+
+    }
+
+    public Users(String fullName, String univId, String pob, String dob, String address, String phone, String emailAddress, String memberType, double balanceAmount, int onGoing) {
+        this.fullName = fullName;
+        this.univId = univId;
+        this.pob = pob;
+        this.dob = dob;
+        this.address = address;
+        this.phone = phone;
+        this.emailAddress = emailAddress;
+        this.memberType = memberType;
+        this.balanceAmount = balanceAmount;
+        this.onGoing = onGoing;
     }
 
     public String getFullName() {
-
         return fullName;
     }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
 
-    public String getunivId() {
+    public String getUnivId() {
         return univId;
     }
 
+    public void setUnivId(String univId) {
+        this.univId = univId;
+    }
 
     public String getPob() {
         return pob;
     }
 
+    public void setPob(String pob) {
+        this.pob = pob;
+    }
 
     public String getDob() {
         return dob;
     }
 
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
 
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhone() {
         return phone;
     }
 
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getEmailAddress() {
         return emailAddress;
     }
 
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
     public String getMemberType() {
         return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
+
+    public double getBalanceAmount() {
+        return balanceAmount;
+    }
+
+    public void setBalanceAmount(double balanceAmount) {
+        this.balanceAmount = balanceAmount;
+    }
+
+    public int getOnGoing() {
+        return onGoing;
+    }
+
+    public void setOnGoing(int onGoing) {
+        this.onGoing = onGoing;
     }
 }

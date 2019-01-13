@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity {
                     fullNameTV.setText(currentUser.getFullName());
 
                     TextView univIdTV=findViewById(R.id.univIdTxt);
-                    univIdTV.setText(currentUser.getunivId());
+                    univIdTV.setText(currentUser.getUnivId());
 
                     TextView pobTV=findViewById(R.id.pobTxt);
                     pobTV.setText(currentUser.getPob());

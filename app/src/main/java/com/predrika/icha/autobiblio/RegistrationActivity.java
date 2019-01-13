@@ -79,6 +79,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 usersRef.child("dob").setValue("-");
                                 usersRef.child("address").setValue("-");
                                 usersRef.child("phone").setValue("-");
+                                usersRef.child("onGoing").setValue(0);
                                 usersRef.child("memberType").setValue("Student");
 
                                 Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
