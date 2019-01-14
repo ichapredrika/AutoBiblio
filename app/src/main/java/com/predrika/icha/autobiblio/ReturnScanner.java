@@ -441,6 +441,7 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                                                 complete.setPaidOffYN("NOT PAID");
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete/"+uid).child(storageName).setValue(complete);
+                                                finish();
                                                 progressDialog.dismiss();
                                                 deleteOnGoing();
                                             }else{
