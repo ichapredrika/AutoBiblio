@@ -10,13 +10,12 @@ public class Users {
     private String emailAddress;
     private String memberType;
     private double balanceAmount;
-    private int onGoing;
 
     public Users(){
 
     }
 
-    public Users(String fullName, String univId, String pob, String dob, String address, String phone, String emailAddress, String memberType, double balanceAmount, int onGoing) {
+    public Users(String fullName, String univId, String pob, String dob, String address, String phone, String emailAddress, String memberType, double balanceAmount) {
         this.fullName = fullName;
         this.univId = univId;
         this.pob = pob;
@@ -26,7 +25,6 @@ public class Users {
         this.emailAddress = emailAddress;
         this.memberType = memberType;
         this.balanceAmount = balanceAmount;
-        this.onGoing = onGoing;
     }
 
     public String getFullName() {
@@ -99,13 +97,5 @@ public class Users {
 
     public void setBalanceAmount(double balanceAmount) {
         this.balanceAmount = balanceAmount;
-    }
-
-    public int getOnGoing() {
-        return onGoing;
-    }
-
-    public void setOnGoing(int onGoing) {
-        this.onGoing = onGoing;
     }
 }

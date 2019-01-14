@@ -441,9 +441,8 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                                                 complete.setPaidOffYN("NOT PAID");
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete/"+uid).child(storageName).setValue(complete);
-
-                                                deleteOnGoing();
                                                 progressDialog.dismiss();
+                                                deleteOnGoing();
                                             }else{
                                                 Log.d("OverdueCost =0", Double.toString(overdueCost)) ;
                                                 Log.d("DamageCost =0", Double.toString(damageCost)) ;
@@ -459,13 +458,10 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
                                                 complete.setPaidOffYN("NO FINE");
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete/"+uid).child(storageName).setValue(complete);
-
-                                                deleteOnGoing();
                                                 progressDialog.dismiss();
+                                                deleteOnGoing();
                                             }
                                         }
-                                        progressDialog.dismiss();
-                                        Toast.makeText(getApplicationContext(), "The book is successfully returned", Toast.LENGTH_LONG).show();
                                     }
                                 });
                     }
@@ -488,7 +484,7 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
         progressDialog.show();
         progressDialog.setCancelable(false);
 
-        //Book's availability
+        //change book's availability
         DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
         booksRef.child("availability").setValue("AVAILABLE");
         finish();
@@ -506,15 +502,18 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
             public void onSuccess(Void aVoid) {
                 // File deleted successfully
                 progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "The book is successfully returned", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent( ReturnScanner.this,ScannerActivity.class);
+                startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Uh-oh, an error occurred!
                 progressDialog.dismiss();
+                Intent intent = new Intent( ReturnScanner.this,ScannerActivity.class);
+                startActivity(intent);
             }
         });
-
-        //create History
     }
 }
