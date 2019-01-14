@@ -145,7 +145,6 @@ public class ReturnScanner extends AppCompatActivity implements ZXingScannerView
         switch (requestCode) {
             case REQUEST_CAMERA:
                 if (grantResults.length > 0) {
-
                     boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     if (cameraAccepted){
                         Toast.makeText(getApplicationContext(), "Permission Granted, Now you can access camera", Toast.LENGTH_LONG).show();
