@@ -1,9 +1,11 @@
 package com.predrika.icha.autobiblio;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -121,14 +123,31 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void logoutClick(View view){
-        try{
-            mAuth.signOut();
-            Toast.makeText(ProfileActivity.this, "Logout successful", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent( ProfileActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout");
+        builder.setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                try{
+                    mAuth.signOut();
+                    Toast.makeText(ProfileActivity.this, "Logout successful", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent( ProfileActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setMessage("Are you sure you want to log out? \n" );
+        AlertDialog alert1 = builder.create();
+        alert1.show();
     }
 
     public void profileSettingClick (View view){
@@ -136,8 +155,4 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void reminderClick(View view){
-        Intent intent = new Intent( ProfileActivity.this, ReminderActivity.class);
-        startActivity(intent);
-    }
 }

@@ -14,14 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".NotificationView"
-            android:label="Details of notification"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -34,9 +26,6 @@
         <activity android:name=".ProfileSettingActivity" />
         <activity android:name=".Scanner" />
         <activity android:name=".GeneratorActivity" />
-        <activity android:name=".ReminderActivity" />
-
-        <receiver android:name=".AlarmReceiver" />
 
         <activity android:name=".ProfileActivity" />
         <activity android:name=".CollectionActivity" />
@@ -48,7 +37,6 @@
         <activity android:name=".BorrowActivity" />
         <activity android:name=".ReturnScanner" />
         <activity android:name=".TopUpScanner" />
-        <activity android:name=".NotifActivity" />
         <activity android:name=".PayFinesActivity"></activity>
     </application>
 

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:background="@drawable/shadow"
     tools:context=".BorrowActivity">
 
 
@@ -38,7 +39,7 @@
         <RelativeLayout
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent">
+            android:background="@drawable/cardview_shadow">
 
             <TextView
                 android:id="@+id/availability"
@@ -89,7 +90,7 @@
         <RelativeLayout
             android:layout_width="380dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent">
+            android:background="@drawable/cardview_shadow">
 
             <TextView
                 android:id="@+id/onGoingFines"
@@ -169,7 +170,7 @@
                 <RelativeLayout
                     android:layout_width="380dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent">
+                    android:background="@drawable/cardview_shadow">
 
                     <TextView
                         android:id="@+id/post_title"
@@ -278,13 +279,14 @@
     <Button
         android:id="@+id/borrowBtn"
         android:onClick="borrowClick"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Borrow"
         android:textAllCaps="false"
         android:background="@drawable/mybutton"
+        android:textColor="#ffffff"
         android:layout_marginBottom="30dp"/>
 
 </RelativeLayout>

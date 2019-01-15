@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent">
+        android:background="@drawable/cardview_shadow">
 
         <TextView
             android:layout_width="350dp"

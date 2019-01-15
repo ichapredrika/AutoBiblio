@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shadow"
     tools:context=".CollectionViewActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -68,168 +69,191 @@
                 android:scaleType="centerCrop" />
 
 
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/generalRulesCardView"
+                android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/post_image"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimaryDark"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Title"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:elevation="90dp"
+                android:orientation="vertical"
+                android:background="@drawable/cardview_shadow"
+                app:cardCornerRadius="20dp">
 
-            <TextView
-                android:id="@+id/post_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/author"
-                android:layout_marginBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                android:text="Title"
-                android:textColor="#000000"/>
+                <RelativeLayout
+                    android:layout_width="380dp"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/post_title"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimaryDark"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Author"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/post_author"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/author"
-                android:layout_marginBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                android:text="Author value goes here"
-                android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title1"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="Title"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/publisher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/post_author"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimaryDark"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Publisher"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/post_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title"
+                        android:layout_marginBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAlignment="center"
+                        android:text="Title"
+                        android:textColor="#000000"/>
 
-            <TextView
-                android:id="@+id/post_publisher"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/publisher"
-                android:layout_marginBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                android:text="Publisher"
-                android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/post_title"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Author"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/collectionType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/post_publisher"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimaryDark"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Collection Type"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/post_author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/author"
+                        android:layout_marginBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAlignment="center"
+                        android:text="Author value goes here"
+                        android:textColor="#000000"/>
 
-            <TextView
-                android:id="@+id/post_collectionType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/collectionType"
-                android:layout_marginBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                android:text="Collection Tpe"
-                android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/publisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/post_author"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Publisher"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/post_collectionType"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimaryDark"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="Location"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/post_publisher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/publisher"
+                        android:layout_marginBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAlignment="center"
+                        android:text="Publisher"
+                        android:textColor="#000000"/>
 
-            <TextView
-                android:id="@+id/post_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/location"
-                android:layout_marginBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                android:text="Location"
-                android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/collectionType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/post_publisher"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Collection Type"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/isbn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/post_location"
-                android:layout_marginBottom="5dp"
-                android:background="@color/colorPrimaryDark"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:text="ISBN"
-                android:textAlignment="center"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/post_collectionType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/collectionType"
+                        android:layout_marginBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAlignment="center"
+                        android:text="Collection Tpe"
+                        android:textColor="#000000"/>
 
-            <TextView
-                android:id="@+id/post_isbn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/isbn"
-                android:layout_marginBottom="5dp"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingLeft="5dp"
-                android:textAlignment="center"
-                android:text="ISBN"
-                android:textColor="#000000"/>
+                    <TextView
+                        android:id="@+id/location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/post_collectionType"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Location"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/post_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/location"
+                        android:layout_marginBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAlignment="center"
+                        android:text="Location"
+                        android:textColor="#000000"/>
+
+                    <TextView
+                        android:id="@+id/isbn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/post_location"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="ISBN"
+                        android:textAlignment="center"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/post_isbn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/isbn"
+                        android:layout_marginBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="5dp"
+                        android:textAlignment="center"
+                        android:text="ISBN"
+                        android:textColor="#000000"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+
+
+
 
 
             <View

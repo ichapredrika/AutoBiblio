@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shadow"
     tools:context=".CollectionSearchActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -18,8 +19,6 @@
             app:navigationIcon="?attr/homeAsUpIndicator" />
     </android.support.design.widget.AppBarLayout>
 
-
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -30,7 +29,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <TextView
                 android:id="@+id/searchBannerTxt"
@@ -48,10 +46,6 @@
                 android:textColor="#ffffff"
                 android:textSize="35sp" />
 
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="50dp" />
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/titleRecycleView"
                 android:layout_width="390dp"
@@ -63,8 +57,5 @@
                 android:layout_height="150dp" />
 
         </LinearLayout>
-
     </ScrollView>
-
-
 </RelativeLayout>

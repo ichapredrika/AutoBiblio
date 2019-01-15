@@ -75,8 +75,10 @@ public class CollectionSearchActivity extends AppCompatActivity {
         mCollectionSearchRV = findViewById(R.id.titleRecycleView);
 
         DatabaseReference collectionSearchRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
-        Query collectionSearchQuery = collectionSearchRef.orderByChild(searchTerm).startAt("%${"+searchTxt+"}%").endAt(searchTxt+"\uf8ff");
+        Query collectionSearchQuery = collectionSearchRef.orderByChild(searchTerm).startAt(searchTxt).endAt(searchTxt+"\uf8ff");
 
+  /*      Query collectionSearchQuery = collectionSearchRef.orderByChild(searchTerm).startAt("%${"+searchTxt+"}%").endAt(searchTxt+"\uf8ff");
+*/
         mCollectionSearchRV.hasFixedSize();
         mCollectionSearchRV.setLayoutManager(new LinearLayoutManager(this));
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shadow"
     tools:context=".MainActivity">
 
     <ScrollView
@@ -18,7 +19,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="20dp"
             android:orientation="vertical">
@@ -42,226 +43,272 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="150dp"
-                android:src="@mipmap/ic_launcher"
-                />
+                android:src="@mipmap/ic_launcher" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="30dp" />
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/generalRulesCardView"
+                android:layout_width="380dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:elevation="90dp"
+                android:orientation="vertical"
+                android:background="@drawable/cardview_shadow"
+                app:cardCornerRadius="20dp">
+
+                <RelativeLayout
+                    android:layout_width="380dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cardview_shadow">
+
+                    <TextView
+                        android:id="@+id/title1"
+                        android:text="General Rules"
+                        android:textColor="#626262"
+                        android:textSize="25sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="5dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/t11"
+                        android:text="1. Respect to other users are highly appreciated."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_below="@+id/title1"/>
+
+                    <TextView
+                        android:id="@+id/t12"
+                        android:text="2. Keeping the library and the collection clean and in good condition."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t11"/>
+
+                    <TextView
+                        android:id="@+id/t13"
+                        android:text="3. Keeping the library in a good order."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t12"/>
+
+                    <TextView
+                        android:id="@+id/t14"
+                        android:text="4. Not leaving belongings overnight in the library."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t13"/>
+
+                    <TextView
+                        android:id="@+id/t15"
+                        android:text="5. Report to the library immediately if you find other's belonging or if you lose your belongings."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t14"/>
+
+                    <TextView
+                        android:id="@+id/t16"
+                        android:text="6. The library staff has the privilege to ask students to leave the library if they are behaving inappropriately."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t15"/>
+
+                    <TextView
+                        android:id="@+id/t17"
+                        android:text="7. The library has the privilege to give any kind of disciplineacts to any user who disregards the library and regulations."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t16"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="20dp" />
 
-            <TextView
-                android:layout_width="fill_parent"
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/proceduresCardView"
+                android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:text="General Rules"
-                android:textColor="#626262"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:elevation="90dp"
+                android:orientation="vertical"
+                android:background="@drawable/cardview_shadow"
+                app:cardCornerRadius="20dp">
 
-            <TextView
+                <RelativeLayout
+                    android:layout_width="380dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cardview_shadow">
+
+                    <TextView
+                        android:id="@+id/title2"
+                        android:text="Borrowing Book Procedures"
+                        android:textColor="#626262"
+                        android:textSize="25sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/t21"
+                        android:text="1. A user must be a registered student or active faculty and administrative staff in the current term to be able to use the library services."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/title2"/>
+
+                    <TextView
+                        android:id="@+id/t22"
+                        android:text="2. All borrowed materials must be returned on or before the due date."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t21"/>
+
+                    <TextView
+                        android:id="@+id/t23"
+                        android:text="3. Student or staff are not allowed to borrow library materials on behalf of others or transfer borrowed materials to others."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t22"/>
+
+                    <TextView
+                        android:id="@+id/t24"
+                        android:text="4. Student with overdue materials and overdue fines will not be allowed to borrow books."
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t23"/>
+
+
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <View
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="20dp"
-                android:text="1. Respect to other users are highly appreciated."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
+                android:layout_height="20dp" />
 
-
-            <TextView
-                android:layout_width="fill_parent"
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/damageCardView"
+                android:layout_width="380dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="2. Keeping the library and the collection clean and in good condition."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:elevation="90dp"
+                android:orientation="vertical"
+                android:background="@drawable/cardview_shadow"
+                app:cardCornerRadius="20dp">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="3. Keeping the library in a good order."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
+                <RelativeLayout
+                    android:layout_width="380dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/cardview_shadow">
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="4. Not leaving belongings overnight in the library."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
+                    <TextView
+                        android:id="@+id/title3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:paddingBottom="5dp"
+                        android:text="Damage or Loss Library Materials"
+                        android:textAlignment="center"
+                        android:textColor="#626262"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="5. Report to the library immediately if you find other's belonging or if you lose your belongings."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
+                    <TextView
+                        android:id="@+id/t31"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="1. All users will be held responsible for any damage or loss of library materials they are borrowing. Marking of library materials will be regarded as damaged. User will be required to repair or replace the loss/badly damaged library material with the mosr current edition of the same title."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/title3"/>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="6. The library staff has the privilege to ask students to leave the library if they are behaving inappropriately."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
+                    <TextView
+                        android:id="@+id/t32"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="2. Any damage or loss of library materials must be reported to the librarian immediately."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t31"/>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="7. The library has the privilege to give any kind of disciplineacts to any user who disregards the library and regulations."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
+                    <TextView
+                        android:id="@+id/t33"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="3. User must ensure that the books they borrow are in good condition to avoid being held responsible for any damages noted while returning the books."
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="5dp"
+                        android:layout_below="@+id/t32"/>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="40dp"
-                android:gravity="center"
-                android:text="Borrowing Book Procedures"
-                android:textColor="#626262"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:paddingBottom="5dp"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text=""
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="1. A user must be a registered student or active faculty and administrative staff in the current term to be able to use the library services."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="2. All borrowed materials must be returned on or before the due date."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="3. Student or staff are not allowed to borrow library materials on behalf of others or transfer borrowed materials to others."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="4. Student with overdue materials and overdue fines will not be allowed to borrow books."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center_horizontal|center"
-                android:layout_marginTop="40dp"
-                android:gravity="center"
-                android:text="Damage or Loss Library Materials"
-                android:textColor="#626262"
-                android:textSize="25sp"
-                android:textStyle="bold"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text=""
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="1. All users will be held responsible for any damage or loss of library materials they are borrowing. Marking of library materials will be regarded as damaged. User will be required to repair or replace the loss/badly damaged library material with the mosr current edition of the same title."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="2. Any damage or loss of library materials must be reported to the librarian immediately."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="0dp"
-                android:text="3. User must ensure that the books they borrow are in good condition to avoid being held responsible for any damages noted while returning the books."
-                android:textAlignment="viewStart"
-                android:textColor="#626262"
-                android:textSize="15sp"
-                android:paddingBottom="5dp"/>
 
             <View
                 android:layout_width="fill_parent"
@@ -270,15 +317,22 @@
         </LinearLayout>
     </ScrollView>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+
+        app:layout_anchor="@+id/toolbar"
+        app:layout_anchorGravity="top"/>
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/colorPrimary"
+        app:itemBackground="@color/colorWhite"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:menu="@menu/bottom_navigation_main"/>
+        app:menu="@menu/bottom_navigation_main" />
 
 
 </RelativeLayout>
