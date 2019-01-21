@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +40,10 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
     //Firebase
     private DatabaseReference m1Database;
+    private DatabaseReference mBorrowDatabase;
+    private FirebaseAuth mAuth;
     private String isbn;
+    private String uid;
     private String bookId;
 
     // Creating Progress dialog
@@ -182,13 +186,14 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
                             int availability=1;
                             bookId=data.child("bookId").getValue().toString();
-                            showAvail(availability, bookId, myResult,isbn);
+                            checkBorrowQR(availability, bookId, myResult,isbn);
+
                         }
                         //book is borrowed
                         else {
                             int availability=2;
                             bookId=data.child("bookId").getValue().toString();
-                            showAvail(availability, bookId, myResult, isbn);
+                            showAvail(availability, bookId, myResult, isbn, 0, "");
                         }
                     }
                     Toast toast = Toast.makeText(getApplicationContext(), "exist", Toast.LENGTH_LONG);
@@ -197,7 +202,7 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                 } else {
                     Log.d("dataSnapshot.exists()", dataSnapshot.toString()) ;
                     int availability=0;
-                    showAvail(availability, bookId, myResult, isbn);
+                    showAvail(availability, bookId, myResult, isbn,0, "");
                     Toast toast = Toast.makeText(getApplicationContext(), "not exist", Toast.LENGTH_LONG);
                     toast.show();
                 }
@@ -214,7 +219,39 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
 
         });
     }
-    private void showAvail(int availability, final String bookId, String myResult, final String isbn){
+
+    private void checkBorrowQR(final int availability, final String bookId, final String myResult, final String isbn){
+        mAuth= FirebaseAuth.getInstance();
+        uid = mAuth.getCurrentUser().getUid();
+        mBorrowDatabase = FirebaseDatabase.getInstance().getReference().child("BorrowQR/"+uid);
+
+        //get value from database
+        mBorrowDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    Log.d("BorrowQR Exist", dataSnapshot.getValue().toString());
+                    BorrowQR borrowQR = dataSnapshot.getValue(BorrowQR.class);
+                    int counter= borrowQR.getCounter();
+                    String info= borrowQR.getInfo();
+                    Log.d("Counter",Integer.toString(counter));
+                    Log.d("info",info);
+                    showAvail(availability, bookId, myResult,isbn,counter, info);
+
+                } else  {
+                    Log.d("BorrowQR Not Exist", "BorrowQR Not Exist");
+                    showAvail(availability, bookId, myResult,isbn,0, "");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("cancelled","borrowqrcancelled");
+            }
+        });
+    }
+
+    private void showAvail(int availability, final String bookId, String myResult, final String isbn, final int counter, final String info){
         //0>> not exist, 1>> avail, 2>> borrowed
         if (availability==1){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -229,9 +266,11 @@ public class Scanner extends AppCompatActivity implements ZXingScannerView.Resul
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     //go to borrowing process
-                    Intent intent = new Intent(getApplicationContext(), BorrowActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), BorrowingActivity.class);
                     intent.putExtra("bookId", bookId);
                     intent.putExtra("isbn", isbn);
+                    intent.putExtra("counter", counter);
+                    intent.putExtra("info", info);
                     startActivity(intent);
                 }
             });

@@ -13,7 +13,6 @@ public class BooksSpecification {
     private String image;
 
     public BooksSpecification(){
-
     }
 
     public BooksSpecification(String isbn, String bookId, String genre, String collectionType, String author, String publisher, double price, String location, String title, String image) {

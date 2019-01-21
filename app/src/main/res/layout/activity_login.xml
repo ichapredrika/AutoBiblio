@@ -13,7 +13,7 @@
         android:layout_width="fill_parent"
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:text="Email "
         android:textColor="#63B3BA"
         android:textStyle="bold"
@@ -35,7 +35,7 @@
 
     <EditText
         android:id="@+id/emailLogin"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="160dp"
         android:ems="10"
@@ -59,7 +59,7 @@
 
     <EditText
         android:id="@+id/passwordLogin"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
@@ -75,7 +75,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/mybutton"
         android:onClick="loginClick"
         android:text="Login"
@@ -107,7 +107,7 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="5dp"
         android:text="Don't have an account?"
         app:layout_constraintBottom_toTopOf="@+id/registerButton4"
         app:layout_constraintEnd_toEndOf="@+id/registerButton4"

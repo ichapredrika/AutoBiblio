@@ -61,12 +61,9 @@ public class BorrowActivity extends AppCompatActivity {
     private RecyclerView mBookDetailRV;
     private DatabaseReference mDatabase;
     private DatabaseReference m1Database;
-    private DatabaseReference mImageDatabase;
     private FirebaseRecyclerAdapter<BooksSpecification, BorrowActivity.BookDetailViewHolder> mBookDetailRVAdapter;
     private FirebaseAuth mAuth;
-    private StorageReference mStorageRef;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
@@ -74,15 +71,12 @@ public class BorrowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrow);
 
-
         Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle("Borrow Page");
         getSupportActionBar().hide();
-
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // back button pressed
                 finish();
             }
         });
@@ -126,7 +120,6 @@ public class BorrowActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //check unpaid fines
-
                 if(dataSnapshot.exists()){
                     for(DataSnapshot data1: dataSnapshot.getChildren()){
                         for(DataSnapshot data: dataSnapshot.getChildren()) {
@@ -137,18 +130,18 @@ public class BorrowActivity extends AppCompatActivity {
 
                             TextView onGoingFinesTV = findViewById(R.id.onGoingFines);
                             onGoingFinesTV.setText("You have an outstanding fines");
+
                             TextView finesTV = findViewById(R.id.post_onGoingFines);
                             finesTV.setText(Double.toString(totalFines));
-
 
                             TextView eligibilityTV = findViewById(R.id.eligibility);
                             eligibilityTV.setText("You are not eligible to make this transaction");
                         }
                     }
-
                 } else {
                     TextView onGoingFinesTV = findViewById(R.id.onGoingFines);
                     onGoingFinesTV.setText("You don't have outstanding fines");
+
                     TextView finesTV = findViewById(R.id.post_onGoingFines);
                     finesTV.setText("-");
 
@@ -158,19 +151,15 @@ public class BorrowActivity extends AppCompatActivity {
                     Button borrowBtn = findViewById(R.id.borrowBtn);
                     borrowBtn.setVisibility(View.VISIBLE);
                 }
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError)  {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
-
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
-
         });
+
         //get database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
         mDatabase.keepSynced(true);
@@ -205,7 +194,6 @@ public class BorrowActivity extends AppCompatActivity {
 
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.borrow_book_detail_row, parent, false);
-
                 return new BorrowActivity.BookDetailViewHolder(view);
             }
         };
@@ -217,9 +205,9 @@ public class BorrowActivity extends AppCompatActivity {
 
         TextView issuedDateTV = findViewById(R.id.post_issuedDate);
         issuedDateTV.setText(issuedDate.toString());//
+
         TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
         maxReturnDateTV.setText(maxReturnDate.toString());//
-
     }
 
     @Override
@@ -284,7 +272,7 @@ public class BorrowActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String email = mAuth.getCurrentUser().getEmail();
                         String password = input.getText().toString();
-                        // Assign activity this to progress dialog.
+
                         progressDialog = new ProgressDialog(BorrowActivity.this);
                         progressDialog.setMessage("Processing borrowing request... ");
                         progressDialog.show();
@@ -296,17 +284,20 @@ public class BorrowActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if(!task.isSuccessful()){
                                             Toast toast = Toast.makeText(getApplicationContext(), "Password is wrong! " , Toast.LENGTH_SHORT); toast.show();
-                                            // Hiding the progress dialog.
                                             progressDialog.dismiss();
                                         }else{
                                             //generate QR code
                                             final String uid= mAuth.getCurrentUser().getUid();
+
                                             TextView post_title =findViewById(R.id.post_title);
                                             final String title= post_title.getText().toString();
+
                                             TextView bookIdTV = findViewById(R.id.bookId);
                                             final String bookId = bookIdTV.getText().toString();
+
                                             TextView issuedDateTV = findViewById(R.id.post_issuedDate);
                                             final String issuedDate= issuedDateTV.getText().toString();
+
                                             TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
                                             final String maxReturnDate= maxReturnDateTV.getText().toString();
 
@@ -320,8 +311,8 @@ public class BorrowActivity extends AppCompatActivity {
                                                 BitMatrix bitMatrix = multiFormatWriter.encode(borrowDetail, BarcodeFormat.QR_CODE,200,200);
                                                 BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
                                                 Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+
                                                 //upload to firebase storage
-                                                // Create a storage reference from our app
                                                 FirebaseStorage storage = FirebaseStorage.getInstance();
                                                 StorageReference storageRef = storage.getReferenceFromUrl("gs://autobiblio-c72c0.appspot.com");
                                                 final StorageReference borrowRef = storageRef.child("borrowqr/"+storageName+".jpg");
@@ -349,6 +340,7 @@ public class BorrowActivity extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<Uri> task) {
                                                         if (task.isSuccessful()) {
                                                             Uri downloadUri = task.getResult();
+
                                                             //insert into onGoing
                                                             DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference();
                                                             OnGoing onGoing= new OnGoing();
@@ -358,15 +350,13 @@ public class BorrowActivity extends AppCompatActivity {
                                                             onGoing.setMaxReturnDate(maxReturnDate);
                                                             onGoing.setBorrowQR(downloadUri.toString());
                                                             onGoingRef.child("OnGoing/"+uid).child(storageName).setValue(onGoing);
-                                                            finish();
 
                                                             //Books
                                                             DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
                                                             booksRef.child("availability").setValue("BORROWED");
-                                                            finish();
+
                                                             Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
                                                             startActivity(intent);
-                                                            // Hiding the progress dialog.
                                                             progressDialog.dismiss();
                                                         } else {
                                                             // Hiding the progress dialog.

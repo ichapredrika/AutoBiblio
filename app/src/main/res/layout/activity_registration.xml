@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:text="University ID"
         android:textColor="#63B3BA"
         android:textStyle="bold"
@@ -45,7 +45,7 @@
 
     <EditText
         android:id="@+id/nameReg"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
@@ -57,7 +57,7 @@
 
     <EditText
         android:id="@+id/univIdReg"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="44dp"
         android:ems="10"
@@ -81,7 +81,7 @@
 
     <EditText
         android:id="@+id/emailRegistration"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:ems="10"
@@ -106,7 +106,7 @@
 
     <EditText
         android:id="@+id/passwordRegistration"
-        android:layout_width="350dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
@@ -122,7 +122,7 @@
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/mybutton"
         android:onClick="registrationClick"
         android:text="Register"

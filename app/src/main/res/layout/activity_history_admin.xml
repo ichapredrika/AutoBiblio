@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shadow"
+    tools:context=".HistoryAdminActivity">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".HistoryActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/onGoingBanner"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="On-Going Loan"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="40sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="390dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/onGoingRecycleView">
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/finesBanner"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Fines"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="40sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="390dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="match_parent"
+                android:id="@+id/finesRecycleView">
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="30dp" />
+
+            <TextView
+                android:id="@+id/completeBanner"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorPrimaryDark"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="Complete"
+                android:textAlignment="center"
+                android:textColor="#ffffff"
+                android:textSize="40sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="390dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_height="match_parent"
+                android:id="@+id/completeRecycleView">
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="100dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/colorWhite"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        app:itemTextColor="@drawable/nav_item_color_state"
+        app:menu="@menu/bottom_navigation_main"/>
+</RelativeLayout>

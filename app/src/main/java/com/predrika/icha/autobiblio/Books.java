@@ -6,8 +6,8 @@ public class Books {
     private String availability;
 
     public Books(){
-
     }
+
     public Books(String bookId, String isbn, String availability) {
         this.bookId = bookId;
         this.isbn = isbn;
