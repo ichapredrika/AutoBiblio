@@ -86,7 +86,6 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent" />
 
-
     <Button
         android:id="@+id/registerButton4"
         android:layout_width="350dp"

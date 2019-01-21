@@ -32,7 +32,6 @@
         <activity android:name=".ScannerActivity" />
         <activity android:name=".CollectionViewActivity" />
         <activity android:name=".CollectionSearchActivity" />
-        <activity android:name=".BorrowActivity" />
         <activity android:name=".ReturnScanner" />
         <activity android:name=".TopUpScanner" />
         <activity android:name=".PayFinesActivity" />

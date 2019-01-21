@@ -2,13 +2,9 @@ package com.predrika.icha.autobiblio;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,7 +30,6 @@ public class CollectionSearchActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseRecyclerAdapter<BooksSpecification, CollectionSearchActivity.CollectionSearchViewHolder> mCollectionSearchRVAdapter;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
@@ -50,7 +45,6 @@ public class CollectionSearchActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // back button pressed
                 finish();
             }
         });
@@ -77,8 +71,6 @@ public class CollectionSearchActivity extends AppCompatActivity {
         DatabaseReference collectionSearchRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
         Query collectionSearchQuery = collectionSearchRef.orderByChild(searchTerm).startAt(searchTxt).endAt(searchTxt+"\uf8ff");
 
-  /*      Query collectionSearchQuery = collectionSearchRef.orderByChild(searchTerm).startAt("%${"+searchTxt+"}%").endAt(searchTxt+"\uf8ff");
-*/
         mCollectionSearchRV.hasFixedSize();
         mCollectionSearchRV.setLayoutManager(new LinearLayoutManager(this));
 
@@ -117,28 +109,22 @@ public class CollectionSearchActivity extends AppCompatActivity {
             //viewholder>> listview
             @Override
             public CollectionSearchActivity.CollectionSearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.collection_row, parent, false);
-
                 return new CollectionSearchActivity.CollectionSearchViewHolder(view);
             }
         };
 
         mCollectionSearchRV.setAdapter(mCollectionSearchRVAdapter);
 
-        //add the listener for the single value event that will function
-//like a completion listener for initial data load of the FirebaseRecyclerAdapter
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
         });

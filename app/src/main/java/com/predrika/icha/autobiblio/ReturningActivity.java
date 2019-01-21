@@ -1,62 +1,55 @@
 package com.predrika.icha.autobiblio;
 
-        import android.app.Dialog;
-        import android.app.ProgressDialog;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.graphics.Bitmap;
-        import android.net.Uri;
-        import android.support.annotation.NonNull;
-        import android.support.design.widget.BottomNavigationView;
-        import android.support.v7.app.AlertDialog;
-        import android.support.v7.app.AppCompatActivity;
-        import android.os.Bundle;
-        import android.support.v7.widget.Toolbar;
-        import android.text.InputType;
-        import android.text.method.PasswordTransformationMethod;
-        import android.util.Log;
-        import android.view.MenuItem;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.view.WindowManager;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.ImageView;
-        import android.widget.LinearLayout;
-        import android.widget.TextView;
-        import android.widget.Toast;
+    import android.app.ProgressDialog;
+    import android.content.DialogInterface;
+    import android.content.Intent;
+    import android.graphics.Bitmap;
+    import android.net.Uri;
+    import android.support.annotation.NonNull;
+    import android.support.v7.app.AlertDialog;
+    import android.support.v7.app.AppCompatActivity;
+    import android.os.Bundle;
+    import android.support.v7.widget.Toolbar;
+    import android.text.InputType;
+    import android.text.method.PasswordTransformationMethod;
+    import android.util.Log;
+    import android.support.v7.widget.LinearLayoutManager;
+    import android.support.v7.widget.RecyclerView;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.widget.EditText;
+    import android.widget.LinearLayout;
+    import android.widget.TextView;
+    import android.widget.Toast;
 
-        import com.firebase.ui.database.FirebaseRecyclerAdapter;
-        import com.firebase.ui.database.FirebaseRecyclerOptions;
-        import com.google.android.gms.tasks.Continuation;
-        import com.google.android.gms.tasks.OnCompleteListener;
-        import com.google.android.gms.tasks.OnFailureListener;
-        import com.google.android.gms.tasks.OnSuccessListener;
-        import com.google.android.gms.tasks.Task;
-        import com.google.firebase.auth.AuthResult;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.database.DataSnapshot;
-        import com.google.firebase.database.DatabaseError;
-        import com.google.firebase.database.DatabaseReference;
-        import com.google.firebase.database.FirebaseDatabase;
-        import com.google.firebase.database.Query;
-        import com.google.firebase.database.ValueEventListener;
-        import com.google.firebase.storage.FirebaseStorage;
-        import com.google.firebase.storage.StorageReference;
-        import com.google.firebase.storage.UploadTask;
-        import com.google.zxing.BarcodeFormat;
-        import com.google.zxing.MultiFormatWriter;
-        import com.google.zxing.WriterException;
-        import com.google.zxing.common.BitMatrix;
-        import com.journeyapps.barcodescanner.BarcodeEncoder;
-        import com.squareup.picasso.Picasso;
+    import com.firebase.ui.database.FirebaseRecyclerAdapter;
+    import com.firebase.ui.database.FirebaseRecyclerOptions;
+    import com.google.android.gms.tasks.Continuation;
+    import com.google.android.gms.tasks.OnCompleteListener;
+    import com.google.android.gms.tasks.OnFailureListener;
+    import com.google.android.gms.tasks.OnSuccessListener;
+    import com.google.android.gms.tasks.Task;
+    import com.google.firebase.auth.AuthResult;
+    import com.google.firebase.auth.FirebaseAuth;
+    import com.google.firebase.database.DataSnapshot;
+    import com.google.firebase.database.DatabaseError;
+    import com.google.firebase.database.DatabaseReference;
+    import com.google.firebase.database.FirebaseDatabase;
+    import com.google.firebase.database.Query;
+    import com.google.firebase.database.ValueEventListener;
+    import com.google.firebase.storage.FirebaseStorage;
+    import com.google.firebase.storage.StorageReference;
+    import com.google.firebase.storage.UploadTask;
+    import com.google.zxing.BarcodeFormat;
+    import com.google.zxing.MultiFormatWriter;
+    import com.google.zxing.WriterException;
+    import com.google.zxing.common.BitMatrix;
+    import com.journeyapps.barcodescanner.BarcodeEncoder;
 
-        import org.joda.time.LocalDate;
+    import org.joda.time.LocalDate;
 
-        import java.io.ByteArrayOutputStream;
+    import java.io.ByteArrayOutputStream;
 
 public class ReturningActivity extends AppCompatActivity {
 
@@ -119,9 +112,6 @@ public class ReturningActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         uid = intent.getExtras().getString("uid");
-       /* borrowStorageName = intent.getExtras().getString("borrowStorageName");
-        info = intent.getExtras().getString("info");
-        counter=intent.getExtras().getInt("counter");*/
 
         mBorrowDatabase = FirebaseDatabase.getInstance().getReference().child("BorrowQR");
         mBorrowDatabase.orderByChild("uid").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -142,7 +132,6 @@ public class ReturningActivity extends AppCompatActivity {
                             Log.d("INFO", info) ;
                         }
                     }
-
                 } else {
                     Log.d("dataSnapshot- not exist", dataSnapshot.toString()) ;
                 }
@@ -152,6 +141,7 @@ public class ReturningActivity extends AppCompatActivity {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
             }
         });
+
         //retrieve database
         mDatabase = FirebaseDatabase.getInstance().getReference().child("OnGoing");
         mDatabase.keepSynced(true);
@@ -178,7 +168,6 @@ public class ReturningActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         title = model.getTitle();
-                        //final String uid = model.getUid();
                         bookId = model.getBookIdOnGoing();
                         issuedDate = model.getIssuedDate();
                         maxReturnDate= model.getMaxReturnDate();
@@ -209,11 +198,9 @@ public class ReturningActivity extends AppCompatActivity {
                     }
                 });
             }
-
             //viewholder>> listview
             @Override
             public ReturningActivity.OnGoingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.on_going_row, parent, false);
                 return new ReturningActivity.OnGoingViewHolder(view);
@@ -232,7 +219,6 @@ public class ReturningActivity extends AppCompatActivity {
                progressDialog.dismiss();
             }
         });
-
     }
 
     public static class OnGoingViewHolder extends RecyclerView.ViewHolder{
@@ -262,6 +248,7 @@ public class ReturningActivity extends AppCompatActivity {
         todayDate = new LocalDate();
         LocalDate issuedDateD = new LocalDate(issuedDate);
         int totalDay = todayDate.getDayOfMonth() - issuedDateD.getDayOfMonth();
+
         //10000 for first day, 3000 for next days
         if (totalDay<=7){
             overdueCost=0.0;
@@ -297,10 +284,10 @@ public class ReturningActivity extends AppCompatActivity {
 
     private void checkDamage(){
         // Assign activity this to progress dialog.
-       /* progressDialog = new ProgressDialog(ReturningActivity.this);
+        progressDialog = new ProgressDialog(ReturningActivity.this);
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
-        progressDialog.setCancelable(false);*/
+        progressDialog.setCancelable(false);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Damage or Lost Check");
         builder.setPositiveButton("No", new DialogInterface.OnClickListener() {
@@ -312,7 +299,7 @@ public class ReturningActivity extends AppCompatActivity {
         builder.setNeutralButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-// Assign activity this to progress dialog.
+        // Assign activity this to progress dialog.
                 DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
                 //get value from database
                 mRef.orderByChild("title").equalTo(title).addValueEventListener(new ValueEventListener() {
@@ -320,7 +307,6 @@ public class ReturningActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //check unpaid fines
-
                         if(dataSnapshot.exists()){
                             for(DataSnapshot data1: dataSnapshot.getChildren()){
                                 for(DataSnapshot data: dataSnapshot.getChildren()) {
@@ -330,21 +316,21 @@ public class ReturningActivity extends AppCompatActivity {
                                     Log.d("getPrice()", Double.toString(booksSpecification.getPrice()));
                                     Log.d("OverdueCos-on async dmg", Double.toString(overdueCost)) ;
                                     Log.d("DamageCost-on async dmg", Double.toString(damageCost)) ;
-                                    //progressDialog.dismiss();
+                                    progressDialog.dismiss();
                                     verifyUser(damageCost);
                                 }
                             }
                         } else {
                             Toast toast = Toast.makeText(getApplicationContext(), "The book data is not exist " , Toast.LENGTH_SHORT); toast.show();
-                            //progressDialog.dismiss();
+                            progressDialog.dismiss();
                         }
                         Log.d("OverdueCost-out dmg", Double.toString(overdueCost)) ;
                         Log.d("DamageCost-out dmg", Double.toString(damageCost)) ;
                     }
-
                     @Override
                     public void onCancelled(DatabaseError databaseError)  {
                         Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                        progressDialog.dismiss();
                     }
                 });
             }
@@ -356,9 +342,11 @@ public class ReturningActivity extends AppCompatActivity {
 
     private void verifyUser(final double damageCost){
         mAuth= FirebaseAuth.getInstance();
+
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(ReturningActivity.this);
         alertDialog.setTitle("Password Verification");
         alertDialog.setMessage("Enter your password");
+
         final EditText input = new EditText(ReturningActivity.this);
         input.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -372,7 +360,7 @@ public class ReturningActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String email = mAuth.getCurrentUser().getEmail();
                         String password = input.getText().toString();
-                        // Assign activity this to progress dialog.
+
                         progressDialog = new ProgressDialog(ReturningActivity.this);
                         progressDialog.setMessage("Verifying user's password... ");
                         progressDialog.show();
@@ -391,6 +379,7 @@ public class ReturningActivity extends AppCompatActivity {
                                             if(overdueCost>0 || damageCost>0){
                                                 Log.d("OverdueCost >0", Double.toString(overdueCost)) ;
                                                 Log.d("DamageCost >0", Double.toString(damageCost)) ;
+
                                                 //create fines
                                                 DatabaseReference finesRef = FirebaseDatabase.getInstance().getReference();
                                                 Fines fines= new Fines();
@@ -443,6 +432,7 @@ public class ReturningActivity extends AppCompatActivity {
                                                 complete.setPaidOffYN("NO FINE");
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete").child(storageName).setValue(complete);
+
                                                 progressDialog.dismiss();
                                                 Log.d("Delete ongoing", "ovd dmg =0") ;
                                                 deleteOnGoing();
@@ -452,14 +442,12 @@ public class ReturningActivity extends AppCompatActivity {
                                 });
                     }
                 });
-
         alertDialog.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
-
         alertDialog.show();
     }
 
@@ -468,6 +456,7 @@ public class ReturningActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
         progressDialog.setCancelable(false);
+
         //change book's availability
         DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
         booksRef.child("availability").setValue("AVAILABLE");
@@ -503,10 +492,12 @@ public class ReturningActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
         progressDialog.setCancelable(false);
+
         if(counter<=1){
             Log.d("counter<=1", Integer.toString(counter)) ;
             mDatabase = FirebaseDatabase.getInstance().getReference();
             mDatabase.child("BorrowQR").child(uid).removeValue();
+
             Intent intent = new Intent(getApplicationContext(), ReturningActivity.class);
             intent.putExtra("uid", uid);
             startActivity(intent);
@@ -570,7 +561,7 @@ public class ReturningActivity extends AppCompatActivity {
                             borrowQR.setUid(uid);
                             borrowQR.setLink(downloadUri.toString());
                             borrowQRRef.child("BorrowQR/" + uid).setValue(borrowQR);
-                            finish();
+
                             progressDialog.dismiss();
                             Intent intent = new Intent(getApplicationContext(), ReturningActivity.class);
                             intent.putExtra("uid", uid);
@@ -587,9 +578,9 @@ public class ReturningActivity extends AppCompatActivity {
             catch (WriterException e){
                 e.printStackTrace();
             }
-
         }
     }
+
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");

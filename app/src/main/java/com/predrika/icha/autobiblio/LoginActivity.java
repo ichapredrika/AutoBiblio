@@ -18,8 +18,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.joda.time.LocalDate;
-
 public class LoginActivity extends AppCompatActivity {
     //Declare an instance of FirebaseAuth
     private FirebaseAuth mAuth;
@@ -28,7 +26,6 @@ public class LoginActivity extends AppCompatActivity {
     private String email;
     private String password;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
@@ -89,25 +86,18 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
                                 Toast.makeText(LoginActivity.this, "Login Error", Toast.LENGTH_SHORT).show();
-                                //Intent intent= new Intent(LoginActivity.this, Splash.class);
-                                //startActivity(intent);
                             }else{
                                 Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                             }
-                            // Hiding the progress dialog.
                             progressDialog.dismiss();
                         }
                     });
         }else{
-            // Hiding the progress dialog.
             progressDialog.dismiss();
 
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            //setting Dialog Title
             alertDialog.setTitle("Warning");
-            //setting Dialog Message
             alertDialog.setMessage("Email or password can not be empty!");
-            //setting ok button
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -116,10 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         }
                     });
-            //showing alert message
             alertDialog.show();
         }
-
-
     }
 }

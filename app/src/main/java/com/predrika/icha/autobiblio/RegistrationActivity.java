@@ -28,7 +28,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private String password;
     private String univId;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
@@ -49,7 +48,6 @@ public class RegistrationActivity extends AppCompatActivity {
         EditText idCardEditText =findViewById(R.id.univIdReg);
         univId=idCardEditText.getText().toString();
 
-
         EditText nameEditText= findViewById(R.id.nameReg);
         name= nameEditText.getText().toString();
 
@@ -66,7 +64,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
                                 Toast.makeText(RegistrationActivity.this, "Registration Error", Toast.LENGTH_SHORT).show();
-                                // Hiding the progress dialog.
                                 progressDialog.dismiss();
                             }else{
                                 DatabaseReference mRef= FirebaseDatabase.getInstance().getReference();
@@ -85,20 +82,15 @@ public class RegistrationActivity extends AppCompatActivity {
                                 Toast.makeText(RegistrationActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent( RegistrationActivity.this, LoginActivity.class);
                                 startActivity(intent);
-                                // Hiding the progress dialog.
                                 progressDialog.dismiss();
                             }
                         }
                     });
         }else{
-            // Hiding the progress dialog.
             progressDialog.dismiss();
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            //setting Dialog Title
             alertDialog.setTitle("Warning");
-            //setting Dialog Message
             alertDialog.setMessage("Name, email, university ID, or password can not be empty!");
-            //setting ok button
             alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -106,7 +98,6 @@ public class RegistrationActivity extends AppCompatActivity {
                             //write your code here to execute after dialog closed
                         }
                     });
-            //showing alert message
             alertDialog.show();
         }
     }

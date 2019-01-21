@@ -11,7 +11,6 @@ public class Complete {
     private String uid;
 
     public Complete(){
-
     }
 
     public Complete(String bookIdComplete, String titleComplete, String issuedDateComplete, String returnedDate, String damagedYN, String overdueYN, String paidOffYN, String uid) {

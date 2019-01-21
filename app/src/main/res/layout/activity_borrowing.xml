@@ -9,7 +9,6 @@
     android:background="@drawable/shadow"
     tools:context=".BorrowingActivity">
 
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,9 +45,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:paddingTop="10dp"
-                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:text="Availability"
                 android:textStyle="bold" />
 
@@ -57,6 +57,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="ISBN"
                 android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/availability"/>
@@ -66,6 +67,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="Book ID"
                 android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/isbn"
@@ -98,6 +100,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="5dp"
                 android:text="Check on going Fines"
                 android:textStyle="bold" />
@@ -107,11 +110,11 @@
                 android:layout_centerHorizontal="true"
                 android:text="on going Fines"
                 android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/onGoingFines"
-                android:paddingBottom="5dp"
-                />
+                android:paddingBottom="5dp" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
@@ -130,7 +133,6 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/scrollview"
@@ -139,7 +141,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:paddingTop="15dp"
-        tools:context=".BorrowActivity">
+        tools:context=".BorrowingActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -176,7 +178,7 @@
                         android:id="@+id/post_title"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="10dp"
                         android:paddingStart="5dp"
                         android:paddingLeft="5dp"
@@ -187,13 +189,11 @@
                         android:textColor="#000000"
                         android:textStyle="bold" />
 
-
                     <TextView
                         android:id="@+id/post_bookIdOnGoing"
                         android:layout_width="350dp"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
-                        android:layout_alignLeft="@+id/post_title"
                         android:layout_alignStart="@+id/post_title"
                         android:layout_below="@+id/post_title"
                         android:paddingEnd="5dp"
@@ -208,7 +208,6 @@
                         android:id="@+id/issuedDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/post_bookIdOnGoing"
                         android:layout_alignStart="@+id/post_bookIdOnGoing"
                         android:layout_below="@+id/post_bookIdOnGoing"
                         android:paddingEnd="5dp"
@@ -223,7 +222,6 @@
                         android:id="@+id/maxReturnDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/issuedDate"
                         android:layout_alignStart="@+id/issuedDate"
                         android:layout_below="@+id/issuedDate"
                         android:paddingEnd="5dp"
@@ -240,10 +238,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_below="@+id/post_bookIdOnGoing"
                         android:paddingEnd="5dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:paddingStart="5dp"
@@ -255,10 +252,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_below="@+id/post_issuedDate"
                         android:paddingEnd="5dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginEnd="20dp"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:paddingStart="5dp"
@@ -273,7 +269,6 @@
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
-
     </ScrollView>
 
     <Button
@@ -288,5 +283,4 @@
         android:background="@drawable/mybutton"
         android:textColor="#ffffff"
         android:layout_marginBottom="30dp"/>
-
 </RelativeLayout>

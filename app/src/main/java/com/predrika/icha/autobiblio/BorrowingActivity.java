@@ -13,7 +13,6 @@ import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -61,12 +60,9 @@ public class BorrowingActivity extends AppCompatActivity {
 
     private RecyclerView mBookDetailRV;
     private DatabaseReference mDatabase;
-    private DatabaseReference mBorrowDatabase;
     private DatabaseReference m1Database;
-    private DatabaseReference mImageDatabase;
     private FirebaseRecyclerAdapter<BooksSpecification, BorrowingActivity.BookDetailViewHolder> mBookDetailRVAdapter;
     private FirebaseAuth mAuth;
-    private StorageReference mStorageRef;
 
     private String uid;
     private String borrowDetail;
@@ -79,14 +75,12 @@ public class BorrowingActivity extends AppCompatActivity {
     private String info="";
     private int counter=0;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrowing);
-
 
         Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle("Borrow Page");
@@ -166,7 +160,6 @@ public class BorrowingActivity extends AppCompatActivity {
 
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.borrow_book_detail_row, parent, false);
-
                 return new BorrowingActivity.BookDetailViewHolder(view);
             }
         };
@@ -177,11 +170,9 @@ public class BorrowingActivity extends AppCompatActivity {
 
         m1Database = FirebaseDatabase.getInstance().getReference().child("Fines");
         m1Database.orderByChild("uid").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //check unpaid fines
-
                 if(dataSnapshot.exists()){
                     for(DataSnapshot data1: dataSnapshot.getChildren()){
                         for(DataSnapshot data: dataSnapshot.getChildren()) {
@@ -213,17 +204,12 @@ public class BorrowingActivity extends AppCompatActivity {
                             }
                         }
                     }
-
                 }
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError)  {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
-
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
         });
@@ -233,10 +219,10 @@ public class BorrowingActivity extends AppCompatActivity {
         LocalDate maxReturnDate = issuedDate.plusDays(7);
 
         TextView issuedDateTV = findViewById(R.id.post_issuedDate);
-        issuedDateTV.setText(issuedDate.toString());//
-        TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
-        maxReturnDateTV.setText(maxReturnDate.toString());//
+        issuedDateTV.setText(issuedDate.toString());
 
+        TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
+        maxReturnDateTV.setText(maxReturnDate.toString());
     }
 
     @Override
@@ -301,7 +287,7 @@ public class BorrowingActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         String email = mAuth.getCurrentUser().getEmail();
                         String password = input.getText().toString();
-                        // Assign activity this to progress dialog.
+
                         progressDialog = new ProgressDialog(BorrowingActivity.this);
                         progressDialog.setMessage("Processing borrowing request... ");
                         progressDialog.show();
@@ -313,23 +299,25 @@ public class BorrowingActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if(!task.isSuccessful()){
                                             Toast toast = Toast.makeText(getApplicationContext(), "Password is wrong! " , Toast.LENGTH_SHORT); toast.show();
-                                            // Hiding the progress dialog.
                                             progressDialog.dismiss();
                                         }else{
                                             //generate QR code
-                                            //final String uid= mAuth.getCurrentUser().getUid();
                                             TextView post_title =findViewById(R.id.post_title);
                                             title= post_title.getText().toString();
+
                                             TextView bookIdTV = findViewById(R.id.bookId);
                                             bookId = bookIdTV.getText().toString();
+
                                             TextView issuedDateTV = findViewById(R.id.post_issuedDate);
                                             issuedDate= issuedDateTV.getText().toString();
+
                                             TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
                                             maxReturnDate= maxReturnDateTV.getText().toString();
 
                                             DateTime dateTime = new DateTime();
                                             Timestamp timeStamp = new Timestamp(dateTime.getMillis());
                                             storageName= uid +"-"+timeStamp.getTime();
+
                                             progressDialog.dismiss() ;
 
                                             if (info.isEmpty()){
@@ -340,7 +328,6 @@ public class BorrowingActivity extends AppCompatActivity {
                                                 Log.d("info is not empty","deletePrevQR");
                                                 deletePrevQR();
                                             }
-
                                         }
                                     }
                                 });
@@ -361,6 +348,7 @@ public class BorrowingActivity extends AppCompatActivity {
         progressDialog.show();
         progressDialog.setCancelable(false);
         Log.d("deletePrevQR()","");
+
         // Create a storage reference from our app
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReferenceFromUrl("gs://autobiblio-c72c0.appspot.com");
@@ -391,12 +379,12 @@ public class BorrowingActivity extends AppCompatActivity {
         progressDialog.show();
         progressDialog.setCancelable(false);
         Log.d("saveQRData()","");
+
         counter+=1;
         if(counter==1){
             borrowDetail=uid+";"+counter+";"+info+";";
             Log.d("counter =","1");
         }else{
-
             borrowDetail= uid+";"+counter+";"+ info+";"+storageName+";";
             Log.d("counter>0","");
         }
@@ -416,8 +404,8 @@ public class BorrowingActivity extends AppCompatActivity {
             final StorageReference borrowRef = storageRef.child("borrowqr/"+borrowDetail+".jpg");
 
             // While the file names are the same, the references point to different files
-            borrowRef.getName().equals(borrowRef.getName());    // true
-            borrowRef.getPath().equals(borrowRef.getPath());    // false
+            borrowRef.getName().equals(borrowRef.getName());
+            borrowRef.getPath().equals(borrowRef.getPath());
 
             // Get the data from an ImageView as bytes
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -438,6 +426,7 @@ public class BorrowingActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Uri> task) {
                     if (task.isSuccessful()) {
                         Uri downloadUri = task.getResult();
+
                         //insert into onGoing
                         DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference();
                         OnGoing onGoing= new OnGoing();
@@ -446,9 +435,9 @@ public class BorrowingActivity extends AppCompatActivity {
                         onGoing.setIssuedDate(issuedDate);
                         onGoing.setMaxReturnDate(maxReturnDate);
                         onGoing.setUid(uid);
-                        //onGoing.setBorrowQR(downloadUri.toString());//
                         onGoingRef.child("OnGoing").child(storageName).setValue(onGoing);
-                        //update qr code link
+
+                        //create borrowQR
                         DatabaseReference borrowQRRef = FirebaseDatabase.getInstance().getReference();
                         BorrowQR borrowQR=new BorrowQR();
                         borrowQR.setCounter(counter);
@@ -461,6 +450,7 @@ public class BorrowingActivity extends AppCompatActivity {
                         DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
                         booksRef.child("availability").setValue("BORROWED");
                         progressDialog.dismiss();
+
                         Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
                         startActivity(intent);
                     } else {
@@ -476,15 +466,12 @@ public class BorrowingActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
         Intent intent = new Intent(getApplicationContext(), ScannerActivity.class);
         startActivity(intent);
     }
-
-
 }
 
 

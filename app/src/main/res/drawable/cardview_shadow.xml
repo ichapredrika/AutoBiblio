@@ -3,10 +3,4 @@
         android:startColor="#47e5bc"
         android:endColor="#25ced1"
         android:angle="90" />
-    <!--android:endColor="@android:color/transparent"-->
-
-
-    <!--0277bd-->
-<!--    android:startColor="#26c6da    00bcb6"
-    android:endColor="#00bcb6"-->
 </shape>

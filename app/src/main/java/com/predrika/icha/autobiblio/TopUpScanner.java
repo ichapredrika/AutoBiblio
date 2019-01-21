@@ -3,22 +3,16 @@ package com.predrika.icha.autobiblio;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.WindowManager;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import org.joda.time.LocalDate;
@@ -207,10 +200,12 @@ public class TopUpScanner extends AppCompatActivity implements ZXingScannerView.
     private void topUpBalance(){
         mAuth =FirebaseAuth.getInstance();
         FirebaseUser Users= FirebaseAuth.getInstance().getCurrentUser();
+
         progressDialog = new ProgressDialog(TopUpScanner.this);
         progressDialog.setMessage("Please wait... ");
         progressDialog.show();
         progressDialog.setCancelable(false);
+
         //add balance to current user
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("Users/"+Users.getUid());
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -225,7 +220,6 @@ public class TopUpScanner extends AppCompatActivity implements ZXingScannerView.
                     pushBalance(balance);
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT);

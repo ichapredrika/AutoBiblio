@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,7 +29,6 @@ public class CollectionViewActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseRecyclerAdapter<Books, CollectionViewActivity.CollectionViewViewHolder> mAvailRVAdapter;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
@@ -46,7 +44,6 @@ public class CollectionViewActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // back button pressed
                 finish();
 
             }
@@ -97,7 +94,6 @@ public class CollectionViewActivity extends AppCompatActivity {
         DatabaseReference availRef = FirebaseDatabase.getInstance().getReference().child("Books");
         Query availQuery = availRef.orderByChild("isbn").equalTo(isbn);
 
-
         mAvailRV.hasFixedSize();
         mAvailRV.setLayoutManager(new LinearLayoutManager(this));
 
@@ -110,32 +106,24 @@ public class CollectionViewActivity extends AppCompatActivity {
                 holder.setBookId(model.getBookId());
                 holder.setAvailability(model.getAvailability());
             }
-
             //viewholder>> listview
             @Override
             public CollectionViewActivity.CollectionViewViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.availability_row, parent, false);
-
                 return new CollectionViewActivity.CollectionViewViewHolder(view);
             }
         };
-
         mAvailRV.setAdapter(mAvailRVAdapter);
 
-        //add the listener for the single value event that will function
-//like a completion listener for initial data load of the FirebaseRecyclerAdapter
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Hiding the progress dialog.
                 progressDialog.dismiss();
             }
         });

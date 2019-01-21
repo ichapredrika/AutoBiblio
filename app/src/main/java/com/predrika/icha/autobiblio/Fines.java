@@ -1,7 +1,5 @@
 package com.predrika.icha.autobiblio;
 
-import java.math.BigDecimal;
-
 public class Fines {
     private String titleFines;
     private String bookIdFines;
@@ -13,7 +11,6 @@ public class Fines {
     private String uid;
 
     public Fines(){
-
     }
 
     public Fines(String titleFines, String bookIdFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid) {

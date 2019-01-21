@@ -7,16 +7,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -25,12 +22,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
-
-import java.util.Collections;
 
 public class HistoryAdminActivity extends AppCompatActivity {
 
@@ -49,7 +42,6 @@ public class HistoryAdminActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Fines, HistoryAdminActivity.FinesViewHolder> mFinesRVAdapter;
     private FirebaseRecyclerAdapter<Complete, HistoryAdminActivity.CompleteViewHolder> mCompleteRVAdapter;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
@@ -111,7 +103,6 @@ public class HistoryAdminActivity extends AppCompatActivity {
         mFinesRV = findViewById(R.id.finesRecycleView);
         mCompleteRV = findViewById(R.id.completeRecycleView);
 
-        //+ Users.getUid()
         DatabaseReference onGoingRef = FirebaseDatabase.getInstance().getReference().child("OnGoing");
         Query onGoingQuery = onGoingRef.orderByKey();
 
@@ -125,11 +116,10 @@ public class HistoryAdminActivity extends AppCompatActivity {
         mFinesRV.hasFixedSize();
         mCompleteRV.hasFixedSize();
 
-
-
         mOnGoingRV.setLayoutManager(new LinearLayoutManager(this));
         mFinesRV.setLayoutManager(new LinearLayoutManager(this));
         mCompleteRV.setLayoutManager(new LinearLayoutManager(this));
+
 
         //on going
         FirebaseRecyclerOptions onGoingOptions = new FirebaseRecyclerOptions.Builder<OnGoing>().setQuery(onGoingQuery, OnGoing.class).build();
@@ -142,16 +132,12 @@ public class HistoryAdminActivity extends AppCompatActivity {
                 holder.setBookIdOnGoing(model.getBookIdOnGoing());
                 holder.setIssuedDate(model.getIssuedDate());
                 holder.setMaxReturnDate(model.getMaxReturnDate());
-                //holder.setBorrowQR(model.getBorrowQR());
             }
-
             //viewholder>> listview
             @Override
             public HistoryAdminActivity.HistoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.on_going_row, parent, false);
-
                 return new HistoryAdminActivity.HistoryViewHolder(view);
             }
         };
@@ -168,6 +154,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
             }
         });
 
+
         //fines
         FirebaseRecyclerOptions finesOptions = new FirebaseRecyclerOptions.Builder<Fines>().setQuery(finesQuery, Fines.class).build();
 
@@ -175,7 +162,6 @@ public class HistoryAdminActivity extends AppCompatActivity {
         mFinesRVAdapter = new FirebaseRecyclerAdapter<Fines, HistoryAdminActivity.FinesViewHolder>(finesOptions) {
             @Override
             protected void onBindViewHolder(HistoryAdminActivity.FinesViewHolder holder, final int position, final Fines model) {
-
                 holder.setTitleFines(model.getTitleFines());
                 holder.setBookIdFines(model.getBookIdFines());
                 holder.setDamageCost(model.getDamageCost());
@@ -185,11 +171,9 @@ public class HistoryAdminActivity extends AppCompatActivity {
                 holder.setPaidOff(model.getPaidOff());
                 holder.setRemainingCost(model.getTotalCost()-model.getPaidAmount());
             }
-
             //viewholder>> listview
             @Override
             public HistoryAdminActivity.FinesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.fines_row, parent, false);
                 //view.setVisibility(View.GONE);
@@ -206,7 +190,6 @@ public class HistoryAdminActivity extends AppCompatActivity {
         mCompleteRVAdapter = new FirebaseRecyclerAdapter<Complete, HistoryAdminActivity.CompleteViewHolder>(completeOptions) {
             @Override
             protected void onBindViewHolder(HistoryAdminActivity.CompleteViewHolder holder, final int position, final Complete model) {
-
                 holder.setTitleComplete(model.getTitleComplete());
                 holder.setBookIdComplete(model.getBookIdComplete());
                 holder.setIssuedDateComplete(model.getIssuedDateComplete());
@@ -215,14 +198,11 @@ public class HistoryAdminActivity extends AppCompatActivity {
                 holder.setOverdueYN(model.getOverdueYN());
                 holder.setPaidOffYN(model.getPaidOffYN());
             }
-
             //viewholder>> listview
             @Override
             public HistoryAdminActivity.CompleteViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.complete_row, parent, false);
-
                 return new HistoryAdminActivity.CompleteViewHolder(view);
             }
         };
@@ -267,30 +247,22 @@ public class HistoryAdminActivity extends AppCompatActivity {
             TextView post_maxReturnDate = mView.findViewById(R.id.post_maxReturnDate);
             post_maxReturnDate.setText(maxReturnDate);
         }
-      /*  public void setBorrowQR( String borrowQR){
-            ImageView post_borrowQR = mView.findViewById(R.id.borrowQR);
-            Picasso.get().load(borrowQR).into(post_borrowQR);
-        }*/
     }
 
     public static class FinesViewHolder extends RecyclerView.ViewHolder {
         View mView;
-
         public FinesViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
         }
-
         public void setTitleFines(String titleFines){
             TextView post_titleFines = mView.findViewById(R.id.post_titleFines);
             post_titleFines.setText(titleFines);
         }
-
         public void setBookIdFines(String bookIdFines){
             TextView post_bookIdFines = mView.findViewById(R.id.post_bookIdFines);
             post_bookIdFines.setText(bookIdFines);
         }
-
         public void setDamageCost(double damageCost){
             TextView post_damageCost = mView.findViewById(R.id.post_damageCost);
             post_damageCost.setText(Double.toString(damageCost));
@@ -324,12 +296,10 @@ public class HistoryAdminActivity extends AppCompatActivity {
 
     public static class CompleteViewHolder extends RecyclerView.ViewHolder {
         View mView;
-
         public CompleteViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
         }
-
         public void setTitleComplete(String titleComplete){
             TextView post_titleComplete = mView.findViewById(R.id.post_titleComplete);
             post_titleComplete.setText(titleComplete);

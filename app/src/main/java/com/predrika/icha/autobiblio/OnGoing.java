@@ -10,7 +10,6 @@ public class OnGoing {
     private String borrowQR;
 
     public OnGoing(){
-
     }
 
     public OnGoing(String loanId, String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid, String borrowQR) {
@@ -23,10 +22,7 @@ public class OnGoing {
         this.borrowQR = borrowQR;
     }
 
-    public String getLoanId() {
-
-        return loanId;
-    }
+    public String getLoanId() {return loanId; }
 
     public void setLoanId(String loanId) {
         this.loanId = loanId;

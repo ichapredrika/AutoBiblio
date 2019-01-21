@@ -12,7 +12,6 @@ public class Users {
     private double balanceAmount;
 
     public Users(){
-
     }
 
     public Users(String fullName, String univId, String pob, String dob, String address, String phone, String emailAddress, String memberType, double balanceAmount) {

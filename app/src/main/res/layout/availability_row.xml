@@ -11,8 +11,7 @@
 
     <RelativeLayout
         android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/post_bookId"
@@ -20,11 +19,9 @@
             android:layout_height="wrap_content"
             android:text="Book ID"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="10dp"
-            android:paddingStart="5dp"
-            android:paddingLeft="5dp"
+            android:layout_marginStart="10dp"
+            android:paddingStart="15dp"
             android:paddingEnd="5dp"
-            android:paddingRight="5dp"
             android:paddingBottom="5dp"
             android:textColor="#000000"
             android:layout_toStartOf="@+id/post_availability"/>
@@ -35,13 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="19dp"
-            android:layout_marginRight="10dp"
             android:paddingStart="5dp"
             android:paddingLeft="5dp"
-            android:paddingEnd="5dp"
+            android:paddingEnd="15dp"
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
             android:text="Available"

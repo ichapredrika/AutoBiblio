@@ -24,7 +24,6 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
-    // Creating Progress dialog
     ProgressDialog progressDialog;
 
     @Override
@@ -79,14 +78,11 @@ public class ProfileActivity extends AppCompatActivity {
                     TextView balanceAmountTV=findViewById(R.id.balanceAmountTxt);
                     balanceAmountTV.setText(Double.toString(currentUser.getBalanceAmount()));
 
-                    // Hiding the progress dialog.
                     progressDialog.dismiss();
                 } else  {
-                    // Hiding the progress dialog.
                     progressDialog.dismiss();
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Hiding the progress dialog.
@@ -154,5 +150,4 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent( ProfileActivity.this, ProfileSettingActivity.class);
         startActivity(intent);
     }
-
 }
