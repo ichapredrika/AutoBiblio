@@ -163,24 +163,27 @@ public class TopUpScanner extends AppCompatActivity implements ZXingScannerView.
             qrDate= arrSplit[1];
             System.out.println(qrDate);
 
-            if (validateDate(qrDate)==true){
+            if (validateDate(qrDate)){
                 //check if the local date is the same as today's date
                 LocalDate todaysDate= new LocalDate();
                 LocalDate qrDateL = new LocalDate(qrDate);
-                if (todaysDate==qrDateL){
+                if (todaysDate.equals(qrDateL)){
                     progressDialog.dismiss();
                     Toast toast = Toast.makeText(getApplicationContext(), "Verified QRcode", Toast.LENGTH_LONG);
+                    Log.d("todaysDate==qrDateL","");
                     toast.show();
                     topUpBalance();
                 }else{
                     progressDialog.dismiss();
                     Toast toast = Toast.makeText(getApplicationContext(), "Not Verified QRcode", Toast.LENGTH_LONG);
+                    Log.d("!todaysDate==qrDateL","");
                     toast.show();
                     Intent intent = new Intent( TopUpScanner.this,ProfileActivity.class);
                     startActivity(intent);
                 }
             }else{
                 progressDialog.dismiss();
+                Log.d("validate qrDate==false","");
                 Toast toast = Toast.makeText(getApplicationContext(), "Not Verified QRcode", Toast.LENGTH_LONG);
                 toast.show();
                 Intent intent = new Intent( TopUpScanner.this,ProfileActivity.class);
@@ -189,12 +192,12 @@ public class TopUpScanner extends AppCompatActivity implements ZXingScannerView.
 
         }else{
             progressDialog.dismiss();
+            Log.d("arr length!=2","");
             Toast toast = Toast.makeText(getApplicationContext(), "Not Verified QRcode", Toast.LENGTH_LONG);
             toast.show();
             Intent intent = new Intent( TopUpScanner.this,ProfileActivity.class);
             startActivity(intent);
         }
-
     }
 
     private void topUpBalance(){

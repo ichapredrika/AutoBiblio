@@ -7,11 +7,42 @@
     android:background="@drawable/shadow"
     tools:context=".HistoryAdminActivity">
 
+    <EditText
+        android:id="@+id/searchYearTxt"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:hint="Input the year here"
+        android:inputType="number"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/reportBtn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchTxt"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/mybutton"
+        android:onClick="reportClick"
+        android:text="Check Report"
+        android:textAllCaps="false"
+        android:textColor="#ffffff" />
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".HistoryActivity">
+        android:layout_below="@id/reportBtn"
+        android:layout_marginTop="20dp"
+        tools:context=".HistoryAdminActivity">
+
 
         <LinearLayout
             android:layout_width="match_parent"

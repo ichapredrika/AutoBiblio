@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReportingActivity">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchTitleBtn"
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginTop="20dp"
+        tools:context=".CollectionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/onGoingBanner"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="On-Going Loan Report"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="35sp" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchartOnGoing"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/finesBanner"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Fines Report"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="35sp" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchartFines"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/completeBanner"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="Completed Loan Report"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="40sp" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchartComplete"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="20dp" />
+
+    </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

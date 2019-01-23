@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -333,5 +335,51 @@ public class HistoryAdminActivity extends AppCompatActivity {
                 post_paidOffYN.setTextColor(Color.parseColor("#7f0000"));
             }
         }
+    }
+
+    public void reportClick(View view) {
+
+        TextView yearTV= findViewById(R.id.searchYearTxt);
+        int year= Integer.parseInt(yearTV.getText().toString());
+
+        //ongoing
+       /* DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("Fines");
+        //get value from database
+        mRef.orderByChild("year").equalTo(title).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //check unpaid fines
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot data1: dataSnapshot.getChildren()){
+                        for(DataSnapshot data: dataSnapshot.getChildren()) {
+                            Log.d("book existence", data.toString());
+                            BooksSpecification booksSpecification = data.getValue(BooksSpecification.class);
+                            damageCost = booksSpecification.getPrice();
+                            Log.d("getPrice()", Double.toString(booksSpecification.getPrice()));
+                            Log.d("OverdueCos-on async dmg", Double.toString(overdueCost)) ;
+                            Log.d("DamageCost-on async dmg", Double.toString(damageCost)) ;
+                            progressDialog.dismiss();
+                            verifyUser(damageCost);
+                        }
+                    }
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "The book data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                    progressDialog.dismiss();
+                }
+                Log.d("OverdueCost-out dmg", Double.toString(overdueCost)) ;
+                Log.d("DamageCost-out dmg", Double.toString(damageCost)) ;
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError)  {
+                Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                progressDialog.dismiss();
+            }
+        });*/
+
+        Intent intent = new Intent(getApplicationContext(), ReportingActivity.class);
+  /*      intent.putExtra("searchTxt", searchTxt);
+        intent.putExtra("searchTerm", searchTerm);*/
+        startActivity(intent);
     }
 }

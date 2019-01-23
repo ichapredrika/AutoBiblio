@@ -74,6 +74,7 @@ public class BorrowingActivity extends AppCompatActivity {
     private String maxReturnDate;
     private String info="";
     private int counter=0;
+    private boolean eligible= true;
 
     ProgressDialog progressDialog;
 
@@ -114,8 +115,8 @@ public class BorrowingActivity extends AppCompatActivity {
         TextView availTV = findViewById(R.id.availability);
         availTV.setText("The book is available");
 
-        Button borrowBtn = findViewById(R.id.borrowBtn);
-        borrowBtn.setVisibility(View.GONE);
+        /*Button borrowBtn = findViewById(R.id.borrowBtn);
+        borrowBtn.setVisibility(View.GONE);*/
 
         // Assign activity this to progress dialog.
         progressDialog = new ProgressDialog(BorrowingActivity.this);
@@ -170,9 +171,11 @@ public class BorrowingActivity extends AppCompatActivity {
 
         m1Database = FirebaseDatabase.getInstance().getReference().child("Fines");
         m1Database.orderByChild("uid").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //check unpaid fines
+
                 if(dataSnapshot.exists()){
                     for(DataSnapshot data1: dataSnapshot.getChildren()){
                         for(DataSnapshot data: dataSnapshot.getChildren()) {
@@ -190,23 +193,28 @@ public class BorrowingActivity extends AppCompatActivity {
 
                                 TextView eligibilityTV = findViewById(R.id.eligibility);
                                 eligibilityTV.setText("You are not eligible to make this transaction");
-                            }else {
-                                TextView onGoingFinesTV = findViewById(R.id.onGoingFines);
-                                onGoingFinesTV.setText("You don't have outstanding fines");
-                                TextView finesTV = findViewById(R.id.post_onGoingFines);
-                                finesTV.setText("-");
 
-                                TextView eligibilityTV = findViewById(R.id.eligibility);
-                                eligibilityTV.setText("You are eligible to make this transaction");
-
-                                Button borrowBtn = findViewById(R.id.borrowBtn);
-                                borrowBtn.setVisibility(View.VISIBLE);
+                                eligible= false;
                             }
                         }
                     }
+
+                } else {
+                    TextView onGoingFinesTV = findViewById(R.id.onGoingFines);
+                    onGoingFinesTV.setText("You don't have outstanding fines");
+                    TextView finesTV = findViewById(R.id.post_onGoingFines);
+                    finesTV.setText("-");
+
+                    TextView eligibilityTV = findViewById(R.id.eligibility);
+                    eligibilityTV.setText("You are eligible to make this transaction");
+                    eligible= true;
+
+                    /*Button borrowBtn = findViewById(R.id.borrowBtn);
+                    borrowBtn.setVisibility(View.VISIBLE);*/
                 }
                 progressDialog.dismiss();
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError)  {
                 Toast toast = Toast.makeText(getApplicationContext(), "The read failed: " + databaseError.getCode(), Toast.LENGTH_SHORT); toast.show();
@@ -270,76 +278,80 @@ public class BorrowingActivity extends AppCompatActivity {
     }
 
     public void borrowClick(View view){
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(BorrowingActivity.this);
-        alertDialog.setTitle("Password Verification");
-        alertDialog.setMessage("Enter your password");
+        if(eligible){
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(BorrowingActivity.this);
+            alertDialog.setTitle("Password Verification");
+            alertDialog.setMessage("Enter your password");
 
-        final EditText input = new EditText(BorrowingActivity.this);
-        input.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        input.setLayoutParams(lp);
-        alertDialog.setView(input);
-        alertDialog.setPositiveButton("Verify",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        String email = mAuth.getCurrentUser().getEmail();
-                        String password = input.getText().toString();
+            final EditText input = new EditText(BorrowingActivity.this);
+            input.setInputType( InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            input.setLayoutParams(lp);
+            alertDialog.setView(input);
+            alertDialog.setPositiveButton("Verify",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            String email = mAuth.getCurrentUser().getEmail();
+                            String password = input.getText().toString();
 
-                        progressDialog = new ProgressDialog(BorrowingActivity.this);
-                        progressDialog.setMessage("Processing borrowing request... ");
-                        progressDialog.show();
-                        progressDialog.setCancelable(false);
+                            progressDialog = new ProgressDialog(BorrowingActivity.this);
+                            progressDialog.setMessage("Processing borrowing request... ");
+                            progressDialog.show();
+                            progressDialog.setCancelable(false);
 
-                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(BorrowingActivity.this,
-                                new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if(!task.isSuccessful()){
-                                            Toast toast = Toast.makeText(getApplicationContext(), "Password is wrong! " , Toast.LENGTH_SHORT); toast.show();
-                                            progressDialog.dismiss();
-                                        }else{
-                                            //generate QR code
-                                            TextView post_title =findViewById(R.id.post_title);
-                                            title= post_title.getText().toString();
-
-                                            TextView bookIdTV = findViewById(R.id.bookId);
-                                            bookId = bookIdTV.getText().toString();
-
-                                            TextView issuedDateTV = findViewById(R.id.post_issuedDate);
-                                            issuedDate= issuedDateTV.getText().toString();
-
-                                            TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
-                                            maxReturnDate= maxReturnDateTV.getText().toString();
-
-                                            DateTime dateTime = new DateTime();
-                                            Timestamp timeStamp = new Timestamp(dateTime.getMillis());
-                                            storageName= uid +"-"+timeStamp.getTime();
-
-                                            progressDialog.dismiss() ;
-
-                                            if (info.isEmpty()){
-                                                Log.d("info.isEmpty",info);
-                                                info=storageName;
-                                                saveQRData();
+                            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(BorrowingActivity.this,
+                                    new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if(!task.isSuccessful()){
+                                                Toast toast = Toast.makeText(getApplicationContext(), "Password is wrong! " , Toast.LENGTH_SHORT); toast.show();
+                                                progressDialog.dismiss();
                                             }else{
-                                                Log.d("info is not empty","deletePrevQR");
-                                                deletePrevQR();
+                                                //generate QR code
+                                                TextView post_title =findViewById(R.id.post_title);
+                                                title= post_title.getText().toString();
+
+                                                TextView bookIdTV = findViewById(R.id.bookId);
+                                                bookId = bookIdTV.getText().toString();
+
+                                                TextView issuedDateTV = findViewById(R.id.post_issuedDate);
+                                                issuedDate= issuedDateTV.getText().toString();
+
+                                                TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
+                                                maxReturnDate= maxReturnDateTV.getText().toString();
+
+                                                DateTime dateTime = new DateTime();
+                                                Timestamp timeStamp = new Timestamp(dateTime.getMillis());
+                                                storageName= uid +"-"+timeStamp.getTime();
+
+                                                progressDialog.dismiss() ;
+
+                                                if (info.isEmpty()){
+                                                    Log.d("info.isEmpty",info);
+                                                    info=storageName;
+                                                    saveQRData();
+                                                }else{
+                                                    Log.d("info is not empty","deletePrevQR");
+                                                    deletePrevQR();
+                                                }
                                             }
                                         }
-                                    }
-                                });
-                    }
-                });
-        alertDialog.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        alertDialog.show();
+                                    });
+                        }
+                    });
+            alertDialog.setNegativeButton("Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            alertDialog.show();
+        }else{
+            Toast toast = Toast.makeText(getApplicationContext(), " You are not eligible" , Toast.LENGTH_SHORT); toast.show();
+        }
     }
 
     private void deletePrevQR(){

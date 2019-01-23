@@ -38,6 +38,7 @@
         <activity android:name=".HistoryAdminActivity" />
         <activity android:name=".BorrowingActivity" />
         <activity android:name=".ReturningActivity" />
+        <activity android:name=".ReportingActivity"></activity>
     </application>
 
 </manifest>
