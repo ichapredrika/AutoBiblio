@@ -1,7 +1,9 @@
 package com.predrika.icha.autobiblio;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -19,21 +21,38 @@ public class ReportingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporting);
 
+        Bundle tahun = getIntent().getExtras();
+        String year= tahun.getString("tahunqu");
+
+        Bundle nomor = getIntent().getExtras();
+        int[] hahaha = nomor.getIntArray("numberqu");
+
+        Toolbar toolbar =findViewById(R.id.toolbar);
+        toolbar.setTitle("Library Reports (" +year + ")");
+        getSupportActionBar().hide();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
+            }
+        });
+
         BarChart barChart = findViewById(R.id.barchartOnGoing);
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(8, 0));
-        entries.add(new BarEntry(2, 1));
-        entries.add(new BarEntry(5, 2));
-        entries.add(new BarEntry(20, 3));
-        entries.add(new BarEntry(15, 4));
-        entries.add(new BarEntry(19, 5));
-        entries.add(new BarEntry(19, 6));
-        entries.add(new BarEntry(8, 7));
-        entries.add(new BarEntry(5, 8));
-        entries.add(new BarEntry(0, 9));
-        entries.add(new BarEntry(0, 10));
-        entries.add(new BarEntry(0, 11));
+        entries.add(new BarEntry(hahaha[0], 0));
+        entries.add(new BarEntry(hahaha[1], 1));
+        entries.add(new BarEntry(hahaha[2], 2));
+        entries.add(new BarEntry(hahaha[3], 3));
+        entries.add(new BarEntry(hahaha[4], 4));
+        entries.add(new BarEntry(hahaha[5], 5));
+        entries.add(new BarEntry(hahaha[6], 6));
+        entries.add(new BarEntry(hahaha[7], 7));
+        entries.add(new BarEntry(hahaha[8], 8));
+        entries.add(new BarEntry(hahaha[9], 9));
+        entries.add(new BarEntry(hahaha[10], 10));
+        entries.add(new BarEntry(hahaha[11], 11));
 
         BarDataSet bardataset = new BarDataSet(entries, "On-Going Loan");
 

@@ -1,10 +1,14 @@
 package com.predrika.icha.autobiblio;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +31,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.DateTime;
+
 public class HistoryAdminActivity extends AppCompatActivity {
 
     private RecyclerView mOnGoingRV;
@@ -45,6 +51,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Complete, HistoryAdminActivity.CompleteViewHolder> mCompleteRVAdapter;
 
     ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,7 +189,6 @@ public class HistoryAdminActivity extends AppCompatActivity {
                 return new HistoryAdminActivity.FinesViewHolder(view);
             }
         };
-
         mFinesRV.setAdapter(mFinesRVAdapter);
 
         //complete
@@ -338,48 +344,108 @@ public class HistoryAdminActivity extends AppCompatActivity {
     }
 
     public void reportClick(View view) {
+        progressDialog = new ProgressDialog(HistoryAdminActivity.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
 
         TextView yearTV= findViewById(R.id.searchYearTxt);
-        int year= Integer.parseInt(yearTV.getText().toString());
+        final String year= yearTV.getText().toString();
+        final int[] onGoingArr = new int[12];
 
-        //ongoing
-       /* DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("Fines");
-        //get value from database
-        mRef.orderByChild("year").equalTo(title).addValueEventListener(new ValueEventListener() {
+        if(!year.isEmpty()){
+            //ongoing
+            DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("OnGoing");
+            mRef.orderByChild("year").equalTo(year).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //check unpaid fines
+                    if(dataSnapshot.exists()){
+                        for(DataSnapshot data1: dataSnapshot.getChildren()){
+                            for(DataSnapshot data: dataSnapshot.getChildren()) {
+                                Log.d("OnGoing existence", data.toString());
+                                OnGoing onGoing = data.getValue(OnGoing.class);
+                                onGoing.getYear();
 
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //check unpaid fines
-                if(dataSnapshot.exists()){
-                    for(DataSnapshot data1: dataSnapshot.getChildren()){
-                        for(DataSnapshot data: dataSnapshot.getChildren()) {
-                            Log.d("book existence", data.toString());
-                            BooksSpecification booksSpecification = data.getValue(BooksSpecification.class);
-                            damageCost = booksSpecification.getPrice();
-                            Log.d("getPrice()", Double.toString(booksSpecification.getPrice()));
-                            Log.d("OverdueCos-on async dmg", Double.toString(overdueCost)) ;
-                            Log.d("DamageCost-on async dmg", Double.toString(damageCost)) ;
-                            progressDialog.dismiss();
-                            verifyUser(damageCost);
+                                DateTime dt = new DateTime(onGoing.getIssuedDate());  // current time
+                                int month = dt.getMonthOfYear();     // gets the current month
+                              /*  int month = dt.month().get();  // alternative way to get value
+                                String monthStr = dt.month().getAsText();  // gets the month name*/
+
+                                switch (month) {
+                                    case 1:  onGoingArr[0] +=1;
+                                        break;
+                                    case 2:  onGoingArr[1] +=1;
+                                        break;
+                                    case 3:  onGoingArr[2] +=1;
+                                        break;
+                                    case 4:  onGoingArr[3] +=1;
+                                        break;
+                                    case 5:  onGoingArr[4] +=1;
+                                        break;
+                                    case 6:  onGoingArr[5] +=1;
+                                        break;
+                                    case 7:  onGoingArr[6] +=1;
+                                        break;
+                                    case 8:  onGoingArr[7] +=1;
+                                        break;
+                                    case 9:  onGoingArr[8] +=1;
+                                        break;
+                                    case 10: onGoingArr[9] +=1;
+                                        break;
+                                    case 11: onGoingArr[10] +=1;
+                                        break;
+                                    case 12: onGoingArr[11] +=1;
+                                        break;
+                                    default: onGoingArr[12] +=1;
+                                        break;
+                                }
+                                System.out.println(onGoingArr);
+                                Log.d("OnGoing", data.toString()) ;
+                            }
                         }
+                        progressDialog.dismiss();
+
+//                        Bundle b=new Bundle();
+//                        Bundle test = getIntent()
+//                        b.putIntArray("onGoingArr", onGoingArr);
+//                        Intent intent = new Intent(getApplicationContext(), ReportingActivity.class);
+//                        intent.putExtra("year", year);
+//                        Intent.putExtra("onGoingArr", onGoingArr);
+//                        startActivity(intent);
+                        Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
+                        i.putExtra("numberqu", onGoingArr);
+                        i.putExtra("tahunqu", year);
+                        startActivity(i);
+                    } else {
+                        progressDialog.dismiss();
+                        Toast toast = Toast.makeText(getApplicationContext(), "The On-Going report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                        Log.d("OnGoing", dataSnapshot.toString()) ;
+                        Intent intent = new Intent(getApplicationContext(), ReportingActivity.class);
+                        intent.putExtra("year", year);
+                        startActivity(intent);
                     }
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "The book data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError)  {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
                     progressDialog.dismiss();
                 }
-                Log.d("OverdueCost-out dmg", Double.toString(overdueCost)) ;
-                Log.d("DamageCost-out dmg", Double.toString(damageCost)) ;
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError)  {
-                Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
-                progressDialog.dismiss();
-            }
-        });*/
+            });
+        }else{
+            progressDialog.dismiss();
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Search term can't be empty! Please input the year");
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //write your code here to execute after dialog closed
+                        }
+                    });
+            alertDialog.show();
+        }
 
-        Intent intent = new Intent(getApplicationContext(), ReportingActivity.class);
-  /*      intent.putExtra("searchTxt", searchTxt);
-        intent.putExtra("searchTerm", searchTerm);*/
-        startActivity(intent);
     }
 }

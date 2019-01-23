@@ -8,11 +8,12 @@ public class OnGoing {
     private String maxReturnDate;
     private String uid;
     private String borrowQR;
+    private String year;
 
     public OnGoing(){
     }
 
-    public OnGoing(String loanId, String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid, String borrowQR) {
+    public OnGoing(String loanId, String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid, String borrowQR, String year) {
         this.loanId = loanId;
         this.title = title;
         this.bookIdOnGoing = bookIdOnGoing;
@@ -20,9 +21,12 @@ public class OnGoing {
         this.maxReturnDate = maxReturnDate;
         this.uid = uid;
         this.borrowQR = borrowQR;
+        this.year = year;
     }
 
-    public String getLoanId() {return loanId; }
+    public String getLoanId() {
+        return loanId;
+    }
 
     public void setLoanId(String loanId) {
         this.loanId = loanId;
@@ -74,5 +78,13 @@ public class OnGoing {
 
     public void setBorrowQR(String borrowQR) {
         this.borrowQR = borrowQR;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 }

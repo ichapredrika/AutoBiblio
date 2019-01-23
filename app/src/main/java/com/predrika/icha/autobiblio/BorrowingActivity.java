@@ -181,11 +181,9 @@ public class BorrowingActivity extends AppCompatActivity {
 
         m1Database = FirebaseDatabase.getInstance().getReference().child("Fines");
         m1Database.orderByChild("uid").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //check unpaid fines
-
                 if(dataSnapshot.exists()){
                     for(DataSnapshot data1: dataSnapshot.getChildren()){
                         for(DataSnapshot data: dataSnapshot.getChildren()) {
