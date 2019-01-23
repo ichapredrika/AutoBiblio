@@ -124,6 +124,16 @@ public class BorrowingActivity extends AppCompatActivity {
         progressDialog.show();
         progressDialog.setCancelable(false);
 
+        TextView onGoingFinesTV = findViewById(R.id.onGoingFines);
+        onGoingFinesTV.setText("You don't have outstanding fines");
+        TextView finesTV = findViewById(R.id.post_onGoingFines);
+        finesTV.setText("-");
+
+        TextView eligibilityTV = findViewById(R.id.eligibility);
+        eligibilityTV.setText("You are eligible to make this transaction");
+        eligible= true;
+
+
         mAuth= FirebaseAuth.getInstance();
         uid = mAuth.getCurrentUser().getUid();
 
