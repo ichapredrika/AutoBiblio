@@ -9,11 +9,13 @@ public class Fines {
     private double paidAmount;
     private String paidOff;
     private String uid;
+    private String year;
+    private String paymentDate;
 
     public Fines(){
     }
 
-    public Fines(String titleFines, String bookIdFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid) {
+    public Fines(String titleFines, String bookIdFines, double damageCost, double overdueCost, double totalCost, double paidAmount, String paidOff, String uid, String year, String paymentDate) {
         this.titleFines = titleFines;
         this.bookIdFines = bookIdFines;
         this.damageCost = damageCost;
@@ -22,6 +24,8 @@ public class Fines {
         this.paidAmount = paidAmount;
         this.paidOff = paidOff;
         this.uid = uid;
+        this.year = year;
+        this.paymentDate = paymentDate;
     }
 
     public String getTitleFines() {
@@ -86,5 +90,21 @@ public class Fines {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
     }
 }

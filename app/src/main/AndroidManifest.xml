@@ -38,7 +38,9 @@
         <activity android:name=".HistoryAdminActivity" />
         <activity android:name=".BorrowingActivity" />
         <activity android:name=".ReturningActivity" />
-        <activity android:name=".ReportingActivity"></activity>
+        <activity android:name=".ReportingActivity" />
+        <activity android:name=".FinesReportActivity" />
+        <activity android:name=".CompleteReportActivity"></activity>
     </application>
 
 </manifest>

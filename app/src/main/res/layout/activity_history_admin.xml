@@ -25,23 +25,50 @@
         android:textAlignment="center" />
 
     <Button
-        android:id="@+id/reportBtn"
-        android:layout_width="150dp"
+        android:id="@+id/onGoingBtn"
+        android:layout_width="70dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchYearTxt"
-        android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
         android:background="@drawable/mybutton"
-        android:onClick="reportClick"
-        android:text="Check Report"
+        android:onClick="onGoingClick"
+        android:text="On-Going"
         android:textAllCaps="false"
         android:textColor="#ffffff" />
+
+    <Button
+        android:id="@+id/finesBtn"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchYearTxt"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/mybutton"
+        android:onClick="finesClick"
+        android:text="Fines"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:layout_toRightOf="@id/onGoingBtn"/>
+
+    <Button
+        android:id="@+id/completeBtn"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchYearTxt"
+        android:layout_marginStart="40dp"
+        android:background="@drawable/mybutton"
+        android:onClick="completeClick"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:text="Complete"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:layout_toRightOf="@id/finesBtn"/>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/reportBtn"
+        android:layout_below="@id/onGoingBtn"
         android:layout_marginTop="20dp"
         tools:context=".HistoryAdminActivity">
 

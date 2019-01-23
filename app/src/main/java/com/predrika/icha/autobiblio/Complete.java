@@ -9,11 +9,12 @@ public class Complete {
     private String overdueYN;
     private String paidOffYN;
     private String uid;
+    private String year;
 
     public Complete(){
     }
 
-    public Complete(String bookIdComplete, String titleComplete, String issuedDateComplete, String returnedDate, String damagedYN, String overdueYN, String paidOffYN, String uid) {
+    public Complete(String bookIdComplete, String titleComplete, String issuedDateComplete, String returnedDate, String damagedYN, String overdueYN, String paidOffYN, String uid, String year) {
         this.bookIdComplete = bookIdComplete;
         this.titleComplete = titleComplete;
         this.issuedDateComplete = issuedDateComplete;
@@ -22,6 +23,7 @@ public class Complete {
         this.overdueYN = overdueYN;
         this.paidOffYN = paidOffYN;
         this.uid = uid;
+        this.year = year;
     }
 
     public String getBookIdComplete() {
@@ -86,5 +88,13 @@ public class Complete {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 }

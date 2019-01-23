@@ -21,11 +21,12 @@ public class ReportingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporting);
 
-        Bundle tahun = getIntent().getExtras();
-        String year= tahun.getString("tahunqu");
+        Bundle years = getIntent().getExtras();
+        String year= years.getString("year");
 
-        Bundle nomor = getIntent().getExtras();
-        int[] hahaha = nomor.getIntArray("numberqu");
+        Bundle onGoing = getIntent().getExtras();
+        int[] onGoingArr = onGoing.getIntArray("onGoingArr");
+
 
         Toolbar toolbar =findViewById(R.id.toolbar);
         toolbar.setTitle("Library Reports (" +year + ")");
@@ -34,27 +35,8 @@ public class ReportingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-
             }
         });
-
-        BarChart barChart = findViewById(R.id.barchartOnGoing);
-
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(hahaha[0], 0));
-        entries.add(new BarEntry(hahaha[1], 1));
-        entries.add(new BarEntry(hahaha[2], 2));
-        entries.add(new BarEntry(hahaha[3], 3));
-        entries.add(new BarEntry(hahaha[4], 4));
-        entries.add(new BarEntry(hahaha[5], 5));
-        entries.add(new BarEntry(hahaha[6], 6));
-        entries.add(new BarEntry(hahaha[7], 7));
-        entries.add(new BarEntry(hahaha[8], 8));
-        entries.add(new BarEntry(hahaha[9], 9));
-        entries.add(new BarEntry(hahaha[10], 10));
-        entries.add(new BarEntry(hahaha[11], 11));
-
-        BarDataSet bardataset = new BarDataSet(entries, "On-Going Loan");
 
         ArrayList<String> labels = new ArrayList<String>();
         labels.add("Jan");
@@ -70,15 +52,29 @@ public class ReportingActivity extends AppCompatActivity {
         labels.add("Nov");
         labels.add("Dec");
 
-        BarData data = new BarData(labels, bardataset);
-        barChart.setData(data); // set the data and list of lables into chart
+        //ongoing
+        BarChart barChartOnGoing = findViewById(R.id.barchartOnGoing);
 
-        barChart.setDescription("On-Going Loan Report in a year");  // set the description
+        ArrayList<BarEntry> entriesOnGoing = new ArrayList<>();
+        entriesOnGoing.add(new BarEntry(onGoingArr[0], 0));
+        entriesOnGoing.add(new BarEntry(onGoingArr[1], 1));
+        entriesOnGoing.add(new BarEntry(onGoingArr[2], 2));
+        entriesOnGoing.add(new BarEntry(onGoingArr[3], 3));
+        entriesOnGoing.add(new BarEntry(onGoingArr[4], 4));
+        entriesOnGoing.add(new BarEntry(onGoingArr[5], 5));
+        entriesOnGoing.add(new BarEntry(onGoingArr[6], 6));
+        entriesOnGoing.add(new BarEntry(onGoingArr[7], 7));
+        entriesOnGoing.add(new BarEntry(onGoingArr[8], 8));
+        entriesOnGoing.add(new BarEntry(onGoingArr[9], 9));
+        entriesOnGoing.add(new BarEntry(onGoingArr[10], 10));
+        entriesOnGoing.add(new BarEntry(onGoingArr[11], 11));
 
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        BarDataSet bardatasetOnGoing = new BarDataSet(entriesOnGoing, "On-Going Loan");
 
-        barChart.animateY(5000);
-
+        BarData dataOnGOing = new BarData(labels, bardatasetOnGoing);
+        barChartOnGoing.setData(dataOnGOing); // set the data and list of lables into chart
+        barChartOnGoing.setDescription("On-Going Loan Report in a year");  // set the description
+        bardatasetOnGoing.setColors(ColorTemplate.COLORFUL_COLORS);
+        barChartOnGoing.animateY(5000);
     }
-
 }

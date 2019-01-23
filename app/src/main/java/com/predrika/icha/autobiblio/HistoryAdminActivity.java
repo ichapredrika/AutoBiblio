@@ -52,6 +52,10 @@ public class HistoryAdminActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
+    private String year;
+    private int[] onGoingArr = new int[12];
+    private int[] finesArr = new int[12];
+    private int[] completeArr = new int[12];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -343,7 +347,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
         }
     }
 
-    public void reportClick(View view) {
+    public void onGoingClick(View view) {
         progressDialog = new ProgressDialog(HistoryAdminActivity.this);
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
@@ -351,7 +355,6 @@ public class HistoryAdminActivity extends AppCompatActivity {
 
         TextView yearTV= findViewById(R.id.searchYearTxt);
         final String year= yearTV.getText().toString();
-        final int[] onGoingArr = new int[12];
 
         if(!year.isEmpty()){
             //ongoing
@@ -359,7 +362,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
             mRef.orderByChild("year").equalTo(year).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    //check unpaid fines
+                    //check onGoing
                     if(dataSnapshot.exists()){
                         for(DataSnapshot data1: dataSnapshot.getChildren()){
                             for(DataSnapshot data: dataSnapshot.getChildren()) {
@@ -367,10 +370,8 @@ public class HistoryAdminActivity extends AppCompatActivity {
                                 OnGoing onGoing = data.getValue(OnGoing.class);
                                 onGoing.getYear();
 
-                                DateTime dt = new DateTime(onGoing.getIssuedDate());  // current time
-                                int month = dt.getMonthOfYear();     // gets the current month
-                              /*  int month = dt.month().get();  // alternative way to get value
-                                String monthStr = dt.month().getAsText();  // gets the month name*/
+                                DateTime dt = new DateTime(onGoing.getIssuedDate());
+                                int month = dt.getMonthOfYear();
 
                                 switch (month) {
                                     case 1:  onGoingArr[0] +=1;
@@ -405,25 +406,17 @@ public class HistoryAdminActivity extends AppCompatActivity {
                             }
                         }
                         progressDialog.dismiss();
-
-//                        Bundle b=new Bundle();
-//                        Bundle test = getIntent()
-//                        b.putIntArray("onGoingArr", onGoingArr);
-//                        Intent intent = new Intent(getApplicationContext(), ReportingActivity.class);
-//                        intent.putExtra("year", year);
-//                        Intent.putExtra("onGoingArr", onGoingArr);
-//                        startActivity(intent);
                         Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
-                        i.putExtra("numberqu", onGoingArr);
-                        i.putExtra("tahunqu", year);
+                        i.putExtra("onGoingArr", onGoingArr);
+                        i.putExtra("year", year);
                         startActivity(i);
                     } else {
                         progressDialog.dismiss();
                         Toast toast = Toast.makeText(getApplicationContext(), "The On-Going report data is not exist " , Toast.LENGTH_SHORT); toast.show();
                         Log.d("OnGoing", dataSnapshot.toString()) ;
-                        Intent intent = new Intent(getApplicationContext(), ReportingActivity.class);
-                        intent.putExtra("year", year);
-                        startActivity(intent);
+                        Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
+                        i.putExtra("onGoingArr", onGoingArr);
+                        startActivity(i);
                     }
                 }
                 @Override
@@ -446,6 +439,195 @@ public class HistoryAdminActivity extends AppCompatActivity {
                     });
             alertDialog.show();
         }
+    }
 
+    public void finesClick(View view) {
+        progressDialog = new ProgressDialog(HistoryAdminActivity.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        TextView yearTV= findViewById(R.id.searchYearTxt);
+        final String year= yearTV.getText().toString();
+
+        if(!year.isEmpty()){
+            //fines
+            DatabaseReference finesRef = FirebaseDatabase.getInstance().getReference().child("Fines");
+            finesRef.orderByChild("year").equalTo(year).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //check fines
+                    if(dataSnapshot.exists()){
+                        for(DataSnapshot data1: dataSnapshot.getChildren()){
+                            for(DataSnapshot data: dataSnapshot.getChildren()) {
+                                Log.d("Fines existence", data.toString());
+                                Fines fines = data.getValue(Fines.class);
+                                fines.getYear();
+
+                                DateTime dt = new DateTime(fines.getPaymentDate());
+                                int month = dt.getMonthOfYear();
+
+                                switch (month) {
+                                    case 1:  finesArr[0] +=1;
+                                        break;
+                                    case 2:  finesArr[1] +=1;
+                                        break;
+                                    case 3:  finesArr[2] +=1;
+                                        break;
+                                    case 4:  finesArr[3] +=1;
+                                        break;
+                                    case 5:  finesArr[4] +=1;
+                                        break;
+                                    case 6:  finesArr[5] +=1;
+                                        break;
+                                    case 7:  finesArr[6] +=1;
+                                        break;
+                                    case 8:  finesArr[7] +=1;
+                                        break;
+                                    case 9:  finesArr[8] +=1;
+                                        break;
+                                    case 10: finesArr[9] +=1;
+                                        break;
+                                    case 11: finesArr[10] +=1;
+                                        break;
+                                    case 12: finesArr[11] +=1;
+                                        break;
+                                    default: finesArr[12] +=1;
+                                        break;
+                                }
+                                System.out.println(finesArr);
+                                Log.d("Fines", data.toString()) ;
+                            }
+                        }
+                        progressDialog.dismiss();
+                            Intent i = new Intent(HistoryAdminActivity.this, FinesReportActivity.class);
+                        i.putExtra("finesArr", finesArr);
+                        startActivity(i);
+                    } else {
+                        progressDialog.dismiss();
+                        Toast toast = Toast.makeText(getApplicationContext(), "The Fines report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                        Log.d("Fines", dataSnapshot.toString()) ;
+                        Intent i = new Intent(HistoryAdminActivity.this, FinesReportActivity.class);
+                        i.putExtra("finesArr", finesArr);
+                        startActivity(i);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError)  {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                    progressDialog.dismiss();
+                }
+            });
+        }else{
+            progressDialog.dismiss();
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Search term can't be empty! Please input the year");
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //write your code here to execute after dialog closed
+                        }
+                    });
+            alertDialog.show();
+        }
+    }
+
+    public void completeClick(View view) {
+        progressDialog = new ProgressDialog(HistoryAdminActivity.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
+        progressDialog.setCancelable(false);
+
+        TextView yearTV= findViewById(R.id.searchYearTxt);
+        final String year= yearTV.getText().toString();
+
+        if(!year.isEmpty()){
+            //complete
+            DatabaseReference finesRef = FirebaseDatabase.getInstance().getReference().child("Complete");
+            finesRef.orderByChild("year").equalTo(year).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    //check complete
+                    if(dataSnapshot.exists()){
+                        for(DataSnapshot data1: dataSnapshot.getChildren()){
+                            for(DataSnapshot data: dataSnapshot.getChildren()) {
+                                Log.d("Complete existence", data.toString());
+                                Complete complete = data.getValue(Complete.class);
+                                complete.getYear();
+
+                                DateTime dt = new DateTime(complete.getReturnedDate());
+                                int month = dt.getMonthOfYear();
+
+                                switch (month) {
+                                    case 1:  completeArr[0] +=1;
+                                        break;
+                                    case 2:  completeArr[1] +=1;
+                                        break;
+                                    case 3:  completeArr[2] +=1;
+                                        break;
+                                    case 4:  completeArr[3] +=1;
+                                        break;
+                                    case 5:  completeArr[4] +=1;
+                                        break;
+                                    case 6:  completeArr[5] +=1;
+                                        break;
+                                    case 7:  completeArr[6] +=1;
+                                        break;
+                                    case 8:  completeArr[7] +=1;
+                                        break;
+                                    case 9:  completeArr[8] +=1;
+                                        break;
+                                    case 10: completeArr[9] +=1;
+                                        break;
+                                    case 11: completeArr[10] +=1;
+                                        break;
+                                    case 12: completeArr[11] +=1;
+                                        break;
+                                    default: completeArr[12] +=1;
+                                        break;
+                                }
+                                System.out.println(completeArr);
+                                Log.d("Complete", data.toString()) ;
+                            }
+                        }
+                        progressDialog.dismiss();
+                        Toast toast = Toast.makeText(getApplicationContext(), "The Complete report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                        Log.d("Complete", dataSnapshot.toString()) ;
+                            Intent i = new Intent(HistoryAdminActivity.this, CompleteReportActivity.class);
+                        i.putExtra("completeArr", completeArr);
+                        i.putExtra("year", year);
+                        startActivity(i);
+                    } else {
+                        progressDialog.dismiss();
+                        Toast toast = Toast.makeText(getApplicationContext(), "The Complete report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                        Log.d("Complete", dataSnapshot.toString()) ;
+                        Intent i = new Intent(HistoryAdminActivity.this, CompleteReportActivity.class);
+                        i.putExtra("completeArr", completeArr);
+                        i.putExtra("year", year);
+                        startActivity(i);
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError)  {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                    progressDialog.dismiss();
+                }
+            });
+        }else{
+            progressDialog.dismiss();
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Warning");
+            alertDialog.setMessage("Search term can't be empty! Please input the year");
+            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //write your code here to execute after dialog closed
+                        }
+                    });
+            alertDialog.show();
+        }
     }
 }
