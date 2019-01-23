@@ -410,6 +410,7 @@ public class ReturningActivity extends AppCompatActivity {
                                                 complete.setIssuedDateComplete(issuedDate);
                                                 complete.setReturnedDate(todayDate.toString());
                                                 complete.setPaidOffYN("NOT PAID");
+                                                complete.setYear(Integer.toString(todayDate.getYear()));
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete").child(storageName).setValue(complete);
 
@@ -430,6 +431,7 @@ public class ReturningActivity extends AppCompatActivity {
                                                 complete.setIssuedDateComplete(issuedDate);
                                                 complete.setReturnedDate(todayDate.toString());
                                                 complete.setPaidOffYN("NO FINE");
+                                                complete.setYear(Integer.toString(todayDate.getYear()));
                                                 complete.setUid(uid);
                                                 completeRef.child("Complete").child(storageName).setValue(complete);
 

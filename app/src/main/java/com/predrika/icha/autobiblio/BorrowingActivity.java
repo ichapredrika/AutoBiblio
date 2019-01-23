@@ -75,6 +75,7 @@ public class BorrowingActivity extends AppCompatActivity {
     private String info="";
     private int counter=0;
     private boolean eligible= true;
+    LocalDate issuedDate1;
 
     ProgressDialog progressDialog;
 
@@ -231,11 +232,11 @@ public class BorrowingActivity extends AppCompatActivity {
         });
 
         // setup objects' time
-        LocalDate issuedDate = new LocalDate();
-        LocalDate maxReturnDate = issuedDate.plusDays(7);
+        issuedDate1 = new LocalDate();
+        LocalDate maxReturnDate = issuedDate1.plusDays(7);
 
         TextView issuedDateTV = findViewById(R.id.post_issuedDate);
-        issuedDateTV.setText(issuedDate.toString());
+        issuedDateTV.setText(issuedDate1.toString());
 
         TextView maxReturnDateTV = findViewById(R.id.post_maxReturnDate);
         maxReturnDateTV.setText(maxReturnDate.toString());
@@ -454,6 +455,7 @@ public class BorrowingActivity extends AppCompatActivity {
                         onGoing.setTitle(title);
                         onGoing.setIssuedDate(issuedDate);
                         onGoing.setMaxReturnDate(maxReturnDate);
+                        onGoing.setYear(Integer.toString(issuedDate1.getYear()));
                         onGoing.setUid(uid);
                         onGoingRef.child("OnGoing").child(storageName).setValue(onGoing);
 
