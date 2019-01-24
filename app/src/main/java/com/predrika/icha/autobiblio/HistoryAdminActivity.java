@@ -359,52 +359,51 @@ public class HistoryAdminActivity extends AppCompatActivity {
         if(!year.isEmpty()){
             //ongoing
             DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("OnGoing");
-            mRef.orderByChild("year").equalTo(year).addValueEventListener(new ValueEventListener() {
+            mRef.orderByChild("year").equalTo(year).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //check onGoing
                     if(dataSnapshot.exists()){
-                        for(DataSnapshot data1: dataSnapshot.getChildren()){
-                            for(DataSnapshot data: dataSnapshot.getChildren()) {
-                                Log.d("OnGoing existence", data.toString());
-                                OnGoing onGoing = data.getValue(OnGoing.class);
-                                onGoing.getYear();
+                        for(DataSnapshot data: dataSnapshot.getChildren()) {
+                            Log.d("OnGoing existence", data.toString());
+                            OnGoing onGoing = data.getValue(OnGoing.class);
+                            onGoing.getYear();
 
-                                DateTime dt = new DateTime(onGoing.getIssuedDate());
-                                int month = dt.getMonthOfYear();
+                            DateTime dt = new DateTime(onGoing.getIssuedDate());
+                            int month = dt.getMonthOfYear();
 
-                                switch (month) {
-                                    case 1:  onGoingArr[0] +=1;
-                                        break;
-                                    case 2:  onGoingArr[1] +=1;
-                                        break;
-                                    case 3:  onGoingArr[2] +=1;
-                                        break;
-                                    case 4:  onGoingArr[3] +=1;
-                                        break;
-                                    case 5:  onGoingArr[4] +=1;
-                                        break;
-                                    case 6:  onGoingArr[5] +=1;
-                                        break;
-                                    case 7:  onGoingArr[6] +=1;
-                                        break;
-                                    case 8:  onGoingArr[7] +=1;
-                                        break;
-                                    case 9:  onGoingArr[8] +=1;
-                                        break;
-                                    case 10: onGoingArr[9] +=1;
-                                        break;
-                                    case 11: onGoingArr[10] +=1;
-                                        break;
-                                    case 12: onGoingArr[11] +=1;
-                                        break;
-                                    default: onGoingArr[12] +=1;
-                                        break;
-                                }
-                                System.out.println(onGoingArr);
-                                Log.d("OnGoing", data.toString()) ;
+                            switch (month) {
+                                case 1:  onGoingArr[0] +=1;
+                                    break;
+                                case 2:  onGoingArr[1] +=1;
+                                    break;
+                                case 3:  onGoingArr[2] +=1;
+                                    break;
+                                case 4:  onGoingArr[3] +=1;
+                                    break;
+                                case 5:  onGoingArr[4] +=1;
+                                    break;
+                                case 6:  onGoingArr[5] +=1;
+                                    break;
+                                case 7:  onGoingArr[6] +=1;
+                                    break;
+                                case 8:  onGoingArr[7] +=1;
+                                    break;
+                                case 9:  onGoingArr[8] +=1;
+                                    break;
+                                case 10: onGoingArr[9] +=1;
+                                    break;
+                                case 11: onGoingArr[10] +=1;
+                                    break;
+                                case 12: onGoingArr[11] +=1;
+                                    break;
+                                default: onGoingArr[12] +=1;
+                                    break;
                             }
+                            System.out.println(onGoingArr);
+                            Log.d("OnGoing", data.toString()) ;
                         }
+
                         progressDialog.dismiss();
                         Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
                         i.putExtra("onGoingArr", onGoingArr);
@@ -453,55 +452,55 @@ public class HistoryAdminActivity extends AppCompatActivity {
         if(!year.isEmpty()){
             //fines
             DatabaseReference finesRef = FirebaseDatabase.getInstance().getReference().child("Fines");
-            finesRef.orderByChild("year").equalTo(year).addValueEventListener(new ValueEventListener() {
+            finesRef.orderByChild("year").equalTo(year).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //check fines
                     if(dataSnapshot.exists()){
-                        for(DataSnapshot data1: dataSnapshot.getChildren()){
-                            for(DataSnapshot data: dataSnapshot.getChildren()) {
-                                Log.d("Fines existence", data.toString());
-                                Fines fines = data.getValue(Fines.class);
-                                fines.getYear();
+                        for(DataSnapshot data: dataSnapshot.getChildren()) {
+                            Log.d("Fines existence", data.toString());
+                            Fines fines = data.getValue(Fines.class);
+                            fines.getYear();
 
-                                DateTime dt = new DateTime(fines.getPaymentDate());
-                                int month = dt.getMonthOfYear();
+                            DateTime dt = new DateTime(fines.getPaymentDate());
+                            int month = dt.getMonthOfYear();
 
-                                switch (month) {
-                                    case 1:  finesArr[0] +=1;
-                                        break;
-                                    case 2:  finesArr[1] +=1;
-                                        break;
-                                    case 3:  finesArr[2] +=1;
-                                        break;
-                                    case 4:  finesArr[3] +=1;
-                                        break;
-                                    case 5:  finesArr[4] +=1;
-                                        break;
-                                    case 6:  finesArr[5] +=1;
-                                        break;
-                                    case 7:  finesArr[6] +=1;
-                                        break;
-                                    case 8:  finesArr[7] +=1;
-                                        break;
-                                    case 9:  finesArr[8] +=1;
-                                        break;
-                                    case 10: finesArr[9] +=1;
-                                        break;
-                                    case 11: finesArr[10] +=1;
-                                        break;
-                                    case 12: finesArr[11] +=1;
-                                        break;
-                                    default: finesArr[12] +=1;
-                                        break;
-                                }
-                                System.out.println(finesArr);
-                                Log.d("Fines", data.toString()) ;
+                            switch (month) {
+                                case 1:  finesArr[0] +=1;
+                                    break;
+                                case 2:  finesArr[1] +=1;
+                                    break;
+                                case 3:  finesArr[2] +=1;
+                                    break;
+                                case 4:  finesArr[3] +=1;
+                                    break;
+                                case 5:  finesArr[4] +=1;
+                                    break;
+                                case 6:  finesArr[5] +=1;
+                                    break;
+                                case 7:  finesArr[6] +=1;
+                                    break;
+                                case 8:  finesArr[7] +=1;
+                                    break;
+                                case 9:  finesArr[8] +=1;
+                                    break;
+                                case 10: finesArr[9] +=1;
+                                    break;
+                                case 11: finesArr[10] +=1;
+                                    break;
+                                case 12: finesArr[11] +=1;
+                                    break;
+                                default: finesArr[12] +=1;
+                                    break;
                             }
+                            System.out.println(finesArr);
+                            Log.d("Fines", data.toString()) ;
                         }
+
                         progressDialog.dismiss();
                             Intent i = new Intent(HistoryAdminActivity.this, FinesReportActivity.class);
                         i.putExtra("finesArr", finesArr);
+                        i.putExtra("year", year);
                         startActivity(i);
                     } else {
                         progressDialog.dismiss();
@@ -509,6 +508,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
                         Log.d("Fines", dataSnapshot.toString()) ;
                         Intent i = new Intent(HistoryAdminActivity.this, FinesReportActivity.class);
                         i.putExtra("finesArr", finesArr);
+                        i.putExtra("year", year);
                         startActivity(i);
                     }
                 }
@@ -546,51 +546,51 @@ public class HistoryAdminActivity extends AppCompatActivity {
         if(!year.isEmpty()){
             //complete
             DatabaseReference finesRef = FirebaseDatabase.getInstance().getReference().child("Complete");
-            finesRef.orderByChild("year").equalTo(year).addValueEventListener(new ValueEventListener() {
+            finesRef.orderByChild("year").equalTo(year).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     //check complete
                     if(dataSnapshot.exists()){
-                        for(DataSnapshot data1: dataSnapshot.getChildren()){
-                            for(DataSnapshot data: dataSnapshot.getChildren()) {
-                                Log.d("Complete existence", data.toString());
-                                Complete complete = data.getValue(Complete.class);
-                                complete.getYear();
 
-                                DateTime dt = new DateTime(complete.getReturnedDate());
-                                int month = dt.getMonthOfYear();
+                        for(DataSnapshot data: dataSnapshot.getChildren()) {
+                            Log.d("Complete existence", data.toString());
+                            Complete complete = data.getValue(Complete.class);
+                            complete.getYear();
 
-                                switch (month) {
-                                    case 1:  completeArr[0] +=1;
-                                        break;
-                                    case 2:  completeArr[1] +=1;
-                                        break;
-                                    case 3:  completeArr[2] +=1;
-                                        break;
-                                    case 4:  completeArr[3] +=1;
-                                        break;
-                                    case 5:  completeArr[4] +=1;
-                                        break;
-                                    case 6:  completeArr[5] +=1;
-                                        break;
-                                    case 7:  completeArr[6] +=1;
-                                        break;
-                                    case 8:  completeArr[7] +=1;
-                                        break;
-                                    case 9:  completeArr[8] +=1;
-                                        break;
-                                    case 10: completeArr[9] +=1;
-                                        break;
-                                    case 11: completeArr[10] +=1;
-                                        break;
-                                    case 12: completeArr[11] +=1;
-                                        break;
-                                    default: completeArr[12] +=1;
-                                        break;
-                                }
-                                System.out.println(completeArr);
-                                Log.d("Complete", data.toString()) ;
+                            DateTime dt = new DateTime(complete.getReturnedDate());
+                            int month = dt.getMonthOfYear();
+
+                            switch (month) {
+                                case 1:  completeArr[0] +=1;
+                                    break;
+                                case 2:  completeArr[1] +=1;
+                                    break;
+                                case 3:  completeArr[2] +=1;
+                                    break;
+                                case 4:  completeArr[3] +=1;
+                                    break;
+                                case 5:  completeArr[4] +=1;
+                                    break;
+                                case 6:  completeArr[5] +=1;
+                                    break;
+                                case 7:  completeArr[6] +=1;
+                                    break;
+                                case 8:  completeArr[7] +=1;
+                                    break;
+                                case 9:  completeArr[8] +=1;
+                                    break;
+                                case 10: completeArr[9] +=1;
+                                    break;
+                                case 11: completeArr[10] +=1;
+                                    break;
+                                case 12: completeArr[11] +=1;
+                                    break;
+                                default: completeArr[12] +=1;
+                                    break;
                             }
+                            System.out.println(completeArr);
+                            Log.d("Complete", data.toString()) ;
+
                         }
                         progressDialog.dismiss();
                         Toast toast = Toast.makeText(getApplicationContext(), "The Complete report data is not exist " , Toast.LENGTH_SHORT); toast.show();

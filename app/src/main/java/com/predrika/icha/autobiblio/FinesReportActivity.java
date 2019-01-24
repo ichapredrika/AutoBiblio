@@ -34,7 +34,7 @@ public class FinesReportActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                startActivity(new Intent( FinesReportActivity.this, HistoryAdminActivity.class));
             }
         });
 
