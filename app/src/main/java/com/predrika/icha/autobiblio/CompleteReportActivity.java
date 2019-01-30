@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -68,12 +69,19 @@ public class CompleteReportActivity extends AppCompatActivity {
         entriesComplete.add(new BarEntry(completeArr[10], 10));
         entriesComplete.add(new BarEntry(completeArr[11], 11));
 
-        BarDataSet bardatasetComplete = new BarDataSet(entriesComplete, "On-Going Loan");
+        BarDataSet bardatasetComplete = new BarDataSet(entriesComplete, "Completed Loan");
 
         BarData dataComplete = new BarData(labels, bardatasetComplete);
         barChartComplete.setData(dataComplete); // set the data and list of lables into chart
-        barChartComplete.setDescription("On-Going Loan Report in a year");  // set the description
+        barChartComplete.setDescription("Completed Loan Report in a year");  // set the description
         bardatasetComplete.setColors(ColorTemplate.COLORFUL_COLORS);
         barChartComplete.animateY(5000);
+
+        int total=0;
+        for(int i=0;i<=completeArr.length-1;i++){
+            total+=completeArr[i];
+        }
+        TextView totalTV= findViewById(R.id.post_total);
+        totalTV.setText(Integer.toString(total));
     }
 }

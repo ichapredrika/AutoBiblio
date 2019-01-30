@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -53,5 +54,8 @@ public class ReportingActivity extends AppCompatActivity {
         barChartOnGoing.setDescription("On-Going Loan Report in a year");  // set the description
         bardatasetOnGoing.setColors(ColorTemplate.COLORFUL_COLORS);
         barChartOnGoing.animateY(5000);
+
+        TextView totalTV= findViewById(R.id.post_total);
+        totalTV.setText(Integer.toString(onGoingVal));
     }
 }

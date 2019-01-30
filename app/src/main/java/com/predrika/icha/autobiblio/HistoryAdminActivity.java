@@ -419,31 +419,31 @@ public class HistoryAdminActivity extends AppCompatActivity {
                             int month = dt.getMonthOfYear();
 
                             switch (month) {
-                                case 1:  finesArr[0] +=1;
+                                case 1:  finesArr[0] +=fines.getPaidAmount();
                                     break;
-                                case 2:  finesArr[1] +=1;
+                                case 2:  finesArr[1] +=fines.getPaidAmount();
                                     break;
-                                case 3:  finesArr[2] +=1;
+                                case 3:  finesArr[2] +=fines.getPaidAmount();
                                     break;
-                                case 4:  finesArr[3] +=1;
+                                case 4:  finesArr[3] +=fines.getPaidAmount();
                                     break;
-                                case 5:  finesArr[4] +=1;
+                                case 5:  finesArr[4] +=fines.getPaidAmount();
                                     break;
-                                case 6:  finesArr[5] +=1;
+                                case 6:  finesArr[5] +=fines.getPaidAmount();
                                     break;
-                                case 7:  finesArr[6] +=1;
+                                case 7:  finesArr[6] +=fines.getPaidAmount();
                                     break;
-                                case 8:  finesArr[7] +=1;
+                                case 8:  finesArr[7] +=fines.getPaidAmount();
                                     break;
-                                case 9:  finesArr[8] +=1;
+                                case 9:  finesArr[8] +=fines.getPaidAmount();
                                     break;
-                                case 10: finesArr[9] +=1;
+                                case 10: finesArr[9] +=fines.getPaidAmount();
                                     break;
-                                case 11: finesArr[10] +=1;
+                                case 11: finesArr[10] +=fines.getPaidAmount();
                                     break;
-                                case 12: finesArr[11] +=1;
+                                case 12: finesArr[11] +=fines.getPaidAmount();
                                     break;
-                                default: finesArr[12] +=1;
+                                default: finesArr[12] +=fines.getPaidAmount();
                                     break;
                             }
                             System.out.println(finesArr);
