@@ -9,13 +9,27 @@
     android:background="@drawable/shadow"
     tools:context=".HistoryAdminActivity">
 
+    <TextView
+        android:id="@+id/reportingBanner"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginBottom="10dp"
+        android:background="#006064"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="Reporting"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="40sp" />
+
     <EditText
         android:id="@+id/searchYearTxt"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:layout_below="@id/reportingBanner"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:hint="Input the year here"
         android:inputType="number"
         android:paddingStart="5dp"
@@ -26,22 +40,24 @@
 
     <Button
         android:id="@+id/onGoingBtn"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchYearTxt"
         android:layout_marginStart="20dp"
         android:background="@drawable/mybutton"
         android:onClick="onGoingClick"
         android:text="On-Going"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:textAllCaps="false"
         android:textColor="#ffffff" />
 
     <Button
         android:id="@+id/finesBtn"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchYearTxt"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="40dp"
         android:background="@drawable/mybutton"
         android:onClick="finesClick"
         android:text="Fines"
@@ -51,7 +67,7 @@
 
     <Button
         android:id="@+id/completeBtn"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/searchYearTxt"
         android:layout_marginStart="50dp"
@@ -70,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/onGoingBtn"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         tools:context=".HistoryAdminActivity">
 
         <LinearLayout
@@ -83,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="#006064"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="On-Going Loan"
@@ -107,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="#006064"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="Fines"
@@ -131,7 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="#006064"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="Complete"

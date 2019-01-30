@@ -21,15 +21,13 @@ public class ReportingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reporting);
 
-        Bundle years = getIntent().getExtras();
-        String year= years.getString("year");
 
         Bundle onGoing = getIntent().getExtras();
-        int[] onGoingArr = onGoing.getIntArray("onGoingArr");
+        int onGoingVal = onGoing.getInt("onGoingVal");
 
 
         Toolbar toolbar =findViewById(R.id.toolbar);
-        toolbar.setTitle("Library Reports (" +year + ")");
+        toolbar.setTitle("Library Reports ( On-Going)");
         getSupportActionBar().hide();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,35 +37,14 @@ public class ReportingActivity extends AppCompatActivity {
         });
 
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Jan");
-        labels.add("Feb");
-        labels.add("Mar");
-        labels.add("Apr");
-        labels.add("May");
-        labels.add("Jun");
-        labels.add("Jul");
-        labels.add("Aug");
-        labels.add("Sep");
-        labels.add("Oct");
-        labels.add("Nov");
-        labels.add("Dec");
+        labels.add("On-Going");
+
 
         //ongoing
         BarChart barChartOnGoing = findViewById(R.id.barchartOnGoing);
 
         ArrayList<BarEntry> entriesOnGoing = new ArrayList<>();
-        entriesOnGoing.add(new BarEntry(onGoingArr[0], 0));
-        entriesOnGoing.add(new BarEntry(onGoingArr[1], 1));
-        entriesOnGoing.add(new BarEntry(onGoingArr[2], 2));
-        entriesOnGoing.add(new BarEntry(onGoingArr[3], 3));
-        entriesOnGoing.add(new BarEntry(onGoingArr[4], 4));
-        entriesOnGoing.add(new BarEntry(onGoingArr[5], 5));
-        entriesOnGoing.add(new BarEntry(onGoingArr[6], 6));
-        entriesOnGoing.add(new BarEntry(onGoingArr[7], 7));
-        entriesOnGoing.add(new BarEntry(onGoingArr[8], 8));
-        entriesOnGoing.add(new BarEntry(onGoingArr[9], 9));
-        entriesOnGoing.add(new BarEntry(onGoingArr[10], 10));
-        entriesOnGoing.add(new BarEntry(onGoingArr[11], 11));
+        entriesOnGoing.add(new BarEntry(onGoingVal, 0));
 
         BarDataSet bardatasetOnGoing = new BarDataSet(entriesOnGoing, "On-Going Loan");
 

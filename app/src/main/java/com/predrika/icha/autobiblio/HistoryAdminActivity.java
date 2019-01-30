@@ -53,7 +53,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
 
     private String year;
-    private int[] onGoingArr = new int[12];
+    private int onGoingVal;
     private int[] finesArr = new int[12];
     private int[] completeArr = new int[12];
 
@@ -294,10 +294,10 @@ public class HistoryAdminActivity extends AppCompatActivity {
         public void setPaidOff(String paidOff){
             TextView post_paidOff = mView.findViewById(R.id.post_paidOff);
             post_paidOff.setText(paidOff);
-            if (paidOff.equals("PAID")){
-                post_paidOff.setTextColor(Color.parseColor("#64ffda"));
-            }else{
+            if (paidOff.equals("NOT PAID")){
                 post_paidOff.setTextColor(Color.parseColor("#7f0000"));
+            }else{
+                post_paidOff.setTextColor(Color.parseColor("#64ffda"));
             }
         }
         public void setRemainingCost(double remainingCost){
@@ -339,10 +339,10 @@ public class HistoryAdminActivity extends AppCompatActivity {
         public void setPaidOffYN(String paidOffYN){
             TextView post_paidOffYN = mView.findViewById(R.id.post_paidOffYN);
             post_paidOffYN.setText(paidOffYN);
-            if (paidOffYN.equals("PAID")){
-                post_paidOffYN.setTextColor(Color.parseColor("#64ffda"));
-            }else{
+            if (paidOffYN.equals("NOT PAID")){
                 post_paidOffYN.setTextColor(Color.parseColor("#7f0000"));
+            }else {
+                post_paidOffYN.setTextColor(Color.parseColor("#64ffda"));
             }
         }
     }
@@ -356,88 +356,41 @@ public class HistoryAdminActivity extends AppCompatActivity {
         TextView yearTV= findViewById(R.id.searchYearTxt);
         final String year= yearTV.getText().toString();
 
-        if(!year.isEmpty()){
-            //ongoing
-            DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("OnGoing");
-            mRef.orderByChild("year").equalTo(year).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    //check onGoing
-                    if(dataSnapshot.exists()){
-                        for(DataSnapshot data: dataSnapshot.getChildren()) {
-                            Log.d("OnGoing existence", data.toString());
-                            OnGoing onGoing = data.getValue(OnGoing.class);
-                            onGoing.getYear();
 
-                            DateTime dt = new DateTime(onGoing.getIssuedDate());
-                            int month = dt.getMonthOfYear();
+        //ongoing
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("OnGoing");
+        mRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //check onGoing
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot data: dataSnapshot.getChildren()) {
+                        Log.d("OnGoing existence", data.toString());
+                        OnGoing onGoing = data.getValue(OnGoing.class);
 
-                            switch (month) {
-                                case 1:  onGoingArr[0] +=1;
-                                    break;
-                                case 2:  onGoingArr[1] +=1;
-                                    break;
-                                case 3:  onGoingArr[2] +=1;
-                                    break;
-                                case 4:  onGoingArr[3] +=1;
-                                    break;
-                                case 5:  onGoingArr[4] +=1;
-                                    break;
-                                case 6:  onGoingArr[5] +=1;
-                                    break;
-                                case 7:  onGoingArr[6] +=1;
-                                    break;
-                                case 8:  onGoingArr[7] +=1;
-                                    break;
-                                case 9:  onGoingArr[8] +=1;
-                                    break;
-                                case 10: onGoingArr[9] +=1;
-                                    break;
-                                case 11: onGoingArr[10] +=1;
-                                    break;
-                                case 12: onGoingArr[11] +=1;
-                                    break;
-                                default: onGoingArr[12] +=1;
-                                    break;
-                            }
-                            System.out.println(onGoingArr);
-                            Log.d("OnGoing", data.toString()) ;
-                        }
-
-                        progressDialog.dismiss();
-                        Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
-                        i.putExtra("onGoingArr", onGoingArr);
-                        i.putExtra("year", year);
-                        startActivity(i);
-                    } else {
-                        progressDialog.dismiss();
-                        Toast toast = Toast.makeText(getApplicationContext(), "The On-Going report data is not exist " , Toast.LENGTH_SHORT); toast.show();
-                        Log.d("OnGoing", dataSnapshot.toString()) ;
-                        Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
-                        i.putExtra("onGoingArr", onGoingArr);
-                        startActivity(i);
+                        onGoingVal+=1;
+                        System.out.println(onGoingVal);
+                        Log.d("OnGoing", data.toString()) ;
                     }
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError)  {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
                     progressDialog.dismiss();
+                    Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
+                    i.putExtra("onGoingVal", onGoingVal);
+                    startActivity(i);
+                } else {
+                    progressDialog.dismiss();
+                    Toast toast = Toast.makeText(getApplicationContext(), "The On-Going report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                    Log.d("OnGoing", dataSnapshot.toString()) ;
+                    Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
+                    i.putExtra("onGoingVal", onGoingVal);
+                    startActivity(i);
                 }
-            });
-        }else{
-            progressDialog.dismiss();
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Warning");
-            alertDialog.setMessage("Search term can't be empty! Please input the year");
-            alertDialog.setButton(Dialog.BUTTON_POSITIVE, "OK",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //write your code here to execute after dialog closed
-                        }
-                    });
-            alertDialog.show();
-        }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError)  {
+                Toast toast = Toast.makeText(getApplicationContext(), "Error on retrieveing data " , Toast.LENGTH_SHORT); toast.show();
+                progressDialog.dismiss();
+            }
+        });
     }
 
     public void finesClick(View view) {
