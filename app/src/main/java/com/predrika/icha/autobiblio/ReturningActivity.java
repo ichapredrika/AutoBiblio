@@ -75,6 +75,7 @@ public class ReturningActivity extends AppCompatActivity {
     private double damageCost;
     private LocalDate todayDate;
     private String borrowDetail="";
+    private boolean damaged=false;
 
     @Override
     public void onStart() {
@@ -300,6 +301,7 @@ public class ReturningActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
         // Assign activity this to progress dialog.
+                damaged=true;
                 DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("BooksSpecification");
                 //get value from database
                 mRef.orderByChild("title").equalTo(title).addValueEventListener(new ValueEventListener() {
@@ -460,8 +462,10 @@ public class ReturningActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
         //change book's availability
-        DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
-        booksRef.child("availability").setValue("AVAILABLE");
+        if (damaged==false){
+            DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
+            booksRef.child("availability").setValue("AVAILABLE");
+        }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDatabase.child("OnGoing").child(storageName).removeValue();
