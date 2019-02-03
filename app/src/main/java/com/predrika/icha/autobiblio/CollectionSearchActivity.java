@@ -82,6 +82,7 @@ public class CollectionSearchActivity extends AppCompatActivity {
                 holder.setTitle(model.getTitle());
                 holder.setAuthor(model.getAuthor());
                 holder.setImage(model.getImage());
+                holder.setIsbn(model.getIsbn());
 
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -159,6 +160,10 @@ public class CollectionSearchActivity extends AppCompatActivity {
         public void setImage( String image){
             ImageView post_image = mView.findViewById(R.id.post_image);
             Picasso.get().load(image).into(post_image);
+        }
+        public void setIsbn(String isbn) {
+            TextView post_isbn = mView.findViewById(R.id.post_isbn);
+            post_isbn.setText(isbn);
         }
     }
 }

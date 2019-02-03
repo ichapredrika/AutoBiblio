@@ -21,6 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
@@ -41,6 +44,9 @@ public class ProfileActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
         progressDialog.setCancelable(false);
+
+        Locale localeID = new Locale("in", "ID");
+        final NumberFormat formatter = NumberFormat.getCurrencyInstance(localeID);
 
         mAuth=FirebaseAuth.getInstance();
         FirebaseUser Users= FirebaseAuth.getInstance().getCurrentUser();
@@ -76,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
                     memberTypeTV.setText(currentUser.getMemberType());
 
                     TextView balanceAmountTV=findViewById(R.id.balanceAmountTxt);
-                    balanceAmountTV.setText(Double.toString(currentUser.getBalanceAmount()));
+                    balanceAmountTV.setText(formatter.format(currentUser.getBalanceAmount()));
 
                     progressDialog.dismiss();
                 } else  {

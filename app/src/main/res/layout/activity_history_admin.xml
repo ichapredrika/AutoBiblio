@@ -150,7 +150,7 @@
                 android:background="#006064"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:text="Complete"
+                android:text="Completed Loan"
                 android:textAlignment="center"
                 android:textColor="#ffffff"
                 android:textSize="40sp" />

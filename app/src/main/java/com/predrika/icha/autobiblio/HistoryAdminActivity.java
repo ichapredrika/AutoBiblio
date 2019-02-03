@@ -33,6 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.joda.time.DateTime;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class HistoryAdminActivity extends AppCompatActivity {
 
     private RecyclerView mOnGoingRV;
@@ -263,6 +266,10 @@ public class HistoryAdminActivity extends AppCompatActivity {
 
     public static class FinesViewHolder extends RecyclerView.ViewHolder {
         View mView;
+
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(localeID);
+
         public FinesViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
@@ -277,19 +284,19 @@ public class HistoryAdminActivity extends AppCompatActivity {
         }
         public void setDamageCost(double damageCost){
             TextView post_damageCost = mView.findViewById(R.id.post_damageCost);
-            post_damageCost.setText(Double.toString(damageCost));
+            post_damageCost.setText(formatter.format(damageCost));
         }
         public void setOverdueCost(double overdueCost){
             TextView post_overdueCost = mView.findViewById(R.id.post_overdueCost);
-            post_overdueCost.setText(Double.toString(overdueCost));
+            post_overdueCost.setText(formatter.format(overdueCost));
         }
         public void setTotalCost(double totalCost){
             TextView post_totalCost = mView.findViewById(R.id.post_totalCost);
-            post_totalCost.setText(Double.toString(totalCost));
+            post_totalCost.setText(formatter.format(totalCost));
         }
         public void setPaidAmount(double paidAmount){
             TextView post_paidAmount = mView.findViewById(R.id.post_paidAmount);
-            post_paidAmount.setText(Double.toString(paidAmount));
+            post_paidAmount.setText(formatter.format(paidAmount));
         }
         public void setPaidOff(String paidOff){
             TextView post_paidOff = mView.findViewById(R.id.post_paidOff);
@@ -302,7 +309,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
         }
         public void setRemainingCost(double remainingCost){
             TextView post_remainingCost = mView.findViewById(R.id.post_remainingCost);
-            post_remainingCost.setText(Double.toString(remainingCost));
+            post_remainingCost.setText(formatter.format(remainingCost));
         }
     }
 

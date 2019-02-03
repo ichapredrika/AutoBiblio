@@ -13,7 +13,9 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FinesReportActivity extends AppCompatActivity {
 
@@ -82,7 +84,14 @@ public class FinesReportActivity extends AppCompatActivity {
         for(int i=0;i<=finesArr.length-1;i++){
             total+=finesArr[i];
         }
-            TextView totalTV= findViewById(R.id.post_total);
-        totalTV.setText(Integer.toString(total));
+
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatter = NumberFormat.getCurrencyInstance(localeID);
+        String moneyString = formatter.format(total);
+        System.out.println(moneyString);
+
+        TextView totalTV= findViewById(R.id.post_total);
+        totalTV.setText(moneyString);
+        //totalTV.setText(Integer.toString(total));
     }
 }

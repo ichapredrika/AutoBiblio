@@ -35,8 +35,8 @@
         android:id="@+id/id_card_numberTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:text="University ID"
         android:textColor="#63B3BA"
         android:textStyle="bold"
@@ -45,7 +45,7 @@
 
     <EditText
         android:id="@+id/nameReg"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
@@ -57,22 +57,20 @@
 
     <EditText
         android:id="@+id/univIdReg"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="44dp"
+        android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="number"
         android:textColorLink="#63B3BA"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/id_card_numberTextView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/id_card_numberTextView" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="Email"
         android:textColor="#63B3BA"
         android:textStyle="bold"
@@ -81,7 +79,7 @@
 
     <EditText
         android:id="@+id/emailRegistration"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:ems="10"
@@ -106,7 +104,7 @@
 
     <EditText
         android:id="@+id/passwordRegistration"
-        android:layout_width="300dp"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
