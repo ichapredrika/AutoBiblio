@@ -465,6 +465,9 @@ public class ReturningActivity extends AppCompatActivity {
         if (damaged==false){
             DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
             booksRef.child("availability").setValue("AVAILABLE");
+        }else{
+            DatabaseReference booksRef = FirebaseDatabase.getInstance().getReference().child("Books/"+bookId.replace(".","-"));
+            booksRef.child("availability").setValue("DAMAGED");
         }
 
         mDatabase = FirebaseDatabase.getInstance().getReference();

@@ -3,7 +3,6 @@ package com.predrika.icha.autobiblio;
 public class BooksSpecification {
     private String isbn;
     private String bookId;
-    private String genre;
     private String collectionType;
     private String author;
     private String publisher;
@@ -15,10 +14,9 @@ public class BooksSpecification {
     public BooksSpecification(){
     }
 
-    public BooksSpecification(String isbn, String bookId, String genre, String collectionType, String author, String publisher, double price, String location, String title, String image) {
+    public BooksSpecification(String isbn, String bookId, String collectionType, String author, String publisher, double price, String location, String title, String image) {
         this.isbn = isbn;
         this.bookId = bookId;
-        this.genre = genre;
         this.collectionType = collectionType;
         this.author = author;
         this.publisher = publisher;
@@ -42,14 +40,6 @@ public class BooksSpecification {
 
     public void setBookId(String bookId) {
         this.bookId = bookId;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
     }
 
     public String getCollectionType() {

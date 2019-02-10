@@ -1,35 +1,23 @@
 package com.predrika.icha.autobiblio;
 
 public class OnGoing {
-    private String loanId;
     private String title;
     private String bookIdOnGoing;
     private String issuedDate;
     private String maxReturnDate;
     private String uid;
-    private String borrowQR;
     private String year;
 
     public OnGoing(){
     }
 
-    public OnGoing(String loanId, String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid, String borrowQR, String year) {
-        this.loanId = loanId;
+    public OnGoing(String title, String bookIdOnGoing, String issuedDate, String maxReturnDate, String uid, String year) {
         this.title = title;
         this.bookIdOnGoing = bookIdOnGoing;
         this.issuedDate = issuedDate;
         this.maxReturnDate = maxReturnDate;
         this.uid = uid;
-        this.borrowQR = borrowQR;
         this.year = year;
-    }
-
-    public String getLoanId() {
-        return loanId;
-    }
-
-    public void setLoanId(String loanId) {
-        this.loanId = loanId;
     }
 
     public String getTitle() {
@@ -70,14 +58,6 @@ public class OnGoing {
 
     public void setUid(String uid) {
         this.uid = uid;
-    }
-
-    public String getBorrowQR() {
-        return borrowQR;
-    }
-
-    public void setBorrowQR(String borrowQR) {
-        this.borrowQR = borrowQR;
     }
 
     public String getYear() {

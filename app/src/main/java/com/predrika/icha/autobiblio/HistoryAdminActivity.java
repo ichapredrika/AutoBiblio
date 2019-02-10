@@ -385,7 +385,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
                     startActivity(i);
                 } else {
                     progressDialog.dismiss();
-                    Toast toast = Toast.makeText(getApplicationContext(), "The On-Going report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                    //Toast toast = Toast.makeText(getApplicationContext(), "The On-Going report data is not exist " , Toast.LENGTH_SHORT); toast.show();
                     Log.d("OnGoing", dataSnapshot.toString()) ;
                     Intent i = new Intent(HistoryAdminActivity.this, ReportingActivity.class);
                     i.putExtra("onGoingVal", onGoingVal);
@@ -458,13 +458,13 @@ public class HistoryAdminActivity extends AppCompatActivity {
                         }
 
                         progressDialog.dismiss();
-                            Intent i = new Intent(HistoryAdminActivity.this, FinesReportActivity.class);
+                        Intent i = new Intent(HistoryAdminActivity.this, FinesReportActivity.class);
                         i.putExtra("finesArr", finesArr);
                         i.putExtra("year", year);
                         startActivity(i);
                     } else {
                         progressDialog.dismiss();
-                        Toast toast = Toast.makeText(getApplicationContext(), "The Fines report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                        //Toast toast = Toast.makeText(getApplicationContext(), "The Fines report data is not exist " , Toast.LENGTH_SHORT); toast.show();
                         Log.d("Fines", dataSnapshot.toString()) ;
                         Intent i = new Intent(HistoryAdminActivity.this, FinesReportActivity.class);
                         i.putExtra("finesArr", finesArr);
@@ -561,7 +561,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
                         startActivity(i);
                     } else {
                         progressDialog.dismiss();
-                        Toast toast = Toast.makeText(getApplicationContext(), "The Complete report data is not exist " , Toast.LENGTH_SHORT); toast.show();
+                        //Toast toast = Toast.makeText(getApplicationContext(), "The Complete report data is not exist " , Toast.LENGTH_SHORT); toast.show();
                         Log.d("Complete", dataSnapshot.toString()) ;
                         Intent i = new Intent(HistoryAdminActivity.this, CompleteReportActivity.class);
                         i.putExtra("completeArr", completeArr);

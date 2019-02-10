@@ -78,7 +78,7 @@ public class FinesReportActivity extends AppCompatActivity {
         barChartFines.setData(dataFines); // set the data and list of lables into chart
         barChartFines.setDescription("Fines Report in a year");  // set the description
         bardatasetFines.setColors(ColorTemplate.COLORFUL_COLORS);
-        barChartFines.animateY(5000);
+        barChartFines.animateY(2000);
 
         int total=0;
         for(int i=0;i<=finesArr.length-1;i++){

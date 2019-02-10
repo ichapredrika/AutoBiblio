@@ -75,7 +75,7 @@ public class CompleteReportActivity extends AppCompatActivity {
         barChartComplete.setData(dataComplete); // set the data and list of lables into chart
         barChartComplete.setDescription("Completed Loan Report in a year");  // set the description
         bardatasetComplete.setColors(ColorTemplate.COLORFUL_COLORS);
-        barChartComplete.animateY(5000);
+        barChartComplete.animateY(2000);
 
         int total=0;
         for(int i=0;i<=completeArr.length-1;i++){

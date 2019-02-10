@@ -19,6 +19,7 @@ android {
     }
 }
 repositories {
+    //bar chart
     maven { url "https://jitpack.io" }
 }
 

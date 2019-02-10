@@ -53,7 +53,7 @@ public class ReportingActivity extends AppCompatActivity {
         barChartOnGoing.setData(dataOnGOing); // set the data and list of lables into chart
         barChartOnGoing.setDescription("On-Going Loan Report in a year");  // set the description
         bardatasetOnGoing.setColors(ColorTemplate.COLORFUL_COLORS);
-        barChartOnGoing.animateY(5000);
+        barChartOnGoing.animateY(2000);
 
         TextView totalTV= findViewById(R.id.post_total);
         totalTV.setText(Integer.toString(onGoingVal));
