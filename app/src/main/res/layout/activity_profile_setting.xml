@@ -137,12 +137,12 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="left"
-        android:inputType="text"
+        android:inputType="date"
         android:textColorLink="#63B3BA"
         app:layout_constraintEnd_toEndOf="@+id/addressEditText"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/addressEditText"
-        app:layout_constraintTop_toBottomOf="@+id/addresst" />
+        app:layout_constraintStart_toStartOf="@+id/pobEditText"
+        app:layout_constraintTop_toBottomOf="@+id/dobt" />
 
     <EditText
         android:id="@+id/pobEditText"
@@ -161,14 +161,14 @@
         android:id="@+id/addressEditText"
         android:layout_width="370dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:ems="10"
         android:gravity="left"
-        android:inputType="date"
+        android:inputType="text"
         android:textColorLink="#63B3BA"
         app:layout_constraintEnd_toEndOf="@+id/pobEditText"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/pobEditText"
-        app:layout_constraintTop_toBottomOf="@+id/dobt" />
+        app:layout_constraintTop_toBottomOf="@+id/addresst" />
 
     <EditText
         android:id="@+id/phoneEditText"

@@ -40,7 +40,6 @@ public class ReportingActivity extends AppCompatActivity {
         ArrayList<String> labels = new ArrayList<String>();
         labels.add("On-Going");
 
-
         //ongoing
         BarChart barChartOnGoing = findViewById(R.id.barchartOnGoing);
 
