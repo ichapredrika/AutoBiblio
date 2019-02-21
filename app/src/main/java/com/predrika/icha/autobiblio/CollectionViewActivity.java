@@ -62,6 +62,7 @@ public class CollectionViewActivity extends AppCompatActivity {
         String collectionType = intent.getExtras().getString("collectionType");
         String location = intent.getExtras().getString("location");
         String image = intent.getExtras().getString("image");
+        String imageMap = intent.getExtras().getString("imageMap");
         String isbn = intent.getExtras().getString("isbn");
 
         TextView titleTV= findViewById(R.id.post_title);
@@ -84,6 +85,9 @@ public class CollectionViewActivity extends AppCompatActivity {
 
         ImageView imageV= findViewById(R.id.post_image);
         Picasso.get().load(image).into(imageV);
+
+        ImageView imageVM= findViewById(R.id.post_imageMap);
+        Picasso.get().load(imageMap).into(imageVM);
 
         //"Collection" here will reflect what you have called in your database in Firebase.
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Books");

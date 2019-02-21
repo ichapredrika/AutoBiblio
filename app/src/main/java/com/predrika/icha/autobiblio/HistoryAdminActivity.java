@@ -553,8 +553,7 @@ public class HistoryAdminActivity extends AppCompatActivity {
 
                         }
                         progressDialog.dismiss();
-                        Toast toast = Toast.makeText(getApplicationContext(), "The Complete report data is not exist " , Toast.LENGTH_SHORT); toast.show();
-                        Log.d("Complete", dataSnapshot.toString()) ;
+                           Log.d("Complete", dataSnapshot.toString()) ;
                             Intent i = new Intent(HistoryAdminActivity.this, CompleteReportActivity.class);
                         i.putExtra("completeArr", completeArr);
                         i.putExtra("year", year);

@@ -93,6 +93,7 @@ public class CollectionSearchActivity extends AppCompatActivity {
                         final String collectionType= model.getCollectionType();
                         final String location= model.getLocation();
                         final String image= model.getImage();
+                        final String imageMap= model.getLocationLink();
                         final String isbn= model.getIsbn();
                         Intent intent = new Intent(getApplicationContext(), CollectionViewActivity.class);
                         intent.putExtra("title", title);
@@ -102,6 +103,7 @@ public class CollectionSearchActivity extends AppCompatActivity {
                         intent.putExtra("location", location);
                         intent.putExtra("image", image);
                         intent.putExtra("isbn", isbn);
+                        intent.putExtra("imageMap", imageMap);
                         startActivity(intent);
                     }
                 });

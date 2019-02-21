@@ -10,11 +10,11 @@ public class BooksSpecification {
     private String location;
     private String title;
     private String image;
-
+    private String locationLink;
     public BooksSpecification(){
     }
 
-    public BooksSpecification(String isbn, String bookId, String collectionType, String author, String publisher, double price, String location, String title, String image) {
+    public BooksSpecification(String isbn, String bookId, String collectionType, String author, String publisher, double price, String location, String title, String image, String locationLink) {
         this.isbn = isbn;
         this.bookId = bookId;
         this.collectionType = collectionType;
@@ -24,6 +24,7 @@ public class BooksSpecification {
         this.location = location;
         this.title = title;
         this.image = image;
+        this.locationLink = locationLink;
     }
 
     public String getIsbn() {
@@ -96,6 +97,14 @@ public class BooksSpecification {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getLocationLink() {
+        return locationLink;
+    }
+
+    public void setLocationLink(String locationLink) {
+        this.locationLink = locationLink;
     }
 }
 
